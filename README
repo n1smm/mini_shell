@@ -1,0 +1,26 @@
+lexer espande le variabili d'ambiente (expander) 
+poi spezza la linea dell'input in base alle pipe
+cosi sapete gia quanti comandi ci sono
+
+garbage collector 
+ogni indirizzo allocato viene aggiunto ad una lista 
+alla fine del programma viene tutto liberato
+(va chiamato sia alla fine di minishell che alla 
+fine dei processi figlio)
+
+singleton
+
+
+parser
+divide i comandi in -comando -args -input -output
+(tieni conto delle virgolette)
+
+executor
+gli passa i comandi e li esegue
+fai attenzione. se un comando non e' built in va 
+fatto in un altro processo altrimenti si chiude minishell
+
+(es. cd cartella | pwd ...)
+non occorre gestire le parentesi graffe con l'espander
+
+readline
