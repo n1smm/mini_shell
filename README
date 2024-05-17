@@ -24,3 +24,14 @@ fatto in un altro processo altrimenti si chiude minishell
 non occorre gestire le parentesi graffe con l'espander
 
 readline
+
+
+Lexical analysis / tokenization: taking the input from the user and processing it char by char into “tokens”.
+
+Syntax analysis / Parsing: scanning the stream of tokens according to a specific grammar and then deciding what to do with them (e.g. generating an AST — Abstract Syntax Tree).
+!!!Abstract Syntax Tree).
+
+
+ The Recursive Descent - The Theory of Computation,
+
+  CFG (Context Free Grammar).
