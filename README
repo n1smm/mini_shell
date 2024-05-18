@@ -35,3 +35,14 @@ Syntax analysis / Parsing: scanning the stream of tokens according to a specific
  The Recursive Descent - The Theory of Computation,
 
   CFG (Context Free Grammar).
+  
+  for parsing we need to do:
+
+1. tokenization (lexical analysis) 
+	here we transform the input line into tokens
+		which means that we split the input by whitespaces : (ls -l /home/user) becomes
+																- ls
+																- l
+																- /home/user
+2. syntax analysis (parsing)
+	-we generate an abstract syntax tree (AST) which means that the program tries to understand what to do with 	tokes

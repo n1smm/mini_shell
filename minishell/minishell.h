@@ -9,7 +9,7 @@
 #include "libft/libft.h"
 
 typedef struct s_input {
-	char **cmds;
+	char **tokens;
 }	t_input;
 
 typedef enum cmds{
@@ -23,5 +23,7 @@ typedef enum cmds{
 	NOT_VALID
 } t_cmds;
 
-void ft_lexer(char *input);
+/* lexer */
+void lexer_main(char *input);
+/* safe_functions */
 void *safe_malloc(size_t size);

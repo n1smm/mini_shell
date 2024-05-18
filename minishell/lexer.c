@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_cmds ft_compare(char *cmd, int i)
+static t_cmds ft_compare(char *cmd, int i)
 {
 	char *tmp;
 
@@ -24,7 +24,7 @@ t_cmds ft_compare(char *cmd, int i)
 		return (NOT_VALID);
 }
 
-void ft_lexer(char *input)
+static void ft_lexer(char *input)
 {
 	int	i;
 	int	j;

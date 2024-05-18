@@ -1,5 +1,10 @@
 articoli:
+medium (minishell 42)
 https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218
+bash parser:
+http://mywiki.wooledge.org/BashParser
+abstract syntax tree:
+https://en.wikipedia.org/wiki/Abstract_syntax_tree
 
 playlists:
 https://www.youtube.com/watch?v=hMSByvFHOro&list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW
