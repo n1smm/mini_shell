@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 HEADER = minishell.h
 
-SRC_FILES = minishell.c
+SRC_FILES = minishell.c lexer.c safe_ft.c
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
