@@ -23,7 +23,8 @@ int main()
 		add_history(input);
 		//ft_parsing(input);
 		//printf("\n");
-		ft_lexer(input);
+		//ft_lexer(input);
+		split_input(input);
 		if (ft_strncmp(input, "exit", 5) == 0)
 		 	break;
 		free(input);

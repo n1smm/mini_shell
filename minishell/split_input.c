@@ -41,15 +41,16 @@ void split_input(char *input)
 	while (input[i])
 	{
 		while ((term_character(input[i + z++]) == false) && \
-			input[i])
+			input[i + z])
 			x++;
-		word = (char *)malloc(sizeof(char) * x + 1);
-		word[x] = 0;
+		word = (char *)safe_malloc(sizeof(char) * x + 1);
 		while ((term_character(input[i]) == false) && \
 			input[i])
 			word[j++] = input[i++];
+		word[j] = 0;
 		ft_add_list(word);
 		free (word);
+		j = 0;
 		if (term_character(input[i]))
 			i++;
 	}
