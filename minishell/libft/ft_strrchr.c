@@ -6,7 +6,7 @@
 /*   By: pgiorgi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:40:13 by pgiorgi           #+#    #+#             */
-/*   Updated: 2023/10/11 17:01:37 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/05/19 15:35:04 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 char	*ft_strrchr(const char *s, int c)
 {
 	const char	*t;
-	size_t		i;
 
 	t = 0;
-	i = 0;
 	if (*s)
 	{
 		while (*s != '\0')

@@ -6,7 +6,7 @@
 /*   By: pgiorgi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 18:09:21 by pgiorgi           #+#    #+#             */
-/*   Updated: 2023/10/12 18:49:12 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/05/19 15:33:41 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	size_t	z;
-	size_t	x;
 	char	*j;
 
 	i = ft_strlen(s);
 	z = 0;
-	x = 0;
 	if (len > (i - start))
 		len = (i - start);
 	if (start > i)
