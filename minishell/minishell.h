@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/19 15:23:15 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/05/19 16:29:38 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void		*safe_malloc(size_t size);
 /*split_input*/
 void split_input(char *input);
 bool term_character(char c);
+char	*ft_chardup(char character);
 
 /*list functions*/
-void	ft_add_list(char *word);
+void	ft_add_token(char *word);
+void	ft_add_token2(char character);
