@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/19 13:47:22 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/19 15:23:15 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 typedef struct s_input
 {
 	char	**tokens;
 }			t_input;
 
-typedef struct s_token
-{
-	t_type	typ_token;
-	/* void 	*value; */
-	char	*value;
-	long	value;
-	t_token	*next;
-	t_token	*previous;
-}			t_token;
-
-typedef struct s_trash
-{
-	void	*content;
-	t_trash	*next;
-}			t_trash;
-}
 typedef enum s_type
 {
 	DIGIT,
@@ -54,7 +39,30 @@ typedef enum s_type
 	OPTION,
 }			t_type;
 
+typedef struct s_token
+{
+	t_type	typ_token;
+	// void 	*value;
+	char	*str;
+	long	nbr;
+	struct s_token	*next;
+	struct s_token	*prev;
+}			t_token;
+
+typedef struct s_trash
+{
+	void	*content;
+	void	*next;
+}			t_trash;
+
+
 /* lexer */
 void		lexer_main(char *input);
 /* safe_functions */
 void		*safe_malloc(size_t size);
+/*split_input*/
+void split_input(char *input);
+bool term_character(char c);
+
+/*list functions*/
+void	ft_add_list(char *word);
