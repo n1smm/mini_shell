@@ -7,7 +7,18 @@ abstract syntax tree:
 https://en.wikipedia.org/wiki/Abstract_syntax_tree
 bash V2 grammar:
 https://cmdse.github.io/pages/appendix/bash-grammar.html
+precedence climbing (method of parsing input):
+https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing
+shuntinh-yard algorithm (has the same function as the one above):
+https://en.wikipedia.org/wiki/Shunting_yard_algorithm
 
 playlists:
 https://www.youtube.com/watch?v=hMSByvFHOro&list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW
 https://www.youtube.com/watch?v=83M5-NPDeWs&list=PL7_TuD9ZDMhg5uLHLyd8em13XBKfjzCzR
+
+videos:
+--bnf bachus-naur form ( a way of notation of syntax of a programing language)
+https://www.youtube.com/watch?v=F25ez8s3AsQ
+--parse trees (how the language syntax is parsed)
+https://www.youtube.com/watch?v=SYQVxGnlpZM
+

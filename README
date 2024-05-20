@@ -46,3 +46,5 @@ Syntax analysis / Parsing: scanning the stream of tokens according to a specific
 																- /home/user
 2. syntax analysis (parsing)
 	-we generate an abstract syntax tree (AST) which means that the program tries to understand what to do with 	tokes
+
+
