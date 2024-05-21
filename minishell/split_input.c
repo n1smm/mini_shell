@@ -6,9 +6,9 @@ void	ft_add_token(char *word)
 	t_token	*new;
 
 	new = (t_token *)safe_malloc(sizeof(t_token));
-	new->str = (char *)safe_malloc(ft_strlen(word) + 1);
-	new->str = ft_strdup(word);
-	printf("%s\n", new->str);
+	new->content = (char *)safe_malloc(ft_strlen(word) + 1);
+	new->content = ft_strdup(word);
+	printf("%s\n", new->content);
 }
 
 char	*ft_chardup(char character)
@@ -30,9 +30,9 @@ void	ft_add_token2(char character)
 
 	term = ft_chardup(character);
 	new = (t_token *)safe_malloc(sizeof(t_token));
-	new->str = (char *)safe_malloc(sizeof(char) * 1);
-	new->str = ft_strdup(term);
-	printf("%s\n", new->str);
+	new->content = (char *)safe_malloc(sizeof(char) * 1);
+	new->content = ft_strdup(term);
+	printf("%s\n", new->content);
 	free(term);
 }
 

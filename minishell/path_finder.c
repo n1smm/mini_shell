@@ -10,25 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* #include "minishell.h" */
+#include "minishell.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "./libft/libft.h"
-
-void	free_mtx(void **matrix)
-{
-	int	i;
-	
-	i = 0;
-	if (matrix == NULL)
-		return ;
-	while (matrix[i])
-		free(matrix[i++]);
-	free(matrix);
-}
 
 static char	*comm_checker(char *command, char **full_path, bool *success)
 {
@@ -73,18 +60,18 @@ char *path_finder(char *command)
 	return (NULL);
 }
 
-int	main(int argc, char **argv)
-{
-	if (argc > 2)
-		return 0;
+/* int	main(int argc, char **argv) */
+/* { */
+/* 	if (argc > 2) */
+/* 		return 0; */
 
-	char *result;
+/* 	char *result; */
 
-	result = path_finder(argv[1]);
-	if (result)
-	{
-		puts(result);
-		free(result);
-	}
-	return 0;
-}
+/* 	result = path_finder(argv[1]); */
+/* 	if (result) */
+/* 	{ */
+/* 		puts(result); */
+/* 		free(result); */
+/* 	} */
+/* 	return 0; */
+/* } */
