@@ -1,0 +1,7 @@
+*.o
+infile
+outfile
+*infile*
+*outfile*
+*.log
+a.out

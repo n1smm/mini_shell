@@ -1,0 +1,11 @@
+this here are notes to pass when changing something fundamental, needing some feature, explaining changes ,...
+_______________________________________________________________________________________________
+
+tjaz: i am adding functions for linked-list manipulation. I think its good to set up good API for lists so that the functions can be used everywhere. also I think there is no need to have two different value types (long and char *), because it will make the later parts more complicated. so i vote for keeping just char * type, and then atoi-ing it when needed if needed.
+	we save numbers as char*s but with t_type of NUMBER so later we know that we can do atoi on that 	value.
+
+tjaz: Regarding Parsing: i added some enums to t_type, which could be useful or not. Maybe the best way to do first part of parsing is not to get rid of whitespaces, but to save them as another type token with t_type WHITESPACE. later this can be then used as part of rules for creating the commands? anyway important to talk a bit more about how the parsing will be handled.
+
+tjaz: there is now gitignore file. so that .o or *infile* *outifle* files don't get staged. So now it doesn't matter if you do make on your computer and forgot to do fclean before commiting, since this files will not be included in commit
+
+tjaz: i changed the name of t_token char *str to char *content
