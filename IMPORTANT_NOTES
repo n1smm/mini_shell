@@ -9,3 +9,45 @@ tjaz: Regarding Parsing: i added some enums to t_type, which could be useful or 
 tjaz: there is now gitignore file. so that .o or *infile* *outifle* files don't get staged. So now it doesn't matter if you do make on your computer and forgot to do fclean before commiting, since this files will not be included in commit
 
 tjaz: i changed the name of t_token char *str to char *content
+__________________________________________________________________
+
+tjaz: lexer needs to only decide if what is procesing is a <whitespace>, <word>, <string>, <pipeline>, <redirect_in>, <redirect_out>, <quote>, <single_quote>
+the <expand> <option> <path> <command> will be done later with parser.
+
+here is a description of what each element should be:
+ <whitespace>
+ 	anytype of char  that is recognized as whitespace by iswhitespace
+ <word> 
+ 	there can be no <witespace> in between
+	it can contain only alphabetical characters
+<number>
+	it contains only numerical characters delimited by whitespace
+<string>
+	can contain any type of  printable character delimited by whitespace
+<pipeline>
+	it contains only | and nothing else
+<redirect_in>
+	it can contain < or <<
+<redirect_out>
+	It contains > or >>
+<quote>
+	contains  only one "
+<single_quote>
+	contains  contains only one '
+<expand>
+	it is a single $ followed by a <word> without <whitespace> between
+<option>
+	is a single or double - followed by <word> 
+<path>
+	is a <string>
+<command>
+	is <word> at the start of input or after <pipeline>
+
+tjaz: i added some more type tokens to enum struct to make it easier for later. Its a bit on the hardcoded side, but i think it make the execution easier. 
+	REDIRECT_IN,
+	REDIRECT_IN_DOUBLE,
+	REDIRECT_OUT,
+	REDIRECT_OUT_DOUBLE,
+	INFILE, this will be handled by parser and not lexer
+	OUTFILE,this will be handled by parser and not lexer
+	LIMITER,this will be handled by parser and not lexer

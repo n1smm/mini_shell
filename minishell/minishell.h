@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/21 17:35:36 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/22 20:51:21 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,22 @@ typedef enum s_type
 	WHITESPACE,
 	NUMBER,
 	WORD,
+	STRING,
 	PIPELINE,
 	REDIRECT_IN,
+	REDIRECT_IN_DOUBLE,
 	REDIRECT_OUT,
+	REDIRECT_OUT_DOUBLE,
+	QUOTE,
+	SINGLE_QUOTE,
 	EXPAND,
+	PATH,
 	COMMAND,
 	OPTION,
+	INFILE,
+	OUTFILE,
+	LIMITER,
+	FALSE_PLACEMENT,
 }					t_type;
 
 typedef struct s_token
@@ -55,7 +65,6 @@ typedef struct s_trash
 	void			*content;
 	void			*next;
 }					t_trash;
-
 /* lexer */
 void				lexer_main(char *input);
 /* safe_functions */
@@ -71,6 +80,7 @@ void				ft_add_token2(char character);
 t_token				*init(char *content, t_token **tail, t_token **head);
 bool				double_lstadd_front(char *content, t_token **tail);
 bool				double_lstadd_back(char *content, t_token **head);
+char 				*print_token_typ(t_type token_type);
 void				print_list(t_token *tail);
 /* path_finder */
 char				*path_finder(char *command);

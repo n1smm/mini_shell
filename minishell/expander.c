@@ -6,12 +6,13 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/21 18:36:36 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/22 13:24:19 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* if the type of token is correct it will allocate, otherwise it returns null not allocated */
 char	*expander(char *input, t_type typ_token)
 {
 	char *result;

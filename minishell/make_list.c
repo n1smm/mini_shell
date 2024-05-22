@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/05/21 14:42:12 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/22 15:06:01 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,33 @@ bool	double_lstadd_back(char *content, t_token **head)
 	return (true);
 }
 
+char *print_token_typ(t_type token_type)
+{
+	if (token_type == WHITESPACE)
+		return ("WHITESPACE");
+	if (token_type == NUMBER)
+		return ("NUMBER");
+	if (token_type == WORD)
+		return ("WORD");
+	if (token_type == PIPELINE)
+		return ("PIPELINE");
+	if (token_type == REDIRECT_IN)
+		return ("REDIRECT_IN");
+	if (token_type == REDIRECT_OUT)
+		return ("REDIRECT_OUT");
+	if (token_type == EXPAND)
+		return ("EXPAND");
+	if (token_type == COMMAND)
+		return ("COMMAND");
+	if (token_type == OPTION)
+		return ("OPTION");
+	if (token_type == QUOTE)
+		return ("QUOTES");
+	if (token_type == SINGLE_QUOTE)
+		return ("SINGLE_QUOTES");
+	return ("INVALID TYPE");
+}
+
 void	print_list(t_token *tail)
 {
 	t_token	*curr;
@@ -82,8 +109,8 @@ void	print_list(t_token *tail)
 			"EXPAND = 6 \t COMMAND = 7 \t OPTION = 8");
 	while (curr != NULL)
 	{
-		printf("index of token: %i\t value_token: %s\t type of token: %i\n", i++, curr->content,
-			curr->typ_token);
+		printf("index of token: %i\t value_token: %s\t type of token: %s\n", i++, curr->content,
+			print_token_typ(curr->typ_token));
 		curr = curr->next;
 	}
 }
