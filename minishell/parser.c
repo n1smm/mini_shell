@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:40:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/22 20:58:16 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/23 13:51:06 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,14 @@ static void	check_string(t_token *curr, t_type *mod_type) //TODO
 {
 	if (*mod_type == COMMAND && curr->content[0] == '-')
 		curr->typ_token = OPTION;
-	if (ft_strchr(curr->content, '$') && *mod_type != SINGLE_QUOTE)
+	else if (ft_strchr(curr->content, '$') && *mod_type != SINGLE_QUOTE)
 		curr->typ_token = EXPAND;
-	if (ft_strchr(curr->content, '/'))
+	else if (ft_strchr(curr->content, '/') && *mod_type != SINGLE_QUOTE)
 		curr->typ_token = PATH;
-	if (*mod_type == WHITESPACE || *mod_type == PIPELINE)
+	else if (*mod_type == WHITESPACE || *mod_type == PIPELINE)
 		curr->typ_token = FALSE_PLACEMENT;
-	*mod_type = curr->typ_token;
+	if( curr->typ_token != STRING)
+		*mod_type = curr->typ_token;
 }
 
 /* there might be more conditions, need to be checked thorouglhy */
@@ -81,8 +82,12 @@ static void	check_word(t_token *curr, t_type *mod_type) //TODO
 	else if (*mod_type == QUOTE || *mod_type == SINGLE_QUOTE)
 		curr->typ_token = WORD;
 	else
-		curr->typ_token = FALSE_PLACEMENT;
-	*mod_type = curr->typ_token;
+		curr->typ_token = FALSE_PLACEMENT; //this might be to
+										   //agressive and can catch 
+										   //also completely inocent cases
+										   //that didn't hurt anyone!
+	if (curr->typ_token != WORD)
+		*mod_type = curr->typ_token;
 }
 
 void	parser(t_token **tail, t_token **head)
@@ -112,10 +117,6 @@ void	parser(t_token **tail, t_token **head)
 		}
 		else if (curr->typ_token == STRING)
 			check_string(curr, &mod_type);
-		else if (curr->typ_token == EXPAND)
-		{
-
-		}
 	}
 
 }
