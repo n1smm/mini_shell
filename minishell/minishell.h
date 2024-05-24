@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/22 20:51:21 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/24 17:18:27 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_trash
 void				lexer_main(char *input);
 /* safe_functions */
 void				*safe_malloc(size_t size);
+char 				*join_wrapper(const char *s1, const char *s2, int free_which);
 /*split_input*/
 void				split_input(char *input);
 bool				term_character(char c);
@@ -84,7 +85,10 @@ char 				*print_token_typ(t_type token_type);
 void				print_list(t_token *tail);
 /* path_finder */
 char				*path_finder(char *command);
+char				*expander(char *input, t_type typ_token);
 /* free_functions */
 void				free_mtx(void **matrix);
+/* built-ins */
+bool	pwd(void);
 
 #endif

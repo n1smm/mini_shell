@@ -51,3 +51,6 @@ tjaz: i added some more type tokens to enum struct to make it easier for later. 
 	INFILE, this will be handled by parser and not lexer
 	OUTFILE,this will be handled by parser and not lexer
 	LIMITER,this will be handled by parser and not lexer
+
+
+Tjaz: the path_finder maybe also need to find path of not just commands but also absolute paths of files

@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:40:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/23 13:51:06 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/24 15:09:48 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ some rules for <command>:
 
 static void	check_string(t_token *curr, t_type *mod_type) //TODO
 {
-	if (*mod_type == COMMAND && curr->content[0] == '-')
+	if ((*mod_type == COMMAND || *mod_type == OPTION) && curr->content[0] == '-')
 		curr->typ_token = OPTION;
 	else if (ft_strchr(curr->content, '$') && *mod_type != SINGLE_QUOTE)
 		curr->typ_token = EXPAND;
@@ -83,8 +83,8 @@ static void	check_word(t_token *curr, t_type *mod_type) //TODO
 		curr->typ_token = WORD;
 	else
 		curr->typ_token = FALSE_PLACEMENT; //this might be to
-										   //agressive and can catch 
-										   //also completely inocent cases
+										   //aggressive and can catch 
+										   //also completely innocent cases
 										   //that didn't hurt anyone!
 	if (curr->typ_token != WORD)
 		*mod_type = curr->typ_token;

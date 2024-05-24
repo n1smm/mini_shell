@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 12:15:08 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/24 15:53:16 by thiew            ###   ########.fr       */
+/*   Created: 2024/05/24 15:12:04 by thiew             #+#    #+#             */
+/*   Updated: 2024/05/24 15:57:00 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+bool	pwd(void)
+{
+	char	pwd[1024];
 
-/* int	main(int argc, char **argv) */
-/* { */
-/* 	int		i; */
-/* 	char 	*token; */
-	
-/* 	if (argc <1) */
-/* 		return 0; */
-
-
-	
-/* 	return 0; */
-/* } */
+	if (getcwd(pwd, 1024) != NULL)
+	{
+		printf("pwd: %s\n", pwd);
+		return (true);
+	}
+	else
+	{
+		printf("pwd error\n");
+		return (false);
+	}
+}
