@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/05/22 15:06:01 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/25 10:05:01 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_token	*init(char *content, t_token **tail, t_token **head)
 {
 	t_token	*new_node;
 
-	new_node = malloc(sizeof(t_token));
-	if (!new_node)
-		return (NULL);
+	new_node = safe_malloc(sizeof(t_token));
+	/* if (!new_node) */
+	/* 	return (NULL); */
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	new_node->content = content;
@@ -32,10 +32,10 @@ bool	double_lstadd_front(char *content, t_token **tail)
 	t_token	*curr;
 	t_token	*new;
 
-	new = malloc(sizeof(t_token));
+	new = safe_malloc(sizeof(t_token));
 	curr = *tail;
-	if (!new)
-		return (false);
+	/* if (!new) */
+	/* 	return (false); */
 	if (*tail == NULL)
 	{
 		free(new);
@@ -54,9 +54,9 @@ bool	double_lstadd_back(char *content, t_token **head)
 	t_token	*new;
 
 	curr = *head;
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return (false);
+	new = safe_malloc(sizeof(t_token));
+	/* if (!new) */
+	/* 	return (false); */
 	if (*head == NULL)
 	{
 		free(new);
@@ -74,26 +74,38 @@ char *print_token_typ(t_type token_type)
 {
 	if (token_type == WHITESPACE)
 		return ("WHITESPACE");
-	if (token_type == NUMBER)
+	else if (token_type == NUMBER)
 		return ("NUMBER");
-	if (token_type == WORD)
+	else if (token_type == WORD)
 		return ("WORD");
-	if (token_type == PIPELINE)
+	else if (token_type == PIPELINE)
 		return ("PIPELINE");
-	if (token_type == REDIRECT_IN)
+	else if (token_type == REDIRECT_IN)
 		return ("REDIRECT_IN");
-	if (token_type == REDIRECT_OUT)
+	else if (token_type == REDIRECT_IN_DOUBLE)
+		return ("REDIRECT_IN_DOUBLE");
+	else if (token_type == REDIRECT_OUT)
 		return ("REDIRECT_OUT");
-	if (token_type == EXPAND)
+	else if (token_type == REDIRECT_OUT_DOUBLE)
+		return ("REDIRECT_OUT_DOUBLE");
+	else if (token_type == EXPAND)
 		return ("EXPAND");
-	if (token_type == COMMAND)
+	else if (token_type == COMMAND)
 		return ("COMMAND");
-	if (token_type == OPTION)
+	else if (token_type == OPTION)
 		return ("OPTION");
-	if (token_type == QUOTE)
+	else if (token_type == QUOTE)
 		return ("QUOTES");
-	if (token_type == SINGLE_QUOTE)
+	else if (token_type == SINGLE_QUOTE)
 		return ("SINGLE_QUOTES");
+	else if (token_type == INFILE)
+		return ("INFILE");
+	else if (token_type == OUTFILE)
+		return ("OUTFILE");
+	else if (token_type == LIMITER)
+		return ("LIMITER");
+	else if (token_type == FALSE_PLACEMENT)
+		return ("FALSE_PLACEMENT");
 	return ("INVALID TYPE");
 }
 
@@ -104,9 +116,6 @@ void	print_list(t_token *tail)
 
 	i = 0;
 	curr = tail;
-	printf("list of token types:\n WHITESPACE = 0 \t NUMBER = 1 \t WORD = 2 \n"
-			"PIPELINE = 3 \t REDIRECT_IN = 4 \t REDIRECT_OUT = 5 \n"
-			"EXPAND = 6 \t COMMAND = 7 \t OPTION = 8");
 	while (curr != NULL)
 	{
 		printf("index of token: %i\t value_token: %s\t type of token: %s\n", i++, curr->content,

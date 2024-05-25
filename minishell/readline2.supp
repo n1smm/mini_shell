@@ -1,0 +1,17 @@
+{
+	readline_leak01
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	...
+	fun:readline
+	...
+}
+
+{
+	readline_leak02
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	...
+	fun:add_history
+	...
+}

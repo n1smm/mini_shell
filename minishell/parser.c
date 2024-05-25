@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:40:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/24 15:09:48 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/25 18:05:10 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static void	check_string(t_token *curr, t_type *mod_type) //TODO
 	if ((*mod_type == COMMAND || *mod_type == OPTION) && curr->content[0] == '-')
 		curr->typ_token = OPTION;
 	else if (ft_strchr(curr->content, '$') && *mod_type != SINGLE_QUOTE)
-		curr->typ_token = EXPAND;
+		curr->typ_token = EXPAND; // this only says that its a possible expansion case, further check needed
 	else if (ft_strchr(curr->content, '/') && *mod_type != SINGLE_QUOTE)
-		curr->typ_token = PATH;
+		curr->typ_token = PATH; // the same as with EXPAND
 	else if (*mod_type == WHITESPACE || *mod_type == PIPELINE)
 		curr->typ_token = FALSE_PLACEMENT;
 	if( curr->typ_token != STRING)
@@ -90,6 +90,38 @@ static void	check_word(t_token *curr, t_type *mod_type) //TODO
 		*mod_type = curr->typ_token;
 }
 
+static void	check_quote(t_token *tmp, t_type *mod_type)
+{
+	t_token	*curr;
+
+	/* if (*mod_type == WHITESPACE || *mod_type == PIPELINE) */
+	/* { */
+	/* 	t.................
+	 *  	mp->typ_token = FALSE_PLACEMENT; */
+	/* 	return ; */
+	/* } */
+	curr = tmp->next;
+	if (curr->typ_token == QUOTE)
+	{
+		while (curr || curr->typ_token != QUOTE)
+		{
+			if (curr->typ_token == STRING)
+				check_string(curr, &tmp->typ_token);
+			else if (curr->typ_token == WORD)
+				check_word(curr, &tmp->typ_token);
+			curr = curr->next;
+			//NEED TO TAKE CARE OF QUOTES AROUND COMMANDS,ETC	
+		}
+	}
+	else if (curr->typ_token == SINGLE_QUOTE)
+	{
+		while (curr || curr->typ_token != SINGLE_QUOTE)
+			curr = curr->next;	
+	}
+	if (curr == NULL)
+		tmp->typ_token = FALSE_PLACEMENT;
+}
+
 void	parser(t_token **tail, t_token **head)
 {
 	t_token	*curr;
@@ -117,6 +149,7 @@ void	parser(t_token **tail, t_token **head)
 		}
 		else if (curr->typ_token == STRING)
 			check_string(curr, &mod_type);
+		curr = curr->next;
 	}
 
 }
