@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/24 17:18:27 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/26 10:36:02 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef enum s_type
 	INFILE,
 	OUTFILE,
 	LIMITER,
+	PRINTABLE,
 	FALSE_PLACEMENT,
 }					t_type;
 

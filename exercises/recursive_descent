@@ -1,0 +1,22 @@
+// example
+// -(x+5) * -2
+// id:
+// infix operators
+// prefix operators
+// parens
+// postfix operators
+// function calls
+//
+//precedence (some expressions have different preference) -- 7 - (6 * 9)
+//associativity (operands with equal precedence - want to process them in order) -- (7-5) + 1 
+//
+//grammar
+//non-terminal (grammar symbols) - are symbols that are not finial ( can be reduced to someting else)
+//terminals (tokens/lexical symbols) - this can't be reduced further, are represented as is
+//rules - the ways our grammar behaves
+//classes of inputs - like id or integer
+//
+//Tokens:
+//id -identifier
+//{char} can be one or more of same - ID	char {char} or {char}+
+//char {char|digit|_} - can be a set of all this things

@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:40:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/25 18:05:10 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/05/26 11:34:43 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	anytype of whitespace
  <word> 
  	there can be no <witespace> in between
-	it can contain only alphabetical characters
+	i can contain only alphabetical characters
 <number>
 	it contains only numerical characters delimited by whitespace
 <string>
@@ -90,36 +90,31 @@ static void	check_word(t_token *curr, t_type *mod_type) //TODO
 		*mod_type = curr->typ_token;
 }
 
-static void	check_quote(t_token *tmp, t_type *mod_type)
+/* quotes need to behave the same as the specific part of grammar they are substituting */
+/* that means that if quote is at the start of expression it needs to be considered a command */
+/* all of its content is understood as this part of expression */
+static t_token	*check_quote(t_token *tmp, t_type *mod_type)
 {
 	t_token	*curr;
+	t_type	all_quotes_are_equal;
 
-	/* if (*mod_type == WHITESPACE || *mod_type == PIPELINE) */
-	/* { */
-	/* 	t.................
-	 *  	mp->typ_token = FALSE_PLACEMENT; */
-	/* 	return ; */
-	/* } */
 	curr = tmp->next;
-	if (curr->typ_token == QUOTE)
+	while(curr->typ_token != tmp->typ_token && curr)
 	{
-		while (curr || curr->typ_token != QUOTE)
-		{
-			if (curr->typ_token == STRING)
-				check_string(curr, &tmp->typ_token);
-			else if (curr->typ_token == WORD)
-				check_word(curr, &tmp->typ_token);
-			curr = curr->next;
-			//NEED TO TAKE CARE OF QUOTES AROUND COMMANDS,ETC	
-		}
+		if (curr->typ_token == WORD)
+			check_word(curr, mod_type);
+		else if (curr->typ_token == STRING)
+			check_string(curr, mod_type);
+		else
+			curr->typ_token = PRINTABLE;
+		if (curr == tmp->next)
+			all_quotes_are_equal = curr->typ_token;
+		curr = curr->next;
 	}
-	else if (curr->typ_token == SINGLE_QUOTE)
-	{
-		while (curr || curr->typ_token != SINGLE_QUOTE)
-			curr = curr->next;	
-	}
-	if (curr == NULL)
+	if (!curr)
 		tmp->typ_token = FALSE_PLACEMENT;
+	*mod_type = all_quotes_are_equal;
+	return (curr);
 }
 
 void	parser(t_token **tail, t_token **head)
@@ -131,10 +126,8 @@ void	parser(t_token **tail, t_token **head)
 	mod_type = WHITESPACE;
 	while (curr)
 	{
-		if (curr->typ_token == QUOTE)
-			mod_type = QUOTE;
-		else if (curr->typ_token == SINGLE_QUOTE)
-			mod_type = SINGLE_QUOTE;
+		if (curr->typ_token == QUOTE || curr->typ_token == SINGLE_QUOTE)
+			curr = check_quote(curr, &mod_type);
 		else if (curr->typ_token == PIPELINE)
 			mod_type = PIPELINE;
 		else if (curr->typ_token == REDIRECT_IN)
