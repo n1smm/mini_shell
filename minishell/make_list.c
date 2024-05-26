@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/05/25 10:05:01 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/05/26 12:33:09 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ char *print_token_typ(t_type token_type)
 		return ("REDIRECT_OUT_DOUBLE");
 	else if (token_type == EXPAND)
 		return ("EXPAND");
+	else if (token_type == PATH)
+		return ("PATH");
 	else if (token_type == COMMAND)
 		return ("COMMAND");
 	else if (token_type == OPTION)
@@ -104,6 +106,8 @@ char *print_token_typ(t_type token_type)
 		return ("OUTFILE");
 	else if (token_type == LIMITER)
 		return ("LIMITER");
+	else if (token_type == PRINTABLE)
+		return ("PRINTABLE");
 	else if (token_type == FALSE_PLACEMENT)
 		return ("FALSE_PLACEMENT");
 	return ("INVALID TYPE");

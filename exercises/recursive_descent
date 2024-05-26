@@ -20,3 +20,38 @@
 //id -identifier
 //{char} can be one or more of same - ID	char {char} or {char}+
 //char {char|digit|_} - can be a set of all this things
+
+##lexical Analysis
+"lexer", "tokenizer"
+
+code:
+function scanToken()
+var:
+nextToken
+(each time we call the function it will point to the newly scanned token)
+
+
+classes?:
+so each node has left/right pointer and each node of a list can contain another list with it's said 
+
+each class has different way of evaluating what to do with the tokens
+
+##parsing algorithm
+
+functions 
+parseE () will parse an expression
+parseT () parse a term
+parseF () parse a factor
+-one for each non-terminal grammar symbol
+each will:
+-scan a bunch of tokens.
+-Return a ptr to the treee it builds
+details:
+-at any moment, nextToken will contain the next UNSCANED thing from the input
+- call scanToken to advance
+-return NULL if problems.
+
+##parse f  - parse a term - E->id|integer|(E)|-F
+if nextToken is ID
+	return token
+else if 
