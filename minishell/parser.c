@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:40:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/26 12:46:55 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:33:19 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,6 @@ static void	check_word(t_token *curr, t_type *mod_type) // TODO
 		curr->typ_token = OUTFILE;
 	else if (*mod_type == QUOTE || *mod_type == SINGLE_QUOTE)
 		curr->typ_token = WORD;
-	else
-		curr->typ_token = FALSE_PLACEMENT; // this might be to
-											// aggressive and can catch
-											// also completely innocent cases
-											// that didn't hurt anyone!
 	if (curr->typ_token != WORD)
 		*mod_type = curr->typ_token;
 }
@@ -95,6 +90,7 @@ static void	check_word(t_token *curr, t_type *mod_type) // TODO
 /* quotes need to behave the same as the specific part of grammar they are substituting */
 /* that means that if quote is at the start of expression it needs to be considered a command */
 /* all of its content is understood as this part of expression */
+/* TODO - need to check for this cases ex.(l"s") where i need to treat all as one token */
 static t_token	*check_quote(t_token *tmp, t_type *mod_type)
 {
 	t_token	*curr;
@@ -112,6 +108,7 @@ static t_token	*check_quote(t_token *tmp, t_type *mod_type)
 			curr->typ_token = PRINTABLE;
 		if (curr == tmp->next)
 			all_quotes_are_equal = curr->typ_token;
+        printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(*mod_type));
 		curr = curr->next;
 	}
 	if (!curr)
@@ -148,6 +145,7 @@ void	parser(t_token **tail, t_token **head)
 			check_word(curr, &mod_type);
 		else if (curr->typ_token == STRING)
 			check_string(curr, &mod_type);
+        printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type));
 		curr = curr->next;
 	}
 }
