@@ -6,62 +6,23 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:40:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/27 17:33:19 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/05/28 12:39:57 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
- <whitespace>
-	anytype of whitespace
- <word>
-	there can be no <witespace> in between
-	i can contain only alphabetical characters
-<number>
-	it contains only numerical characters delimited by whitespace
-<string>
-	can contain any type of  printable character delimited by whitespace
-<pipeline>
-	it contains only | and nothing else
-<redirect_in>
-	it can contain < or <<
-<redirect_out>
-	It contains > or >>
-<quote>
-	contains "
-<single_quote>
-	contains '
-<expand>
-	it is a single $ followed by a <word> without <whitespace> between
-<option>
-	is a single or double - followed by <word>
-<path>
-	is a <string>
-<command>
-	is <word> at the start of input or after <pipeline>
-
-THIS LATER WHEN ALL THE ELEMENTS ARE CONSTRUCTED
- <command> ::= <word> | <word> <option> ... <option>
-			| <word> <expand> | <word> <option> <expand>
-			| <word>  <quote> <word> <expand> <quote> |
-			| ...
-some rules for <command>:
-	1st argument is always a <word>
-	between <word> and <options> there is always <whitespace>
-	there can be <word> <quote><single_quote> at the end of <options>
-*/
-
-static void	check_string(t_token *curr, t_type *mod_type) // TODO
+/* is_quote 0 - not iside quotes, is_quote 1 - inside double quotes, is_quote 2 - inside single */
+static void	check_string(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	if ((*mod_type == COMMAND || *mod_type == OPTION)
 		&& curr->content[0] == '-')
 		curr->typ_token = OPTION;
-	else if (ft_strchr(curr->content, '$') && *mod_type != SINGLE_QUOTE)
+	else if (ft_strchr(curr->content, '$') && is_quote != 2)
 		curr->typ_token = EXPAND;
 			// this only says that its a possible expansion case,
 			//further check needed
-	else if (ft_strchr(curr->content, '/') && *mod_type != SINGLE_QUOTE)
+	else if (ft_strchr(curr->content, '/'))
 		curr->typ_token = PATH; // the same as with EXPAND
 	else if (*mod_type == WHITESPACE || *mod_type == PIPELINE)
 		curr->typ_token = FALSE_PLACEMENT;
@@ -70,7 +31,7 @@ static void	check_string(t_token *curr, t_type *mod_type) // TODO
 }
 
 /* there might be more conditions, need to be checked thorouglhy */
-static void	check_word(t_token *curr, t_type *mod_type) // TODO
+static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	if (*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
 		|| *mod_type == LIMITER)
@@ -81,7 +42,7 @@ static void	check_word(t_token *curr, t_type *mod_type) // TODO
 		curr->typ_token = LIMITER;
 	else if (*mod_type == REDIRECT_OUT_DOUBLE || *mod_type == REDIRECT_OUT)
 		curr->typ_token = OUTFILE;
-	else if (*mod_type == QUOTE || *mod_type == SINGLE_QUOTE)
+	else if (is_quote == 1 || is_quote == 2)
 		curr->typ_token = WORD;
 	if (curr->typ_token != WORD)
 		*mod_type = curr->typ_token;
@@ -91,19 +52,27 @@ static void	check_word(t_token *curr, t_type *mod_type) // TODO
 /* that means that if quote is at the start of expression it needs to be considered a command */
 /* all of its content is understood as this part of expression */
 /* TODO - need to check for this cases ex.(l"s") where i need to treat all as one token */
+/* this TODO is resolved by checking all tokens that are not delimited by whitespace */
+/* as one bigger token */
+
 static t_token	*check_quote(t_token *tmp, t_type *mod_type)
 {
 	t_token	*curr;
 	t_type	all_quotes_are_equal;
+	int		is_quote;
 
 	curr = tmp->next;
 	all_quotes_are_equal = *mod_type;
+	if (tmp->typ_token == QUOTE)
+		is_quote = 1;
+	else
+		is_quote = 2;
 	while (curr && curr->typ_token != tmp->typ_token)
 	{
 		if (curr->typ_token == WORD)
-			check_word(curr, mod_type);
+			check_word(curr, mod_type, is_quote);
 		else if (curr->typ_token == STRING)
-			check_string(curr, mod_type);
+			check_string(curr, mod_type, is_quote);
 		else
 			curr->typ_token = PRINTABLE;
 		if (curr == tmp->next)
@@ -142,16 +111,17 @@ void	parser(t_token **tail, t_token **head)
 		else if (curr->typ_token == REDIRECT_OUT)
 			mod_type = REDIRECT_OUT;
 		else if (curr->typ_token == WORD)
-			check_word(curr, &mod_type);
+			check_word(curr, &mod_type, 0);
 		else if (curr->typ_token == STRING)
-			check_string(curr, &mod_type);
+			check_string(curr, &mod_type, 0);
         printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type));
 		curr = curr->next;
 	}
 }
 
 // Helper function to create a new token
-t_token *create_token(t_type typ_token, char *content) {
+t_token *create_token(t_type typ_token, char *content) 
+{
     t_token *new_token = (t_token *)malloc(sizeof(t_token));
     new_token->typ_token = typ_token;
     new_token->content = strdup(content);
@@ -161,7 +131,8 @@ t_token *create_token(t_type typ_token, char *content) {
 }
 
 // Helper function to print the tokens
-void print_tokens(t_token *head) {
+void print_tokens(t_token *head) 
+{
     t_token *curr = head;
     while (curr) {
         printf("Token type: %d, content: %s\n", curr->typ_token, curr->content);

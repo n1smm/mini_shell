@@ -6,10 +6,11 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/22 13:24:19 by thiew            ###   ########.fr       */
+/*   Updated: 2024/05/28 13:59:49 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 /* if the type of token is correct it will allocate, otherwise it returns null not allocated */
@@ -34,6 +35,24 @@ char	*expander(char *input, t_type typ_token)
 		return (result_path);
 	}
 	return (NULL);
+}
+
+void	expand_checker(t_token *curr)
+{
+	char	*expand;
+	char	*content;
+	int		i;
+	int		j;
+
+	i = 0;
+	content = curr->content;
+	
+	while (content[i] != $ && content[i] != 0)
+		i++;
+	j = i;
+	while (ft_isalnum(content[j]) || content[j] == '_')
+	{
+	}
 }
 
 int main(int argc, char **argv)
