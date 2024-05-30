@@ -57,28 +57,28 @@ char *path_finder(char *command)
 }
 
 /* if the type of token is correct it will allocate, otherwise it returns null not allocated */
-char	*expander(char *input, t_type typ_token)
-{
-	char *result;
-	char *result_path;
+/* char	*expander(char *input, t_type typ_token) */
+/* { */
+/* 	char *result; */
+/* 	char *result_path; */
 
-	if (typ_token == COMMAND)
-	{
-		result = path_finder(input);
-		if (!result)
-			return (NULL);
-		return (result);
+/* 	if (typ_token == COMMAND) */
+/* 	{ */
+/* 		result = path_finder(input); */
+/* 		if (!result) */
+/* 			return (NULL); */
+/* 		return (result); */
 
 
-	}
-	else if (typ_token == EXPAND)
-	{
-		result = getenv(input);
-		result_path = ft_strdup(result);
-		return (result_path);
-	}
-	return (NULL);
-}
+/* 	} */
+/* 	else if (typ_token == EXPAND) */
+/* 	{ */
+/* 		result = getenv(input); */
+/* 		result_path = ft_strdup(result); */
+/* 		return (result_path); */
+/* 	} */
+/* 	return (NULL); */
+/* } */
 
 /* int	main(int argc, char **argv) */
 /* { */
