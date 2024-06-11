@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/11 12:00:47 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/11 15:35:05 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_token
 {
 	t_type			typ_token;
 	char			*content;
-	char			*type;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
@@ -69,16 +68,16 @@ typedef struct s_trash
 }					t_trash;
 /* lexer */
 void				lexer_main(char *input);
-void 		ft_lexer(char *input, char *type);
+void 				ft_lexer(t_token *token);
 /* safe_functions */
 void				*safe_malloc(size_t size);
 char 				*join_wrapper(const char *s1, const char *s2, int free_which);
 /*split_input*/
-void				split_input(char *input);
+void split_input(char *input, t_token **tail, t_token **head);
 bool				term_character(char c);
 char				*ft_chardup(char character);
 /*list functions*/
-void				ft_add_token(char *word);
+void	ft_add_token(char *word, int end, t_type type, t_token **head);
 void				ft_add_token2(char character);
 /* make_list */
 t_token				*init(char *content, t_token **tail, t_token **head);

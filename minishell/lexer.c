@@ -9,10 +9,7 @@
 // 	if (ft_strncmp(tmp, "echo", 5) == 0)
 // 		return (COMMAND);
 // 	else if (ft_strncmp(tmp, "cd", 3) == 0)
-// 		return (COMMAND);
-// 	else if (ft_strncmp(tmp, "pwd", 4) == 0)
-// 		return (COMMAND);
-// 	else if (ft_strncmp(tmp, "export", 7) == 0)
+// 		return (COMMAND);command not
 // 		return (COMMAND);
 // 	else if (ft_strncmp(tmp, "unset", 6) == 0)
 // 		return (COMMAND);
@@ -24,56 +21,62 @@
 // 		return (WORD);
 // }
 
-void ft_lexer(char *token, char *type)
+void ft_lexer(t_token *token)
 {
-	int	i;
-	int	j;
-	int z;
-	int x;
-	char *cmd;
+	// int	i;
+	// int	j;
+	// int z;
+	// int x;
+	// char *cmd;
 
-	i = 0;
-	j = 0;
-	z = 0;
-	cmd = NULL;
+	// i = 0;
+	// j = 0;
+	// z = 0;
+	// cmd = NULL;
 	if (token)
 	{
-		while ((token[i] >= 9 && token[i] <= 13) || (token[i] == 32
-			&& token[i]))
-			i++;
-		i = 0;
-		j = i;
-		while (!(token[i] >= 9 && token[i] <= 13) && token[i] != 32
-			&& token[i] != '|' && token[i])
-			i++;
-		cmd = malloc(sizeof(char) * (j + i));
-		x = i - j;
-		while (x > 0)
-		{
-			cmd[z++] = token[i];
-			x--;
-		}
-		cmd[z] = 0;
-		//if ((ft_compare(input + j, i)) == COMMAND)
-		if (ft_strncmp(type,  "COMMAND", 7))
-			printf("command not found: %s", cmd);
-		else
-			printf("success\n");
-		free(cmd);
+		if(ft_strncmp(token->content, " ", ft_strlen(token->content)) == 0)
+			token->typ_token = WHITESPACE;
+		else if(ft_strncmp(token->content, " ", ft_strlen(token->content)) == 0)
+			token->typ_token = WORD;
+		printf("prova: %s\n", token->content);
+		printf("prova: %d\n", token->typ_token);
+	// 	while ((token[i] >= 9 && token[i] <= 13) || (token[i] == 32
+	// 		&& token[i]))
+	// 		i++;
+	// 	i = 0;
+	// 	j = i;
+	// 	while (!(token[i] >= (t_type *toke9 && token[i] <= 13)) && token[i] != 32
+	// 		&& token[i] != '|' && token[i])
+	// 		i++;
+	// 	cmd = malloc(sizeof(char) * (j + i));
+	// 	x = i - j;
+	// 	while (x > 0)
+	// 	{
+	// 		cmd[z++] = token[i];
+	// 		x--;
+	// 	}
+	// 	cmd[z] = 0;
+	// 	//if ((ft_compare(input + j, i)) == COMMAND)
+	// 	if (token->type == COMMAND)
+	// 		printf("command not found: %s", cmd);
+	// 	else
+	// 		printf("success\n");
+	// 	free(cmd);
 	}
 }
 
-void lexer_main(char *input)
-{
-	int i;
+// void lexer_main(char *input)
+// {
+// 	int i;
 
-	i = 0;
-	ft_lexer(input, 0);
-	while (input[i])
-	{
-		if (input[i] == '|')
-			ft_lexer(input + i, 0);
-		i++;
-	}
-	return ;
-}
+// 	i = 0;
+// 	ft_lexer(input, 0);
+// 	while (input[i])
+// 	{
+// 		if (input[i] == '|')
+// 			ft_lexer(input + i, 0);
+// 		i++;
+// 	}
+// 	return ;
+// }

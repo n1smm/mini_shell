@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/05/26 12:33:09 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/06/11 15:34:32 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_token	*init(char *content, t_token **tail, t_token **head)
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	new_node->content = content;
+	new_node->typ_token = 0;
 	*tail = new_node;
 	*head = new_node;
 	return (new_node);
