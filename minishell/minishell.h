@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/28 12:01:38 by thiew            ###   ########.fr       */
+/*   Updated: 2024/06/11 12:00:47 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_token
 {
 	t_type			typ_token;
 	char			*content;
+	char			*type;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
@@ -68,8 +69,7 @@ typedef struct s_trash
 }					t_trash;
 /* lexer */
 void				lexer_main(char *input);
-/* parser */
-void				parser(t_token **tail, t_token **head);
+void 		ft_lexer(char *input, char *type);
 /* safe_functions */
 void				*safe_malloc(size_t size);
 char 				*join_wrapper(const char *s1, const char *s2, int free_which);

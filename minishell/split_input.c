@@ -6,7 +6,7 @@ void	ft_add_token(char *word)
 	t_token	*new;
 
 	new = (t_token *)safe_malloc(sizeof(t_token));
-	new->content = (char *)safe_malloc(ft_strlen(word) + 1);
+	//new->content = (char *)safe_malloc(ft_strlen(word) + 1);
 	new->content = ft_strdup(word);
 	printf("%s\n", new->content);
 }
@@ -70,11 +70,11 @@ void split_input(char *input)
 		word[j] = 0;
 		ft_add_token(word);
 		free (word);
-		j = 0;
-		if (term_character(input[i]))
-		{
-			ft_add_token2(input[i]);
-			i++;
-		}
+		// j = 0;
+		// if (term_character(input[i]))
+		// {
+		// 	ft_add_token2(input[i]);
+		// 	i++;
+		// }
 	}
 }

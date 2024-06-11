@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/31 23:31:33 by thiew            ###   ########.fr       */
+/*   Updated: 2024/06/11 12:16:48 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	refurbish_node(t_token *curr, char *content, bool free_me)
 
 void	expand_checker(t_token *curr)
 {
-	char	*expand;
+	//char	*expand;
 	char	*content;
 	bool	free_me;
 	int		i;
@@ -138,46 +138,46 @@ void	expand_checker(t_token *curr)
 /* 	free(input2); */
 /* } */
 
-void print_tokens(t_token *head)
-{
-    t_token *curr = head;
-    while (curr)
-    {
-        printf("Token: %s, Type: %d\n", curr->content, curr->typ_token);
-        curr = curr->next;
-    }
-}
+// void print_tokens(t_token *head)
+// {
+//     t_token *curr = head;
+//     while (curr)
+//     {
+//         printf("Token: %s, Type: %d\n", curr->content, curr->typ_token);
+//         curr = curr->next;
+//     }
+// }
 
-int main()
-{
-    // Create tokens
-    t_token token1 = {WORD, "ls", NULL, NULL};
-    t_token token2 = {STRING, "/etc/passwd", NULL, &token1};
-    t_token token3 = {PIPELINE, "|", NULL, &token2};
-    t_token token4 = {WORD, "echo", NULL, &token3};
-    t_token token5 = {QUOTE, "\"", NULL, &token4};
-    t_token token6 = {WORD, "hello", NULL, &token5};
-    t_token token7 = {STRING, "$$$USER/hello$$$HOME$", NULL, &token6};
-    t_token token8 = {STRING, "/this/is/not/a/path", NULL, &token7};
-    t_token token9 = {QUOTE, "\"", NULL, &token8};
+// int main()
+// {
+//     // Create tokens
+//     t_token token1 = {WORD, "ls", NULL, NULL};
+//     t_token token2 = {STRING, "/etc/passwd", NULL, &token1};
+//     t_token token3 = {PIPELINE, "|", NULL, &token2};
+//     t_token token4 = {WORD, "echo", NULL, &token3};
+//     t_token token5 = {QUOTE, "\"", NULL, &token4};
+//     t_token token6 = {WORD, "hello", NULL, &token5};
+//     t_token token7 = {STRING, "$$$USER/hello$$$HOME$", NULL, &token6};
+//     t_token token8 = {STRING, "/this/is/not/a/path", NULL, &token7};
+//     t_token token9 = {QUOTE, "\"", NULL, &token8};
 
-    token1.next = &token2;
-    token2.next = &token3;
-    token3.next = &token4;
-    token4.next = &token5;
-    token5.next = &token6;
-    token6.next = &token7;
-    token7.next = &token8;
-    token8.next = &token9;
+//     token1.next = &token2;
+//     token2.next = &token3;
+//     token3.next = &token4;
+//     token4.next = &token5;
+//     token5.next = &token6;
+//     token6.next = &token7;
+//     token7.next = &token8;
+//     token8.next = &token9;
 
-    // Simulate expansion on token7 (with content "$USER")
-    expand_checker(&token7);
+//     // Simulate expansion on token7 (with content "$USER")
+//     expand_checker(&token7);
 
-    // Print tokens to see the results
-    print_tokens(&token1);
+//     // Print tokens to see the results
+//     print_tokens(&token1);
 
-    return 0;
-}
+//     return 0;
+// }
 
 
 
