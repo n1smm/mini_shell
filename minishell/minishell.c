@@ -55,6 +55,8 @@ int main()
 	ft_init(&tail, &head);
 	while(1)
 	{
+		sigaction(SIGUSR1, &interactive_mode, 0);
+		sigaction(SIGUSR2, &interactive_mode, 0);
 		prompt = prompt_check();
 		input = readline(prompt);
 		add_history(input);

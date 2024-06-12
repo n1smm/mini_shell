@@ -37,6 +37,8 @@ void	ft_add_token(const char *word, size_t end, t_type type, t_token **head)
 	//ft_strlcpy(str, word, end);
 	str = ft_strdup2(word, end);
 	printf("%s\n", str);
+	if((*head)->prev == NULL && (*tail)->next == NULL)
+		init();
 	double_lstadd_back(str, head);
 	(*head)->typ_token = type;
 	printf("type: %d\n", type);
