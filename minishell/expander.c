@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/11 12:16:48 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/12 17:00:48 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ char	*expander(char *input, t_type typ_token)
 		if (!result)
 			return (NULL);
 		return (result);
-
-
 	}
 	else if (typ_token == EXPAND)
 	{
@@ -39,7 +37,7 @@ char	*expander(char *input, t_type typ_token)
 	return (NULL);
 }
 
-char	*refactor_expanded_string(char *content, int start, int len)
+static char	*refactor_expanded_string(char *content, int start, int len)
 {
 	char	*expanded;
 	char	*result;
@@ -65,7 +63,7 @@ char	*refactor_expanded_string(char *content, int start, int len)
 	return (result);
 }
 
-void	refurbish_node(t_token *curr, char *content, bool free_me)
+static void	refurbish_node(t_token *curr, char *content, bool free_me)
 {
 	int		i;
 	bool	path;

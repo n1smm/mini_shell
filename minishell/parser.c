@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:40:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/11 12:43:01 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/12 17:00:18 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	parser(t_token **tail, t_token **head)
 	t_type	mod_type;
 
 	curr = *tail;
+	head = head;
 	mod_type = WHITESPACE;
 	while (curr)
 	{
@@ -114,103 +115,104 @@ void	parser(t_token **tail, t_token **head)
 			check_word(curr, &mod_type, 0);
 		else if (curr->typ_token == STRING)
 			check_string(curr, &mod_type, 0);
+		expand_checker(curr);
         printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type));
 		curr = curr->next;
 	}
 }
 
 // Helper function to create a new token
-t_token *create_token(t_type typ_token, char *content) 
-{
-    t_token *new_token = (t_token *)malloc(sizeof(t_token));
-    new_token->typ_token = typ_token;
-    new_token->content = strdup(content);
-    new_token->next = NULL;
-    new_token->prev = NULL;
-    return new_token;
-}
+// t_token *create_token(t_type typ_token, char *content) 
+// {
+//     t_token *new_token = (t_token *)malloc(sizeof(t_token));
+//     new_token->typ_token = typ_token;
+//     new_token->content = strdup(content);
+//     new_token->next = NULL;
+//     new_token->prev = NULL;
+//     return new_token;
+// }
 
-// Helper function to print the tokens
-void print_tokens(t_token *head) 
-{
-    t_token *curr = head;
-    while (curr) {
-        printf("Token type: %d, content: %s\n", curr->typ_token, curr->content);
-        curr = curr->next;
-    }
-}
+// // Helper function to print the tokens
+// void print_tokens(t_token *head) 
+// {
+//     t_token *curr = head;
+//     while (curr) {
+//         printf("Token type: %d, content: %s\n", curr->typ_token, curr->content);
+//         curr = curr->next;
+//     }
+// }
 
-// Main function for testing
-int main() {
+// // Main function for testing
+// int main() {
 
-  // Create a list of tokens for testing
-    t_token *token1 = create_token(WORD, "ls");
-    t_token *token2 = create_token(WHITESPACE, " ");
-    t_token *token3 = create_token(STRING, "/etc/passwd");
-    t_token *token4 = create_token(WHITESPACE, " ");
-    t_token *token5 = create_token(PIPELINE, "|");
-    t_token *token6 = create_token(WHITESPACE, " ");
-    t_token *token7 = create_token(WORD, "echo");
-    t_token *token8 = create_token(WHITESPACE, " ");
-    t_token *token9 = create_token(QUOTE, "\"");
-    t_token *token10 = create_token(WHITESPACE, " ");
-    t_token *token11 = create_token(WORD, "hello");
-    t_token *token12 = create_token(WHITESPACE, " ");
-    t_token *token13 = create_token(STRING, "$USER");
-    t_token *token14 = create_token(WHITESPACE, " ");
-    t_token *token15 = create_token(STRING, "/this/is/not/a/path");
-    t_token *token16 = create_token(QUOTE, "\"");
+//   // Create a list of tokens for testing
+//     t_token *token1 = create_token(WORD, "ls");
+//     t_token *token2 = create_token(WHITESPACE, " ");
+//     t_token *token3 = create_token(STRING, "/etc/passwd");
+//     t_token *token4 = create_token(WHITESPACE, " ");
+//     t_token *token5 = create_token(PIPELINE, "|");
+//     t_token *token6 = create_token(WHITESPACE, " ");
+//     t_token *token7 = create_token(WORD, "echo");
+//     t_token *token8 = create_token(WHITESPACE, " ");
+//     t_token *token9 = create_token(QUOTE, "\"");
+//     t_token *token10 = create_token(WHITESPACE, " ");
+//     t_token *token11 = create_token(WORD, "hello");
+//     t_token *token12 = create_token(WHITESPACE, " ");
+//     t_token *token13 = create_token(STRING, "$USER");
+//     t_token *token14 = create_token(WHITESPACE, " ");
+//     t_token *token15 = create_token(STRING, "/this/is/not/a/path");
+//     t_token *token16 = create_token(QUOTE, "\"");
 
-    // Link tokens
-    token1->next = token2;
-    token2->prev = token1;
-    token2->next = token3;
-    token3->prev = token2;
-    token3->next = token4;
-    token4->prev = token3;
-    token4->next = token5;
-    token5->prev = token4;
-    token5->next = token6;
-    token6->prev = token5;
-    token6->next = token7;
-    token7->prev = token6;
-    token7->next = token8;
-    token8->prev = token7;
-    token8->next = token9;
-    token9->prev = token8;
-    token9->next = token10;
-    token10->prev = token9;
-    token10->next = token11;
-    token11->prev = token10;
-    token11->next = token12;
-    token12->prev = token11;
-    token12->next = token13;
-    token13->prev = token12;
-    token13->next = token14;
-    token14->prev = token13;
-    token14->next = token15;
-    token15->prev = token14;
-    token15->next = token16;
-    token16->prev = token15;
+//     // Link tokens
+//     token1->next = token2;
+//     token2->prev = token1;
+//     token2->next = token3;
+//     token3->prev = token2;
+//     token3->next = token4;
+//     token4->prev = token3;
+//     token4->next = token5;
+//     token5->prev = token4;
+//     token5->next = token6;
+//     token6->prev = token5;
+//     token6->next = token7;
+//     token7->prev = token6;
+//     token7->next = token8;
+//     token8->prev = token7;
+//     token8->next = token9;
+//     token9->prev = token8;
+//     token9->next = token10;
+//     token10->prev = token9;
+//     token10->next = token11;
+//     token11->prev = token10;
+//     token11->next = token12;
+//     token12->prev = token11;
+//     token12->next = token13;
+//     token13->prev = token12;
+//     token13->next = token14;
+//     token14->prev = token13;
+//     token14->next = token15;
+//     token15->prev = token14;
+//     token15->next = token16;
+//     token16->prev = token15;
 
-    // Call parser on the tokens
-    t_token *head = token1;
-    t_token *tail = token1;
-    parser(&tail, &head);
+//     // Call parser on the tokens
+//     t_token *head = token1;
+//     t_token *tail = token1;
+//     parser(&tail, &head);
 
-    // Print the tokens after parsing
-    print_list(head);
+//     // Print the tokens after parsing
+//     print_list(head);
 
-    // Free tokens
-    t_token *curr = head;
-    t_token *next;
-    while (curr) {
-        next = curr->next;
-        free(curr->content);
-        free(curr);
-        curr = next;
-    }
+//     // Free tokens
+//     t_token *curr = head;
+//     t_token *next;
+//     while (curr) {
+//         next = curr->next;
+//         free(curr->content);
+//         free(curr);
+//         curr = next;
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
 

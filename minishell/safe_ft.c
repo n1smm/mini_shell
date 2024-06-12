@@ -6,7 +6,7 @@ void *safe_malloc(size_t size)
 	if (!ptr)
 	{
 		perror("Malloc failed");
-		return (NULL);
+		exit (EXIT_FAILURE);
 	}
 	return (ptr);
 }

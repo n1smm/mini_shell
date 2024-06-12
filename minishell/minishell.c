@@ -9,12 +9,14 @@
 
 void ft_init(t_token **tail, t_token **head)
 {
-	if (!tail || !head)
-		return ;
+	// if (!tail || !head)
+	// 	return ;
 	*tail = (t_token *)safe_malloc(sizeof(t_token));
-	*head = (t_token *)safe_malloc(sizeof(t_token));
+	//*head = (t_token *)safe_malloc(sizeof(t_token));
+	*head = *tail;
+	(*head)->next = NULL;
+	(*tail)->prev = NULL;
 }
-
 
 static char *prompt_check(void)
 {
@@ -44,13 +46,13 @@ int main()
 {
 	char	*input;
 	char	*prompt;
-	t_token **head;
-	t_token **tail;
+	t_token *head;
+	t_token *tail;
 
 	tail = NULL;
 	head = NULL;
 //	t_input *commands;
-	ft_init(tail, head);
+	ft_init(&tail, &head);
 	while(1)
 	{
 		prompt = prompt_check();
@@ -58,14 +60,17 @@ int main()
 		add_history(input);
 		//ft_parsing(input);
 		//printf("\n");
-		split_input(input, tail, head);
-		// print_list(*tail);
+		split_input(input, &tail, &head);
+		parser(&tail, &head);
+		//printf("%d", (*tail)->typ_token);
 		//ft_lexer(input);
+		//ft_executor(&tail);
 		if (ft_strncmp(input, "exit", 5) == 0)
 		 	break;
 		free(input);
 		free(prompt);
 	}
+	print_list(tail);
 	free(input);
 	free(prompt);
 	return(0);

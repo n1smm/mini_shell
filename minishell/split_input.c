@@ -1,19 +1,47 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-void	ft_add_token(char *word, int end, t_type type, t_token **head)
+char	*ft_strdup2(const char *s, size_t end)
+{
+	char	*i;
+	size_t	j;
+	size_t	z;
+
+	j = 0;
+	z = 0;
+	while (s[z])
+	{
+		z++;
+	}
+	i = (char *) malloc(sizeof(char) * z + 1);
+	if (!i)
+		return (NULL);
+	while (j < (end))
+	{
+		i[j] = s[j];
+		j++;
+	}
+	i[j] = '\0';
+	return ((char *)i);
+}
+
+void	ft_add_token(const char *word, size_t end, t_type type, t_token **head)
 {
 	char *str;
 
-	str = "hello";
+	str = NULL;
 	if(!word)
 		return ;
-	ft_strlcpy(str, word, end);
+	//head = head;
+	//type = type;
+	//ft_strlcpy(str, word, end);
+	str = ft_strdup2(word, end);
+	printf("%s\n", str);
 	double_lstadd_back(str, head);
 	(*head)->typ_token = type;
+	printf("type: %d\n", type);
 	//ft_lexer(new);
 }
-
 
 char	*ft_chardup(char character)
 {
@@ -40,39 +68,35 @@ void	ft_add_token2(char character)
 	free(term);
 }
 
-
 bool term_character(char c)
 {
 	if (c == ' ' || c == '\t' || c == '|' || c == '<' \
-		|| c == '>' || c == 0)
+		|| c == '>' || c == 0 || c == '\"' || c == '\'')
 		return (true);
 	else
 	 	return (false);
 }
 
-int	ft_check_word(char *input, t_type *type)
+void	ft_check_word(char *input, size_t *i, t_type *type)
 {
-	int i;
 	bool	string;
 
-	i = 0;
 	string = false;
-	while(input[i] && !(term_character(input[i])))
+	while(input[*i] && !(term_character(input[*i])))
 	{
-		if(!(ft_isalpha(input[i])))
-		{
+		if(!(ft_isalpha(input[*i])))
 			string = true;
-		}
-		i++;
+		(*i)++;
 	}
 	if (string == true)
 		*type = STRING;
 	else
 		*type = WORD;
-	return(i - 1);
+	(*i)--;
+	return ;
 }
 
-bool	ft_redirect_double(char *input, int *i)
+bool	ft_redirect_double(char *input, size_t *i)
 {
 	if(input[*i] == input[*i + 1])
 	{
@@ -84,7 +108,7 @@ bool	ft_redirect_double(char *input, int *i)
 
 void split_input(char *input, t_token **tail, t_token **head)
 {
-	int i;
+	size_t i;
 	int	j;
 	// int	x;
 	// int z;
@@ -103,7 +127,7 @@ void split_input(char *input, t_token **tail, t_token **head)
 		j = i;
 		if(term_character(input[i]) == false)
 		{
-			i += ft_check_word(input, &type);
+			ft_check_word(input, &i, &type);
 		}
 		else if(input[i] == ' ')
 			type = WHITESPACE;
@@ -123,12 +147,12 @@ void split_input(char *input, t_token **tail, t_token **head)
 			else
 				type = REDIRECT_OUT;
 		}
-		else if(input[i] == '"')
+		else if(input[i] == '\"')
 			type = QUOTE;
 		else if(input[i] == '\'')
 			type = SINGLE_QUOTE;
 		i++;
-		ft_add_token(input + j, i, type, head);
+		ft_add_token(input + j, (i - j), type, head);
 	}
 	tail = tail;
 	//print_list(*tail);

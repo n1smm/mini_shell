@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/06/11 15:34:32 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/12 11:43:00 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ bool	double_lstadd_back(char *content, t_token **head)
 	t_token	*curr;
 	t_token	*new;
 
+	if (!head)
+		return (-1);
 	curr = *head;
 	new = safe_malloc(sizeof(t_token));
-	/* if (!new) */
-	/* 	return (false); */
 	if (*head == NULL)
 	{
 		free(new);

@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/11 15:35:05 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/12 16:51:52 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,15 @@ void 				ft_lexer(t_token *token);
 void				*safe_malloc(size_t size);
 char 				*join_wrapper(const char *s1, const char *s2, int free_which);
 /*split_input*/
-void split_input(char *input, t_token **tail, t_token **head);
+void				split_input(char *input, t_token **tail, t_token **head);
 bool				term_character(char c);
 char				*ft_chardup(char character);
+/*parser*/
+void				parser(t_token **tail, t_token **head);
+/*executor*/
+void				ft_executor(t_token **token);
 /*list functions*/
-void	ft_add_token(char *word, int end, t_type type, t_token **head);
+void				ft_add_token(const char *word, size_t end, t_type type, t_token **head);
 void				ft_add_token2(char character);
 /* make_list */
 t_token				*init(char *content, t_token **tail, t_token **head);
@@ -87,10 +91,13 @@ char 				*print_token_typ(t_type token_type);
 void				print_list(t_token *tail);
 /* path_finder */
 char				*path_finder(char *command);
+/*expander*/
+void				expand_checker(t_token *curr);
 char				*expander(char *input, t_type typ_token);
 /* free_functions */
 void				free_mtx(void **matrix);
 /* built-ins */
-bool	pwd(void);
+bool				pwd(void);
+bool				env(void);
 
 #endif
