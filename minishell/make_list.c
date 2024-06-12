@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/06/12 11:43:00 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/12 18:21:01 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ char *print_token_typ(t_type token_type)
 {
 	if (token_type == WHITESPACE)
 		return ("WHITESPACE");
-	else if (token_type == NUMBER)
-		return ("NUMBER");
+	else if (token_type == NONPRINTABLE)
+		return ("NONPRINTABLE");
 	else if (token_type == WORD)
 		return ("WORD");
 	else if (token_type == PIPELINE)

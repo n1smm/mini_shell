@@ -9,13 +9,18 @@
 
 void ft_init(t_token **tail, t_token **head)
 {
+	t_token	*new_node;
+
 	// if (!tail || !head)
 	// 	return ;
 	*tail = (t_token *)safe_malloc(sizeof(t_token));
 	//*head = (t_token *)safe_malloc(sizeof(t_token));
 	*head = *tail;
-	(*head)->next = NULL;
-	(*tail)->prev = NULL;
+	new_node = init("", tail, head);
+	new_node->typ_token = NONPRINTABLE;
+	/* (*head)->next = NULL; */
+	/* (*tail)->prev = NULL; */
+	 
 }
 
 static char *prompt_check(void)
@@ -55,8 +60,8 @@ int main()
 	ft_init(&tail, &head);
 	while(1)
 	{
-		sigaction(SIGUSR1, &interactive_mode, 0);
-		sigaction(SIGUSR2, &interactive_mode, 0);
+		/* sigaction(SIGUSR1, &interactive_mode, 0); */
+		/* sigaction(SIGUSR2, &interactive_mode, 0); */
 		prompt = prompt_check();
 		input = readline(prompt);
 		add_history(input);

@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:40:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/12 17:00:18 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/12 18:31:56 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	parser(t_token **tail, t_token **head)
 	t_token	*curr;
 	t_type	mod_type;
 
-	curr = *tail;
+	curr = (*tail)->next;
 	head = head;
 	mod_type = WHITESPACE;
 	while (curr)
@@ -115,7 +115,8 @@ void	parser(t_token **tail, t_token **head)
 			check_word(curr, &mod_type, 0);
 		else if (curr->typ_token == STRING)
 			check_string(curr, &mod_type, 0);
-		expand_checker(curr);
+		if (curr->typ_token == EXPAND)
+			expand_checker(curr);
         printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type));
 		curr = curr->next;
 	}
