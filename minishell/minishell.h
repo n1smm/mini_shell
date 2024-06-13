@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/13 14:30:33 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/13 14:15:19 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void				expand_checker(t_token *curr);
 char				*expander(char *input, t_type typ_token);
 /* free_functions */
 void				free_mtx(void **matrix);
+void				free_tokens(t_token **tail, t_token **head, int	final_free);
 /* built-ins */
 bool				pwd(void);
 bool				env(void);
