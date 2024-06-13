@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/13 14:15:19 by thiew            ###   ########.fr       */
+/*   Updated: 2024/06/13 16:56:51 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <termios.h>
 
 typedef struct s_input
 {
@@ -106,6 +107,8 @@ void				free_tokens(t_token **tail, t_token **head, int	final_free);
 bool				pwd(void);
 bool				env(void);
 /*signals*/
-void				sig_handler(int sig);
+void				catch_signals();
+void				ctrl_c(int sig);
+void				ctrl_slash(int sig);
 
 #endif

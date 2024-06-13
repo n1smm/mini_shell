@@ -50,41 +50,30 @@ static char *prompt_check(void)
 	return (prompt);
 }
 
-void	ft_init_shell(t_shell *status)
-{
-	status->running = true;
-}
-
 int main()
 {
 	char		*input;
 	char		*prompt;
 	t_token 	*head;
 	t_token 	*tail;
-	t_shell		*status;
 
 	tail = NULL;
 	head = NULL;
-	status = NULL;
-//	t_input *commands;
+	//t_input *commands;
 	ft_init(&tail, &head);
-	ft_init_shell(status);
-	while(status->running == true)
+	while(1)
 	{
-		signal(SIGINT, &sig_handler);
-		//sigaction(SIGUSR2, &interactive_mode, 0);
+		catch_signals();
+		//printf("exit:%d", g_exit_status);
 		prompt = prompt_check();
 		input = readline(prompt);
+		if (!input || ft_strncmp(input, "exit", 5) == 0)
+			break ;
 		add_history(input);
 		//ft_parsing(input);
 		//printf("\n");
 		split_input(input, &tail, &head);
 		parser(&tail, &head);
-		//printf("%d", (*tail)->typ_token);
-		//ft_lexer(input);
-		//ft_executor(&tail);
-		if (ft_strncmp(input, "exit", 5) == 0)
-		 	break;
 		print_list(tail);
 		free(input);
 		free(prompt);
