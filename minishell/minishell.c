@@ -50,7 +50,7 @@ static char *prompt_check(void)
 	return (prompt);
 }
 
-int main()
+int main(int argc, char **argv, char **env)
 {
 	char		*input;
 	char		*prompt;
@@ -59,6 +59,9 @@ int main()
 
 	tail = NULL;
 	head = NULL;
+	argc = argc;
+	argv = argv;
+	env = env ;
 	//t_input *commands;
 	ft_init(&tail, &head);
 	while(1)
@@ -74,6 +77,9 @@ int main()
 		//printf("\n");
 		split_input(input, &tail, &head);
 		parser(&tail, &head);
+
+		//ft_executor()
+
 		print_list(tail);
 		free(input);
 		free(prompt);

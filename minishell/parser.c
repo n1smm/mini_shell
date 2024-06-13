@@ -1,11 +1,12 @@
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 13:40:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/12 18:31:56 by tjuvan           ###   ########.fr       */
+/*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
+/*   Updated: 2024/06/13 18:10:02 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +109,12 @@ void	parser(t_token **tail, t_token **head)
 			mod_type = PIPELINE;
 		else if (curr->typ_token == REDIRECT_IN)
 			mod_type = REDIRECT_IN;
+		else if (curr->typ_token == REDIRECT_IN_DOUBLE)
+			mod_type = REDIRECT_IN_DOUBLE;
 		else if (curr->typ_token == REDIRECT_OUT)
 			mod_type = REDIRECT_OUT;
+		else if (curr->typ_token == REDIRECT_OUT_DOUBLE)
+			mod_type = REDIRECT_OUT_DOUBLE;
 		else if (curr->typ_token == WORD)
 			check_word(curr, &mod_type, 0);
 		else if (curr->typ_token == STRING)

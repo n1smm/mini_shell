@@ -6,13 +6,13 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:07:41 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/06/12 18:22:22 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:01:29 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	cd(const char *path)
+bool	ft_cd(const char *path)
 {
 	if (!path)
 		return (-1);

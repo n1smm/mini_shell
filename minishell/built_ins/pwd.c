@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:12:04 by thiew             #+#    #+#             */
-/*   Updated: 2024/05/24 15:57:00 by thiew            ###   ########.fr       */
+/*   Updated: 2024/06/13 17:01:39 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	pwd(void)
+bool	ft_pwd(void)
 {
 	char	pwd[1024];
 

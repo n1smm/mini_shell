@@ -9,11 +9,13 @@ void	ft_executor(t_token **token)
 		if((*token)->typ_token == COMMAND)
 		{
 			if(ft_strncmp((*token)->content, "env", 3) == 0)
-				env();
+				ft_env();
 			else if(ft_strncmp((*token)->content, "pwd", 3) == 0)
-				pwd();
-			if(ft_strncmp((*token)->content, "echo", 5) == 0)
-				env();
+				ft_pwd();
+			else if(ft_strncmp((*token)->content, "echo", 5) == 0)
+				ft_env();
+			else
+				printf("\nnull\n");
 		}
 		else
 			return ;
