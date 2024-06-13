@@ -10,13 +10,16 @@
 void ft_init(t_token **tail, t_token **head)
 {
 	t_token	*new_node;
+	char *place_holder;
 
 	// if (!tail || !head)
 	// 	return ;
 	*tail = (t_token *)safe_malloc(sizeof(t_token));
 	//*head = (t_token *)safe_malloc(sizeof(t_token));
 	*head = *tail;
-	new_node = init("", tail, head);
+	place_holder = malloc(1);
+	place_holder[0] = 0;
+	new_node = init(place_holder, tail, head);
 	new_node->typ_token = NONPRINTABLE;
 	/* (*head)->next = NULL; */
 	/* (*tail)->prev = NULL; */
@@ -74,9 +77,10 @@ int main()
 		//ft_executor(&tail);
 		if (ft_strncmp(input, "exit", 5) == 0)
 		 	break;
+		print_list(tail);
 		free(input);
 		free(prompt);
-		print_list(tail);
+		free_tokens(&tail, &head, 0);
 	}
 	free(input);
 	free(prompt);
