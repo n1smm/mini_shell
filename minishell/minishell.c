@@ -76,8 +76,8 @@ int main()
 		 	break;
 		free(input);
 		free(prompt);
+		print_list(tail);
 	}
-	print_list(tail);
 	free(input);
 	free(prompt);
 	return(0);
