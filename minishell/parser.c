@@ -1,4 +1,3 @@
-/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
@@ -75,9 +74,9 @@ static t_token	*check_quote(t_token *tmp, t_type *mod_type)
 			check_string(curr, mod_type, is_quote);
 		else
 			curr->typ_token = PRINTABLE;
-		if (curr == tmp->next)
-			all_quotes_are_equal = curr->typ_token;
-        printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(*mod_type));
+		/* if (curr == tmp->next) */
+		/* 	all_quotes_are_equal = curr->typ_token; */
+        /* printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(*mod_type)); */
 		curr = curr->next;
 	}
 	if (!curr)
@@ -115,9 +114,9 @@ void	parser(t_token **tail, t_token **head)
 			check_word(curr, &mod_type, 0);
 		else if (curr->typ_token == STRING)
 			check_string(curr, &mod_type, 0);
-		if (curr->typ_token == EXPAND)
-			expand_checker(curr);
-        printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type));
+		/* if (curr->typ_token == EXPAND) */
+			/* expand_checker(curr); */
+        /* printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type)); */
 		curr = curr->next;
 	}
 }

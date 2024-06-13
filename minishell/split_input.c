@@ -36,10 +36,10 @@ void	ft_add_token(const char *word, size_t end, t_type type, t_token **head)
 	//type = type;
 	//ft_strlcpy(str, word, end);
 	str = ft_strdup2(word, end);
-	printf("%s\n", str);
+	/* printf("%s\n", str); */
 	double_lstadd_back(str, head);
 	(*head)->typ_token = type;
-	printf("type: %d\n", type);
+	/* printf("type: %d\n", type); */
 	//ft_lexer(new);
 }
 
@@ -64,7 +64,7 @@ void	ft_add_token2(char character)
 	new = (t_token *)safe_malloc(sizeof(t_token));
 	new->content = (char *)safe_malloc(sizeof(char) * 1);
 	new->content = ft_strdup(term);
-	printf("%s\n", new->content);
+	/* printf("%s\n", new->content); */
 	free(term);
 }
 
