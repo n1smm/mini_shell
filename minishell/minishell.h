@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/12 18:04:46 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/06/13 14:30:33 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ typedef enum s_type
 	PRINTABLE,
 	FALSE_PLACEMENT,
 }					t_type;
+
+typedef struct	s_shell
+{
+	bool	running;
+}				t_shell;
 
 typedef struct s_token
 {
@@ -99,5 +104,7 @@ void				free_mtx(void **matrix);
 /* built-ins */
 bool				pwd(void);
 bool				env(void);
+/*signals*/
+void				sig_handler(int sig);
 
 #endif

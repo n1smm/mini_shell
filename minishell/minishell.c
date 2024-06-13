@@ -47,21 +47,29 @@ static char *prompt_check(void)
 	return (prompt);
 }
 
+void	ft_init_shell(t_shell *status)
+{
+	status->running = true;
+}
+
 int main()
 {
-	char	*input;
-	char	*prompt;
-	t_token *head;
-	t_token *tail;
+	char		*input;
+	char		*prompt;
+	t_token 	*head;
+	t_token 	*tail;
+	t_shell		*status;
 
 	tail = NULL;
 	head = NULL;
+	status = NULL;
 //	t_input *commands;
 	ft_init(&tail, &head);
-	while(1)
+	ft_init_shell(status);
+	while(status->running == true)
 	{
-		/* sigaction(SIGUSR1, &interactive_mode, 0); */
-		/* sigaction(SIGUSR2, &interactive_mode, 0); */
+		signal(SIGINT, &sig_handler);
+		//sigaction(SIGUSR2, &interactive_mode, 0);
 		prompt = prompt_check();
 		input = readline(prompt);
 		add_history(input);
