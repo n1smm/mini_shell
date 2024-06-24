@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/24 10:56:46 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/24 16:24:14 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void				ft_add_token2(char character);
 t_token				*init(char *content, t_token **tail, t_token **head);
 bool				double_lstadd_front(char *content, t_token **tail);
 bool				double_lstadd_back(char *content, t_token **head);
+long				find_token(t_token *tail, t_type type_to_find);
+t_token				*use_token(t_token **tail, t_type type_to_find);
 char 				*print_token_typ(t_type token_type);
 void				print_list(t_token *tail);
 /* path_finder */
