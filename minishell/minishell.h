@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/13 17:11:35 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/24 10:56:46 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <termios.h>
+# include <dirent.h>
 
 typedef struct s_input
 {
@@ -58,6 +59,11 @@ typedef struct	s_shell
 {
 	bool	running;
 }				t_shell;
+
+typedef struct	s_dir
+{
+	char	*file_name;
+}				t_dir;
 
 typedef struct s_token
 {
@@ -114,4 +120,5 @@ void				catch_signals();
 void				ctrl_c(int sig);
 void				ctrl_slash(int sig);
 
+void ft_ls(void);
 #endif

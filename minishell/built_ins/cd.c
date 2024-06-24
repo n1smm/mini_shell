@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:07:41 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/06/13 17:01:29 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/24 11:08:49 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 bool	ft_cd(const char *path)
 {
+	printf("FT_CD\n");
 	if (!path)
 		return (-1);
 	chdir(path);

@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:12:04 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/13 17:01:39 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/24 11:09:28 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	ft_pwd(void)
 
 	if (getcwd(pwd, 1024) != NULL)
 	{
-		printf("pwd: %s\n", pwd);
+		printf("%s\n", pwd);
 		return (true);
 	}
 	else

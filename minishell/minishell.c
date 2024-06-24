@@ -78,12 +78,12 @@ int main(int argc, char **argv, char **env)
 		split_input(input, &tail, &head);
 		parser(&tail, &head);
 
-		//ft_executor()
+		ft_executor(&tail);
 
 		print_list(tail);
 		free(input);
 		free(prompt);
-		free_tokens(&tail, &head, 0);
+		//free_tokens(&tail, &head, 0);
 	}
 	free(input);
 	free(prompt);
