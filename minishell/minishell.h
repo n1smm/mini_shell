@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/24 17:43:31 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/28 13:51:04 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,8 @@ bool				ft_pwd(void);
 bool				ft_unset(void);
 /* env */
 void				ft_init_env(t_env_var **tail, t_env_var **head);
-t_token				*env_new_node(t_env_var **tail, t_env_var **head);
-char				**env_variables(t_env_var *env_var, char *var);
+t_env_var			*env_new_node(t_env_var **tail, t_env_var **head);
+char				**env_variables(void);
 /*signals*/
 void				catch_signals();
 void				ctrl_c(int sig);
