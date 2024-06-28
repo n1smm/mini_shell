@@ -7,7 +7,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 HEADER = minishell.h
 
 SRC_BUILTINS= $(wildcard ./built_ins/*.c)
-SRC_FILES = ft_ls.c minishell.c expander.c parser.c lexer.c safe_ft.c split_input.c make_list.c free_functions.c path_finder.c executor.c signals.c $(SRC_BUILTINS)
+SRC_FILES = minishell.c expander.c parser.c lexer.c safe_ft.c split_input.c make_list.c free_functions.c path_finder.c executor.c signals.c commands.c $(SRC_BUILTINS)
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 

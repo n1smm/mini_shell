@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/24 10:56:46 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/06/24 17:43:31 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <unistd.h>
 # include <termios.h>
 # include <dirent.h>
+# include <dlfcn.h>
 
 typedef struct s_input
 {
@@ -54,6 +55,68 @@ typedef enum s_type
 	PRINTABLE,
 	FALSE_PLACEMENT,
 }					t_type;
+
+typedef	enum s_typ_env
+{
+	SSH_AUTH_SOCK,
+	SESSION_MANAGER,
+	GNOME_TERMINAL_SCREEN,
+	SSH_AGENT_PID,
+	LANGUAGE,
+	LANG,
+	XDG_CURRENT_DESKTOP,
+	IM_CONFIG_PHASE,
+	XDG_GREETER_DATA_DIR,
+	COLORTERM,
+	LIBVIRT_DEFAULT_URI,
+	GPG_AGENT_INFO,
+	DESKTOP_SESSION,
+	USER,
+	XDG_MENU_PREFIX,
+	XDG_SESSION_PATH,
+	QT_IM_MODULE,
+	NO_PROXY,
+	HOME,
+	DBUS_SESSION_BUS_ADDRESS,
+	DOCKER_HOST,
+	GTK_MODULES,
+	XDG_CONFIG_DIRS,
+	VTE_VERSION,
+	JOURNAL_STREAM,
+	XDG_SESSION_DESKTOP,
+	KRB5CCNAME,
+	GNOME_DESKTOP_SESSION_ID,
+	MANAGERPID,
+	QT_ACCESSIBILITY,
+	XDG_SEAT_PATH,
+	LOGNAME,
+	GNOME_TERMINAL_SERVICE,
+	PATH_2,
+	XMODIFIERS,
+	SHELL,
+	XDG_SESSION_TYPE,
+	no_proxy,
+	DBUS_STARTER_BUS_TYPE,
+	INVOCATION_ID,
+	SHLVL,
+	XAUTHORITY,
+	GDM_LANG,
+	DBUS_STARTER_ADDRESS,
+	DISPLAY,
+	TERM,
+	GDMSESSION,
+	XDG_SESSION_CLASS,
+	PWD,
+	OLDPWD,
+}				t_typ_env; //49
+
+typedef	struct s_env_var
+{
+	t_typ_env			typ_env;
+	int					num;
+	struct s_env_var	*next;
+	struct s_env_var	*prev;
+}				t_env_var;
 
 typedef struct	s_shell
 {
@@ -112,9 +175,13 @@ void				free_tokens(t_token **tail, t_token **head, int	final_free);
 /* built-ins */
 bool				ft_cd(const char *path);
 void				ft_echo(char *str);
-bool				ft_env(void);
+void				ft_env(void);
 bool				ft_pwd(void);
 bool				ft_unset(void);
+/* env */
+void				ft_init_env(t_env_var **tail, t_env_var **head);
+t_token				*env_new_node(t_env_var **tail, t_env_var **head);
+char				**env_variables(t_env_var *env_var, char *var);
 /*signals*/
 void				catch_signals();
 void				ctrl_c(int sig);
