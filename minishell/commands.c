@@ -5,10 +5,10 @@ void ft_ls(void)
 	DIR *dir;
 	struct dirent *folder;
 	char *directory;
-	char *pwd;
+	char pwd[1024];
 
-	pwd = NULL;
-	pwd = getcwd(pwd, sizeof(pwd));
+	printf("%s\n", getcwd(pwd, sizeof(pwd)));
+	//pwd = ft_strdup(getcwd(pwd, sizeof(pwd)));
 	directory = pwd;
 	dir = opendir(directory);
 	if(!dir)

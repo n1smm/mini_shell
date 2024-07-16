@@ -2,7 +2,7 @@
 
 void	ft_executor(t_token **token)
 {
-	printf("FT_EXECUTOR\n");
+	//printf("FT_EXECUTOR\n");
 	if(!token)
 		return ;
 	while (*token)
