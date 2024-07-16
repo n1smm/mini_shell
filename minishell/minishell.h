@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/28 13:51:04 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/07/16 11:41:30 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include "pipex-changed/pipex.h"
+/* # include "pipex-changed/pipex.h" */
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -35,7 +35,8 @@ typedef struct s_input
 {
 	char			**tokens;
 }					t_input;
- enum s_type
+
+typedef enum s_type
 {
 	WHITESPACE,
 	NONPRINTABLE,

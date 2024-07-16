@@ -24,7 +24,7 @@ static char	*comm_checker(char *command, char **full_path, bool *success)
 		if ( 0 == access(path, X_OK))
 		{
 			*success = true;
-			break ;char **argv
+			break ;
 		}
 		free(path);
 	}

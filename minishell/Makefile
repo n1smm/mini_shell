@@ -13,16 +13,16 @@ OBJ_FILES = $(SRC_FILES:.c=.o)
 
 LIBFT = ./libft/libft.a
 LIBFTDIR = ./libft
-PIPEXDIR = ./pipex-changed
+# PIPEXDIR = ./pipex-changed
 
 LIBS = -L$(LIBFTDIR) -lreadline -lft
-INC = -I$(LIBFTDIR) -I$(PIPEXDIR)
+INC = -I$(LIBFTDIR)
 
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES) 
 	$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBS) $(INC) -o $(NAME)
-	$(LIBFT) $(PIPEX)
+	$(LIBFT)
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
@@ -30,18 +30,18 @@ $(NAME): $(OBJ_FILES)
 $(LIBFT):
 	$(MAKE) -C $(LIBFTDIR)
 
-$(PIPEX):
-	$(MAKE) -C $(PIPEXDIR) bonus 
+# $(PIPEX):
+	# $(MAKE) -C $(PIPEXDIR) bonus 
 
 clean:
 	$(MAKE) -C $(LIBFTDIR) clean
-	$(MAKE) -C $(PIPEXDIR) clean
+	# $(MAKE) -C $(PIPEXDIR) clean
 	rm -f $(OBJ_FILES)
 
 fclean: clean
 	rm -f $(NAME)
 	$(MAKE) -C $(LIBFTDIR) fclean
-	$(MAKE) -C $(PIPEXDIR) fclean
+	# $(MAKE) -C $(PIPEXDIR) fclean
 
 re: fclean all
 
