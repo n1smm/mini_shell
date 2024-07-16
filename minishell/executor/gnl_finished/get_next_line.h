@@ -16,6 +16,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "../../minishell.h"
 /* for tests */
 /* # include <stdio.h> */
 /* # include <string.h> */

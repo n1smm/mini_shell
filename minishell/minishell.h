@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/16 11:41:30 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/16 17:48:40 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-/* # include "pipex-changed/pipex.h" */
+# include "executor/pipex.h"
+# include "executor/gnl_finished/get_next_line.h"
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -125,6 +126,7 @@ typedef	struct s_env_var
 typedef struct	s_shell
 {
 	bool	running;
+	int		num_env_var;
 }				t_shell;
 
 typedef struct	s_dir
@@ -166,6 +168,8 @@ void				ft_add_token2(char character);
 t_token				*init(char *content, t_token **tail, t_token **head);
 bool				double_lstadd_front(char *content, t_token **tail);
 bool				double_lstadd_back(char *content, t_token **head);
+t_token 			*use_token(t_token **tail, t_type type);
+int					find_token(t_token *tail, t_type type);
 char 				*print_token_typ(t_type token_type);
 void				print_list(t_token *tail);
 /* path_finder */
@@ -183,9 +187,9 @@ void				ft_env(void);
 bool				ft_pwd(void);
 bool				ft_unset(void);
 /* env */
-void				ft_init_env(t_env_var **tail, t_env_var **head);
+void 				ft_init_env(t_env_var **tail, t_env_var **head, t_shell *var);
 t_env_var			*env_new_node(t_env_var **tail, t_env_var **head);
-char				**env_variables(void);
+char				**env_variables(t_env_var *vars);
 /*signals*/
 void				catch_signals();
 void				ctrl_c(int sig);

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/06/24 17:20:12 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/16 17:59:11 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	here_doc(int file[], t_token **tail)
 	{
 		write(1, "heredoc> ", 9);
 		input = get_next_line(0);
-		if (!input || (ft_strncmp(input, limiter, ft_strlen(limiter)) == 0)
-				&& ft_strlen(input) == ft_strlen(limiter) + 1)
+		if (!input || ((ft_strncmp(input, limiter, ft_strlen(limiter)) == 0)
+				&& ft_strlen(input) == ft_strlen(limiter) + 1))
 		{
 			free(input);
 			break ;

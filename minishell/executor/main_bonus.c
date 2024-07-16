@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/09 22:26:15 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/16 17:57:52 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char	*pipe_loop(t_token **tail)
 		pid_error("command not found", NULL, 0);
 	free(path);
 	command_seq = seq_extract(tail);
+	return (command_seq);
 }
 
 int	executor(t_token **tail, char **envp)
@@ -71,10 +72,8 @@ int	executor(t_token **tail, char **envp)
 	char	*comm_seq;
 	char	**last;
 
-	int		i;
-
 	/* last = NULL; */
-	files_open(file, tail, &i);
+	files_open(file, tail);
 	here_doc(file, tail);
 	if (dup2(file[0], STDIN_FILENO) == -1)
 		pid_error("dup in main failed", NULL, 0);
@@ -91,7 +90,8 @@ int	executor(t_token **tail, char **envp)
 	last = ft_split(seq_extract(tail), ' ');
 	if (dup2(file[1], STDOUT_FILENO) == -1)
 		pid_error("outfile dup failed", NULL, 0);
-	execve(path_finder(last[0], last), last, envp);
+	execve(path_finder(last[0]), last, envp);
 	free_mtrx(last);
 	pid_error("last exec failed", NULL, 0);
+	return(0);
 }

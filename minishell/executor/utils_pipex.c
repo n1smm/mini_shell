@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/06/24 17:46:56 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/16 17:56:12 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	comm_forker(char *str1, char **envp, int pipefd[])
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
-		execve(path_finder(first[0], first), first, envp);
+		execve(path_finder(first[0]), first, envp);
 		close(pipefd[1]);
 		pid_error("forker;child failure", NULL, 1);
 	}
@@ -40,9 +40,9 @@ void	comm_forker(char *str1, char **envp, int pipefd[])
 	}
 }
 
-void	files_open(int file[], t_token **tail, int *i)
+void	files_open(int file[], t_token **tail)
 {
-	if (find_token(*tail, REDIRECT_IN_DOUBLE) == 0 || find_token(tail, REDIRECT_IN_DOUBLE) == 1)
+	if (find_token(*tail, REDIRECT_IN_DOUBLE) == 0)
 		file[0] = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (find_token(*tail, REDIRECT_IN))
 			file[0] = open(use_token(tail, INFILE)->content, O_RDONLY, 0777);

@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/06/12 18:21:01 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/16 17:23:09 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,31 @@ bool	double_lstadd_back(char *content, t_token **head)
 	new->prev = curr;
 	*head = new;
 	return (true);
+}
+
+int	find_token(t_token *tail, t_type type)
+{
+	t_token *curr;
+
+	curr = tail;
+	while (curr)
+	{
+		if (tail->typ_token == type)
+			return (0);
+		curr = curr->next;
+	}
+	return(-1);	
+}
+
+t_token *use_token(t_token **tail, t_type type)
+{
+	while(*tail)
+	{
+		if ((*tail)->typ_token == type)
+			return (*tail);
+		*tail = (*tail)->next;
+	}
+	return (NULL);
 }
 
 char *print_token_typ(t_type token_type)
