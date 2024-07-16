@@ -6,7 +6,7 @@
 #    By: thiew <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/03 12:56:21 by thiew             #+#    #+#              #
-#    Updated: 2024/04/06 14:13:13 by tjuvan           ###   ########.fr        #
+#    Updated: 2024/07/09 22:59:47 by thiew            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror 
 NAME = pipex
 BONUS_NAME = pipex_bonus
+# TEST_FILES = ../safe_ft.c ../path_finder.c
 SRC_FILES = path_finder.c utils_pipex.c \
 			./gnl_finished/get_next_line.c ./gnl_finished/get_next_line_utils.c
 SRC_MAIN = main.c $(SRC_FILES)
@@ -29,18 +30,15 @@ bonus: $(BONUS_NAME)
 
 $(NAME): $(OBJ_MAIN)
 	@rm -f main_bonus.o
-	@rm -f fdf_bonus
-	@$(MAKE) -C ./final_libft
-	$(CC) $(CFLAGS) $(OBJ_MAIN) ./final_libft/libft.a -o $(NAME)
+	@rm -f pipex_bonus
+	$(CC) $(CFLAGS) $(OBJ_MAIN) $(NAME)
 
 $(BONUS_NAME): $(OBJ_BONUS)
 	@rm -f main.o
-	@rm -f fdf
-	@$(MAKE) -C ./final_libft
-	$(CC) $(CFLAGS) $(OBJ_BONUS) ./final_libft/libft.a -o $(BONUS_NAME)
+	@rm -f pipex
+	$(CC) $(CFLAGS) $(OBJ_BONUS) $(BONUS_NAME)
 
 clean:
-	$(MAKE) -C ./final_libft fclean
 	rm -f $(OBJ_MAIN)
 	rm -f $(OBJ_BONUS)
 fclean: clean

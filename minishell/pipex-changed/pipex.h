@@ -6,19 +6,12 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/06/24 19:36:29 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/09 22:48:06 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "./final_libft/libft.h"
 #include "./gnl_finished/get_next_line.h"
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 /* main */
 char	*pipe_loop(t_token **tail);

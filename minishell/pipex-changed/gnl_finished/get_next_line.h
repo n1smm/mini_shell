@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:07:14 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/02/21 15:25:00 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/09 22:29:38 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 #  define BUFFER_SIZE 1
 # endif
 
-typedef struct s_list
+typedef struct s_list_a
 {
 	char			*content;
-	struct s_list	*next;
+	struct s_list_a	*next;
 }					t_storage;
 
 /* main file */
