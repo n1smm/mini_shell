@@ -3,23 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus_pipex.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/17 12:18:49 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/18 17:45:44 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
 #include "pipex.h"
 
 void	here_doc(int file[], t_token **tail)
 {
 	char	*input;
 	char	*limiter;
+	t_token	*curr;
 
-	if (!find_token(*tail, REDIRECT_IN_DOUBLE))
+	curr = *tail;
+	if (!find_token(curr, REDIRECT_IN_DOUBLE))
 		return ;
-	limiter = use_token(tail, LIMITER)->content;
+	limiter = use_token(&curr, LIMITER)->content;
 	while (1)
 	{
 		write(1, "heredoc> ", 9);

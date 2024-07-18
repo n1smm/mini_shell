@@ -4,9 +4,9 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g
 
-HEADER = minishell.h
+HEADER = includes/minishell.h executor/pipex.h includes/structs.h
 
-SRC_BUILTINS= $(wildcard ./built_ins/*.c)
+SRC_BUILTINS= built_ins/cd.c built_ins/env.c built_ins/echo.c built_ins/pwd.c built_ins/unset.c
 EXECUTOR_FILES = ./executor/main_bonus.c ./executor/utils_pipex.c ./executor/utils_bonus_pipex.c
 GET_NEXT_LINE_FILES = ./executor/gnl_finished/get_next_line.c ./executor/gnl_finished/get_next_line_utils.c
 SRC_FILES = minishell.c expander.c parser.c lexer.c safe_ft.c split_input.c make_list.c free_functions.c path_finder.c executor.c signals.c commands.c \
@@ -20,7 +20,7 @@ LIBFTDIR = ./libft
 # PIPEXDIR = ./pipex-changed
 
 LIBS = -L$(LIBFTDIR) -lreadline -lft
-INC = -I$(LIBFTDIR)
+INC = -I$(LIBFTDIR) -I. -I./executor -I./includes
 
 all: $(NAME)
 
@@ -36,7 +36,7 @@ $(LIBFT):
 # $(PIPEX):
 # 	$(MAKE) -C $(PIPEXDIR) bonus 
 
-
+clean:
 	$(MAKE) -C $(LIBFTDIR) clean
 	# $(MAKE) -C $(PIPEXDIR) clean
 	rm -f $(OBJ_FILES)

@@ -6,10 +6,11 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:03:52 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/04/05 13:36:53 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/18 14:12:28 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
 #include "pipex.h"
 
 char	*read_path(int pipefd[], char **mtrx)

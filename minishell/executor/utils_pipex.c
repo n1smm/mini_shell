@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/17 19:20:20 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/18 18:22:25 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
 #include "pipex.h"
 
 void	comm_forker(char *str1, char **envp, int pipefd[])
@@ -58,7 +59,7 @@ void	comm_forker(char *str1, char **envp, int pipefd[])
 /* 	{ */
 /* 		close(file[0]); */
 /* 		pid_error("open of write end failed", NULL, 0); */
-/* 	} */
+	/* } */
 /* 	if (file[0] == -1) */
 /* 	{ */
 /* 		close(file[1]); */
@@ -69,25 +70,25 @@ void	comm_forker(char *str1, char **envp, int pipefd[])
 void	out_files(int file[], t_type file_type[], t_token **tail, int i)
 {
 	t_token *curr;
+	//hello
 
 	curr = *tail;
-	while(curr || curr->typ_token != PIPELINE)
+	while(curr && curr->typ_token != PIPELINE)
 	{
 		if (curr->typ_token == REDIRECT_OUT)
 		{
-			file[i] = open(use_token(&curr, OUTFILE)->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			file[i] = open(curr->next->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			file_type[i++] = REDIRECT_OUT;
 		}
 		else if (curr->typ_token == REDIRECT_OUT_DOUBLE)
 		{
-			file[i] = open(use_token(&curr, OUTFILE)->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			file[i] = open(curr->next->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
 			file_type[i++] = REDIRECT_OUT_DOUBLE;
 		}
 		curr = curr->next;
 	}
 	file_type[i] = NONPRINTABLE;
 }
-
 
 void files_open(int file[], t_type file_type[], t_token **tail)
 {
@@ -96,7 +97,7 @@ void files_open(int file[], t_type file_type[], t_token **tail)
 	
 	i = 0;
 	curr = *tail;
-	while (curr || curr->typ_token != PIPELINE)
+	while (curr && curr->typ_token != PIPELINE)
 	{
 		if (curr->typ_token == REDIRECT_IN_DOUBLE)
 		{	
@@ -105,10 +106,45 @@ void files_open(int file[], t_type file_type[], t_token **tail)
 		}
 		else if (curr->typ_token == REDIRECT_IN)
 		{
-			file[i] = open(use_token(&curr, INFILE)->content, O_RDONLY, 0777);
+			file[i] = open(curr->next->content, O_RDONLY, 0777);
 			file_type[i++] = REDIRECT_IN;
 		}
 		curr = curr->next;
 	}
+	
 	out_files(file, file_type, tail, i);
 }
+
+/* here is a place for a function */
+void	redirect_infiles(int file[], t_type file_type[], t_token **tail)
+{
+	int		i;
+	int		savedin;
+	/* int		savedout; */
+
+	i = 0;
+	savedin = dup(0);
+	//CHECK ERROR
+	/* savedout = dup(1); */
+	while (file_type[i] != NONPRINTABLE && file_type[i] != REDIRECT_OUT && file_type[i] != REDIRECT_OUT_DOUBLE)
+	{
+		if (file_type[i] == REDIRECT_IN)
+			dup2(file[i], STDIN_FILENO);
+			//CHECK ERROR
+		if (file_type[i] == REDIRECT_IN_DOUBLE)
+			here_doc(file,tail);	
+		i++;
+	}
+	dup2(savedin, 0);
+	//CHECK ERROR
+	/* dup2(savedout, 1); */
+}
+
+	 /* int savedin dup(0) */
+     /* int savedout dup1 */
+
+
+	/* if < << dup2 fd stind */
+	/* else if > >> dup2 fd out */
+
+	/* dup2(savedin , 0 */ 

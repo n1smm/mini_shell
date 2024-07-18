@@ -6,10 +6,11 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/17 18:30:47 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/18 17:22:53 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
 #include "pipex.h"
 
 void	free_mtrx(char **mtrx)
@@ -74,10 +75,11 @@ int	executor(t_token **tail, char **envp)
 	char		**last;
 
 	/* last = NULL; */
-	files_open(file, tail);
-	here_doc(file, tail);
-	if (dup2(file[0], STDIN_FILENO) == -1)
-		pid_error("dup in main failed", NULL, 0);
+	files_open(file, file_type, tail);
+	redirect_infiles(file, file_type, tail);
+	/* here_doc(file, tail); */
+	/* if (dup2(file[0], STDIN_FILENO) == -1) */
+	/* 	pid_error("dup in main failed", NULL, 0); */
 	while (*tail || (*tail)->typ_token != REDIRECT_OUT || (*tail)->typ_token != REDIRECT_OUT_DOUBLE)
 	{
 		comm_seq = pipe_loop(tail);

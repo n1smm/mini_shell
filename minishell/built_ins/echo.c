@@ -3,31 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 12:15:08 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/24 12:18:20 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/07/18 19:09:07 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_echo(char *str)
+void	ft_echo(char **args)
 {
 	int	i;
+	int	j;
+	int	n_flag;
 
-	i = 0;
-	if(!str)
+	i = 1;
+	j = 0;
+	n_flag = 0;
+	printf("TESTING ECHO");
+	if(args[1][0])
 	{
+		while (args[i])
+		{
+			if (args[i][j] == '-')
+			{
+				if(args[i][j + 1] == 'n' && (args[i][j + 2] == ' ' \
+					|| args[i][j + 2] == '\t'))
+					n_flag = 1;
+				i++;
+			}
+		}
+		while (args[i])
+		{
+			ft_putstr_fd(args[i], 1);
+			if(args[i + 1] && args[i][0] != '\0')
+				printf(" ");
+			i++;
+		}
+	}
+	if (n_flag == 0)
 		printf("\n");
-		return ;
-	}
-	while (str[i])
-	{
-		printf("%c", str[i]);
-		i++;
-	}
-	printf("\n");
+	return ;
 }
 /* int	main(int argc, char **argv) */
 /* { */

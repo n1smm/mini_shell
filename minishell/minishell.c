@@ -1,5 +1,6 @@
 #include "minishell.h"
 #include "libft/libft.h"
+#include "executor/pipex.h"
 
 // void ft_parsing(char *input)
 // {
@@ -78,7 +79,7 @@ int main(int argc, char **argv, char **env)
 		split_input(input, &tail, &head);
 		parser(&tail, &head);
 
-		ft_executor(&tail, env);
+		ft_executor(&tail, argv, env);
 		//executor(&tail, env);
 
 		print_list(tail);

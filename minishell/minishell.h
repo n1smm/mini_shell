@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/16 17:48:40 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/18 18:55:40 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include "executor/pipex.h"
+# include "includes/structs.h"
+/* # include "executor/pipex.h" */
 # include "executor/gnl_finished/get_next_line.h"
 # include <limits.h>
 # include <readline/history.h>
@@ -32,123 +33,6 @@
 # include <sys/wait.h>
 # include <dlfcn.h>
 
-typedef struct s_input
-{
-	char			**tokens;
-}					t_input;
-
-typedef enum s_type
-{
-	WHITESPACE,
-	NONPRINTABLE,
-	WORD,
-	STRING,
-	PIPELINE,
-	REDIRECT_IN,
-	REDIRECT_IN_DOUBLE,
-	REDIRECT_OUT,
-	REDIRECT_OUT_DOUBLE,
-	QUOTE,
-	SINGLE_QUOTE,
-	EXPAND,
-	PATH,
-	COMMAND,
-	OPTION,
-	INFILE,
-	OUTFILE,
-	LIMITER,
-	PRINTABLE,
-	FALSE_PLACEMENT,
-}					t_type;
-
-typedef	enum s_typ_env
-{
-	SSH_AUTH_SOCK,
-	SESSION_MANAGER,
-	GNOME_TERMINAL_SCREEN,
-	SSH_AGENT_PID,
-	LANGUAGE,
-	LANG,
-	XDG_CURRENT_DESKTOP,
-	IM_CONFIG_PHASE,
-	XDG_GREETER_DATA_DIR,
-	COLORTERM,
-	LIBVIRT_DEFAULT_URI,
-	GPG_AGENT_INFO,
-	DESKTOP_SESSION,
-	USER,
-	XDG_MENU_PREFIX,
-	XDG_SESSION_PATH,
-	QT_IM_MODULE,
-	NO_PROXY,
-	HOME,
-	DBUS_SESSION_BUS_ADDRESS,
-	DOCKER_HOST,
-	GTK_MODULES,
-	XDG_CONFIG_DIRS,
-	VTE_VERSION,
-	JOURNAL_STREAM,
-	XDG_SESSION_DESKTOP,
-	KRB5CCNAME,
-	GNOME_DESKTOP_SESSION_ID,
-	MANAGERPID,
-	QT_ACCESSIBILITY,
-	XDG_SEAT_PATH,
-	LOGNAME,
-	GNOME_TERMINAL_SERVICE,
-	PATH_2,
-	XMODIFIERS,
-	SHELL,
-	XDG_SESSION_TYPE,
-	no_proxy,
-	DBUS_STARTER_BUS_TYPE,
-	INVOCATION_ID,
-	SHLVL,
-	XAUTHORITY,
-	GDM_LANG,
-	DBUS_STARTER_ADDRESS,
-	DISPLAY,
-	TERM,
-	GDMSESSION,
-	XDG_SESSION_CLASS,
-	PWD,
-	OLDPWD,
-}				t_typ_env;
-
-typedef	struct s_env_var
-{
-	t_typ_env			typ_env;
-	int					num;
-	struct s_env_var	*next;
-	struct s_env_var	*prev;
-}				t_env_var;
-
-typedef struct	s_dir
-{
-	char	*file_name;
-}				t_dir;
-
-typedef struct s_token
-{
-	t_type			typ_token;
-	char			*content;
-	struct s_token	*next;
-	struct s_token	*prev;
-}					t_token;
-
-typedef struct	s_shell
-{
-	bool	running;
-	int		num_env_var;
-	char	**env;
-	t_token *token;
-}				t_shell;
-
-typedef struct s_trash
-{
-	void			*content;
-	void			*next;
-}					t_trash;
 /* lexer */
 void				lexer_main(char *input);
 void 				ft_lexer(t_token *token);
@@ -162,7 +46,7 @@ char				*ft_chardup(char character);
 /*parser*/
 void				parser(t_token **tail, t_token **head);
 /*executor*/
-void				ft_executor(t_token **token, char **env);
+void	            ft_executor(t_token **token, char **args, char **env);
 /*list functions*/
 void				ft_add_token(const char *word, size_t end, t_type type, t_token **head);
 void				ft_add_token2(char character);
@@ -184,15 +68,16 @@ void				free_mtx(void **matrix);
 void				free_tokens(t_token **tail, t_token **head, int	final_free);
 /* built-ins */
 bool				ft_cd(const char *path);
-void				ft_echo(char *str);
-void				ft_env(char **env);
+void				ft_echo(char **args);
+void				ft_env(t_env_var *var, char **env);
 bool				ft_pwd(void);
 bool				ft_unset(void);
 void    			ft_export(t_shell *var, char **env);
 
 /* env */
-void 				ft_init_env(t_env_var **tail, t_env_var **head, t_shell *var);
-t_env_var			*env_new_node(t_env_var **tail, t_env_var **head, int num_env);
+t_env_var             *init_env_vars(t_env_var **tail, t_env_var **head);
+void 				ft_init_env(t_env_var **tail, t_env_var **head, char **env);
+t_env_var			*env_new_node(t_env_var **tail, t_env_var **head, char **env);
 char				**env_variables(t_env_var *vars);
 /*signals*/
 void				catch_signals();
