@@ -1,32 +1,40 @@
 #include "minishell.h"
 
-void	ft_executor(t_token **token)
+void	ft_executor(t_token **token, char **env)
 {
+	t_token	*curr;
+	t_shell	*var;
+
+	var->env = NULL;
+
 	//printf("FT_EXECUTOR\n");
-	if(!token)
+	if(!token || !*token)
 		return ;
-	while (*token)
+	curr = *token;
+	while (curr)
 	{
 		//printf("%s\n", (*token)->content);
 		//printf("%d\n", (*token)->typ_token);
-		if((*token)->typ_token == COMMAND)
+		if(curr->typ_token == COMMAND)
 		{
-			printf("%s\n", (*token)->content);
-			if (ft_strncmp((*token)->content, "ls", 3) == 0)
+			printf("%s\n", curr->content);
+			if (ft_strncmp(curr->content, "ls", 3) == 0)
 				ft_ls();
-			else if(ft_strncmp((*token)->content, "env", 3) == 0)
-				ft_env();
-			else if(ft_strncmp((*token)->content, "pwd", 3) == 0)
+			else if(ft_strncmp(curr->content, "env", 3) == 0)
+				ft_env(env);
+			else if(ft_strncmp(curr->content, "export", 6) == 0)
+				ft_export(var, env);
+			else if(ft_strncmp(curr->content, "pwd", 3) == 0)
 				ft_pwd();
-			else if(ft_strncmp((*token)->content, "echo", 4) == 0)
+			else if(ft_strncmp(curr->content, "echo", 4) == 0)
 			{
 				//printf("ECHO\n");
-				printf("%s\n", (*token)->next->next->content);
-				ft_echo((*token)->next->next->content);
+				printf("%s\n", curr->next->next->content);
+				ft_echo(curr->next->next->content);
 			}
 			else
 				printf("\nnull\n");
 		}
-		(*token) = (*token)->next;
+		curr = curr->next;
 	}
 }

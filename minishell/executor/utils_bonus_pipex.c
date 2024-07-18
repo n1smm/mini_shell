@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/16 17:59:11 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/17 12:18:49 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	here_doc(int file[], t_token **tail)
 	char	*input;
 	char	*limiter;
 
-	if (find_token(*tail, REDIRECT_IN_DOUBLE) == -1)
+	if (!find_token(*tail, REDIRECT_IN_DOUBLE))
 		return ;
 	limiter = use_token(tail, LIMITER)->content;
 	while (1)

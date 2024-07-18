@@ -113,7 +113,7 @@ typedef	enum s_typ_env
 	XDG_SESSION_CLASS,
 	PWD,
 	OLDPWD,
-}				t_typ_env; //49
+}				t_typ_env;
 
 typedef	struct s_env_var
 {
@@ -122,12 +122,6 @@ typedef	struct s_env_var
 	struct s_env_var	*next;
 	struct s_env_var	*prev;
 }				t_env_var;
-
-typedef struct	s_shell
-{
-	bool	running;
-	int		num_env_var;
-}				t_shell;
 
 typedef struct	s_dir
 {
@@ -141,6 +135,14 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
+
+typedef struct	s_shell
+{
+	bool	running;
+	int		num_env_var;
+	char	**env;
+	t_token *token;
+}				t_shell;
 
 typedef struct s_trash
 {
@@ -160,7 +162,7 @@ char				*ft_chardup(char character);
 /*parser*/
 void				parser(t_token **tail, t_token **head);
 /*executor*/
-void				ft_executor(t_token **token);
+void				ft_executor(t_token **token, char **env);
 /*list functions*/
 void				ft_add_token(const char *word, size_t end, t_type type, t_token **head);
 void				ft_add_token2(char character);
@@ -183,12 +185,14 @@ void				free_tokens(t_token **tail, t_token **head, int	final_free);
 /* built-ins */
 bool				ft_cd(const char *path);
 void				ft_echo(char *str);
-void				ft_env(void);
+void				ft_env(char **env);
 bool				ft_pwd(void);
 bool				ft_unset(void);
+void    			ft_export(t_shell *var, char **env);
+
 /* env */
 void 				ft_init_env(t_env_var **tail, t_env_var **head, t_shell *var);
-t_env_var			*env_new_node(t_env_var **tail, t_env_var **head);
+t_env_var			*env_new_node(t_env_var **tail, t_env_var **head, int num_env);
 char				**env_variables(t_env_var *vars);
 /*signals*/
 void				catch_signals();

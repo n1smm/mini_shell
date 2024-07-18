@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/16 17:23:09 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/17 12:05:15 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ int	find_token(t_token *tail, t_type type)
 	curr = tail;
 	while (curr)
 	{
-		if (tail->typ_token == type)
-			return (0);
+		if (curr->typ_token == type)
+			return (1);
 		curr = curr->next;
 	}
-	return(-1);	
+	return(0);	
 }
 
 t_token *use_token(t_token **tail, t_type type)

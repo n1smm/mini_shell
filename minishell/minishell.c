@@ -78,7 +78,8 @@ int main(int argc, char **argv, char **env)
 		split_input(input, &tail, &head);
 		parser(&tail, &head);
 
-		ft_executor(&tail);
+		ft_executor(&tail, env);
+		//executor(&tail, env);
 
 		print_list(tail);
 		free(input);

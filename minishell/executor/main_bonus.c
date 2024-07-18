@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/16 17:57:52 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/17 18:30:47 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,11 @@ char	*pipe_loop(t_token **tail)
 
 int	executor(t_token **tail, char **envp)
 {
-	int		pipefd[2];
-	int		file[2];
-	char	*comm_seq;
-	char	**last;
+	int			pipefd[2];
+	int			file[1024];
+	t_type		file_type[1024];
+	char		*comm_seq;
+	char		**last;
 
 	/* last = NULL; */
 	files_open(file, tail);

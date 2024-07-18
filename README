@@ -12,12 +12,12 @@ singleton
 
 
 parser
-divide i comandi in -comando -args -input -output
+divide i comandi in -commando -args -input -output
 (tieni conto delle virgolette)
 
 executor
 gli passa i comandi e li esegue
-fai attenzione. se un comando non e' built in va 
+fai attenzione. se un commando non e' built in va 
 fatto in un altro processo altrimenti si chiude minishell
 
 (es. cd cartella | pwd ...)
@@ -48,3 +48,13 @@ Syntax analysis / Parsing: scanning the stream of tokens according to a specific
 	-we generate an abstract syntax tree (AST) which means that the program tries to understand what to do with 	tokes
 
 
+
+3. executor
+- needs to handle multiple redirects correctly (also if only redirect is given)
+- command needs to be handled correctly ( so passing what comes from parser and transforming it into a formatted string or something similar
+- if before pipe there is redirect, than the std out needs to be empty.
+
+- need to change a bit the parsing part . for example command can also be after OUT/INFILE or heredoc ...etc. possible other changes aswell
+
+- so we need to know the order of redirections, and where do we pass the command to
+- 
