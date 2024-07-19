@@ -4,7 +4,7 @@ void	ft_executor(t_token **token, char **args, char **env)
 {
 	t_token	*curr;
 	t_env_var	**tail;
-	int i =0;
+	/* int i =0; */
 	// t_env_var **head;
 	/* t_shell	*var; */
 

@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/18 18:22:25 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:43:22 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void files_open(int file[], t_type file_type[], t_token **tail)
 	{
 		if (curr->typ_token == REDIRECT_IN_DOUBLE)
 		{	
-			file[i] = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			file[i] = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0777); //consequitve heredocs with diff names
 			file_type[i++] = REDIRECT_IN_DOUBLE;
 		}
 		else if (curr->typ_token == REDIRECT_IN)
