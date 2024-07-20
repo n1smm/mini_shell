@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/18 17:04:43 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/20 14:48:51 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@ static void	check_string(t_token *curr, t_type *mod_type, int is_quote) // TODO
 	if ((*mod_type == COMMAND || *mod_type == OPTION)
 		&& curr->content[0] == '-')
 		curr->typ_token = OPTION;
+	else if (*mod_type == REDIRECT_IN)
+		curr->typ_token = INFILE;
+	else if (*mod_type == REDIRECT_IN_DOUBLE)
+		curr->typ_token = LIMITER;
+	else if (*mod_type == REDIRECT_OUT_DOUBLE || *mod_type == REDIRECT_OUT)
+		curr->typ_token = OUTFILE;
 	else if (ft_strchr(curr->content, '$') && is_quote != 2)
 		curr->typ_token = EXPAND;
-			// this only says that its a possible expansion case,
-			//further check needed
 	else if (ft_strchr(curr->content, '/'))
-		curr->typ_token = PATH; // the same as with EXPAND
+		curr->typ_token = PATH;
 	else if (*mod_type == WHITESPACE || *mod_type == PIPELINE)
 		curr->typ_token = FALSE_PLACEMENT;
 	if (curr->typ_token != STRING)

@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -o0
 
 HEADER = includes/minishell.h executor/pipex.h includes/structs.h
 

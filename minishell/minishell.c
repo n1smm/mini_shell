@@ -74,13 +74,11 @@ int main(int argc, char **argv, char **env)
 		if (!input || ft_strncmp(input, "exit", 5) == 0)
 			break ;
 		add_history(input);
-		//ft_parsing(input);
-		//printf("\n");
 		split_input(input, &tail, &head);
 		parser(&tail, &head);
 
 		/* ft_executor(&tail, argv, env); */
-		executor(&tail, env);
+		/* executor(&tail, env); */
 
 		print_list(tail);
 		free(input);
