@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/17 12:05:15 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/20 17:25:42 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,24 @@ bool	double_lstadd_back(char *content, t_token **head)
 	return (true);
 }
 
+void delete_node(t_token **tail, t_token *del)
+{
+    if (*tail == NULL || del == NULL)
+        return;
+    if (*tail == del)
+        *tail = del->next;
+    if (del->next != NULL)
+        del->next->prev = del->prev;
+
+    // Change prev only if node to be deleted is NOT the first node
+    if (del->prev != NULL)
+        del->prev->next = del->next;
+
+    // Finally, free the memory occupied by del
+    free(del);
+    return;
+}
+
 int	find_token(t_token *tail, t_type type)
 {
 	t_token *curr;
@@ -104,6 +122,8 @@ char *print_token_typ(t_type token_type)
 		return ("NONPRINTABLE");
 	else if (token_type == WORD)
 		return ("WORD");
+	else if (token_type == STRING)
+		return ("STRING");
 	else if (token_type == PIPELINE)
 		return ("PIPELINE");
 	else if (token_type == REDIRECT_IN)
