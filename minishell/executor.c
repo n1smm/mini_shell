@@ -4,6 +4,12 @@ void	ft_executor(t_shell *data, t_token **token, char *args, char **env)
 {
 	t_token	*curr;
 	env = env;
+	char **test;
+
+	test = safe_malloc(sizeof(char *) * 2 + 1);
+	test[0] = ft_strdup("export");
+	test[1] = ft_strdup("USER=mon");
+	test[2] = NULL;
 
 	if(!data)
 		return ;
@@ -22,7 +28,7 @@ void	ft_executor(t_shell *data, t_token **token, char *args, char **env)
 			else if(ft_strncmp(curr->content, "env", 3) == 0)
 				ft_env(data);
 			else if(ft_strncmp(curr->content, "export", 6) == 0)
-				ft_export(data, args);
+				ft_export(data, test);
 				/* ft_export(var, env); */
 			else if(ft_strncmp(curr->content, "pwd", 3) == 0)
 				ft_pwd();

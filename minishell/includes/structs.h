@@ -77,6 +77,8 @@ typedef struct	s_shell
 	bool	running;
 	size_t		num_env_var;
 	char	**env;
+	char	*var_name;
+	char	*var_value;
 	t_token *token;
 	struct s_shell *next;
 }				t_shell;

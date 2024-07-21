@@ -73,7 +73,7 @@ void				ft_echo(char **args);
 void				ft_env(t_shell *var);
 bool				ft_pwd(void);
 bool				ft_unset(void);
-void    			ft_export(t_shell *var, char *args);
+void    			ft_export(t_shell *var, char **args);
 
 /* env */
 t_env_var             *init_env_vars(t_env_var **tail, t_env_var **head);

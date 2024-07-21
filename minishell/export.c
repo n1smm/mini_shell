@@ -110,8 +110,7 @@ static int check_env_var(char *str, int index)
     printf("STR %s\n", str);
     while(i < index)
     {
-        if(!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z') \
-            && !(str[i] >= '0' && str[i] <= '9') && str[i] != '_')
+        if(!(ft_isalnum(str[i])) && str[i] != '_')
             return (1);
         i++;
     }
@@ -121,14 +120,39 @@ static int check_env_var(char *str, int index)
 void add_to_env(t_shell *var, char *new_var)
 {
     int i = 0;
+    int j = 0;
+    int index_nv = 0;
+    char **tmp;
+    int index = 0;
 
+    while (new_var[index_nv] != '=')
+        index_nv++;
+    tmp = (char **)safe_malloc(sizeof(char *) * 2 + 1);
+    tmp[0] = ft_substr(new_var, 0, index_nv + 1);
+    if(!tmp)
+        free(tmp);
     var->num_env_var += 1;
     while(var->env[i])
+    {
+        index = 0;
+        while(var->env[i][j] != '=')
+        {
+            j++;
+            index++;
+        }
+        if(ft_strncmp(var->env[i], new_var, index) == 0)
+        {
+            tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
+            var->env[i] = ft_strjoin(tmp[0], tmp[1]);
+            return ;
+        }
         i++;
-    var->env[i] = ft_strdup(new_var);
+    }
+    tmp[1] = ft_substr(new_var, 1, index_nv);
+    i += 1;
+    var->env[i] = ft_strjoin(tmp[0], tmp[1]);
     var->env[i + 1] = NULL;
-    //QUESTA è SOLO UNA SIMULAZIONE!! VOGLIO ANDARE A DORMIE!!
-    //va naturalmente diviso tra var name e var value con = divisore
+    return ;
 }
 
 int valid_env_var(char *args)
@@ -138,12 +162,15 @@ int valid_env_var(char *args)
     // char *ev_name;
     // char *ev_value;
 
+    if(!(ft_strchr(args, '=')))
+        return(1);
+    if(args[j] == '\0')
+        return (1);
     printf("END VAR EXP : %s\n", args);
     printf("END VAR ARGS next : %s\n", args);
     if(args[j])
     {
-        if(!(args[j] == '_') && !(args[j] >= 'a' && args[j] <= 'z') \
-            && !(args[j] >= 'A' && args[j] <= 'Z'))
+        if(args[j] != '_' && !(ft_isalpha(args[j])))
         {
             printf("invalid argument\n");
             return (1);
@@ -170,54 +197,74 @@ int valid_env_var(char *args)
 
 }
 
-static size_t find_export_index(char *s1, char *s2) 
-{
-    if (*s2 == '\0') {
-        return (0);
-    }
-    size_t i = 0;
-    size_t j = 0;
-   // int index_export = 0;
+// static size_t find_export_index(char *s1, char *s2) 
+// {
+//     if (*s2 == '\0') {
+//         return (0);
+//     }
+//     size_t i = 0;
+//     size_t j = 0;
+//    // int index_export = 0;
 
-    while (s1[i] != '\0') {
+//     while (s1[i] != '\0') {
 
-        while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i]) {
-            i++;
-            j++;
-        }
+//         while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i]) {
+//             i++;
+//             j++;
+//         }
 
-        if (s2[j] == '\0') {
-            return (i);
-        }
+//         if (s2[j] == '\0') {
+//             return (i);
+//         }
 
-        s1++;
-    }
-    return (0);
-}
+//         s1++;
+//     }
+//     return (0);
+// }
 
-void    ft_export(t_shell *var, char *args)
+void    ft_export(t_shell *var, char **args)
 {
     int     i;
-    size_t     index_var;
+    int     index_var;
     char **tmp;
 
-    i = 1;
+    i = 0; //METTILO POI A 1!!
 
     i = i;
     tmp = NULL;
     tmp = tmp;
     var = var;
     args = args;
-    index_var = find_export_index(args, "export ");
+    index_var = 0;
+    //index_var = find_export_index(args[], "export ");
     //printf("EXPORT : %s\n", args[i]);
 
-    if(valid_env_var(args + index_var) == 0)
+    // while (args[i])
+    // {
+    //     if ((ft_strncmp(args[i], "export\0", 7)))
+    //     {
+    //         if(valid_env_var(args) == 0)
+    //         {
+    //             printf("validdd\n");
+    //             add_to_env(var );
+    //         }
+    //     }
+    //     i++;
+    // }
+    while(args[i])
+    {
+        if(ft_strncmp(args[i], "export\0", 7) == 0)
+            index_var = i + 1;
+        i++;
+    }
+    if(valid_env_var(args[index_var]) == 0)
     {
         printf("valiidddd\n");
-        add_to_env(var, args + index_var);
+        add_to_env(var, args[index_var]);
+        return ;
     }
     else
-        printf("invalid\n");
+        return ;
 
     // while (args[i])
     // {
