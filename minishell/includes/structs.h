@@ -75,9 +75,10 @@ typedef struct s_token
 typedef struct	s_shell
 {
 	bool	running;
-	int		num_env_var;
-	//char	**env;
+	size_t		num_env_var;
+	char	**env;
 	t_token *token;
+	struct s_shell *next;
 }				t_shell;
 
 typedef struct s_trash

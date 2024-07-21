@@ -46,7 +46,7 @@ char				*ft_chardup(char character);
 /*parser*/
 void				parser(t_token **tail, t_token **head);
 /*executor*/
-void	            ft_executor(t_token **token, char **args, char **env);
+void	            ft_executor(t_shell *data, t_token **token, char *args, char **env);
 /*list functions*/
 void				ft_add_token(const char *word, size_t end, t_type type, t_token **head);
 void				ft_add_token2(char character);
@@ -70,10 +70,10 @@ void				free_tokens(t_token **tail, t_token **head, int	final_free);
 /* built-ins */
 bool				ft_cd(const char *path);
 void				ft_echo(char **args);
-void				ft_env(t_env_var *var, char **env);
+void				ft_env(t_shell *var);
 bool				ft_pwd(void);
 bool				ft_unset(void);
-void    			ft_export(t_shell *var, char **env);
+void    			ft_export(t_shell *var, char *args);
 
 /* env */
 t_env_var             *init_env_vars(t_env_var **tail, t_env_var **head);

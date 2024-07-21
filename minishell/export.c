@@ -1,4 +1,4 @@
-#include ".../minishell.h"
+#include "minishell.h"
 
 /* una variabile d'ambiente può essere solo alphanumerica o contenere _*/
 /* può iniziare solo con una lettera! mai con un numero*/
@@ -102,15 +102,119 @@ char    **name_value_env(char *var)
     return (tmp);
 }
 
-void    ft_export(t_shell *var, char **env)
+static int check_env_var(char *str, int index)
 {
-    int     i;
-    char **tmp;
+    int i;
 
     i = 0;
-    while (env[i])
+    printf("STR %s\n", str);
+    while(i < index)
     {
-        tmp = name_value_env(env[i]);
-        set_env_var(var, tmp[0], tmp[1]);
+        if(!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z') \
+            && !(str[i] >= '0' && str[i] <= '9') && str[i] != '_')
+            return (1);
+        i++;
     }
+    return(0);
+}
+
+int valid_env_var(char *args)
+{
+    int j;
+    j=0;
+    // char *ev_name;
+    // char *ev_value;
+
+    printf("END VAR EXP : %s\n", args);
+    printf("END VAR ARGS next : %s\n", args);
+    if(args[j])
+    {
+        if(!(args[j] == '_') && !(args[j] >= 'a' && args[j] <= 'z') \
+            && !(args[j] >= 'A' && args[j] <= 'Z'))
+        {
+            printf("invalid argument\n");
+            return (1);
+        }
+    }
+    while(args[j])
+    {
+        if(args[j] == '=')
+        {
+            if(check_env_var(args, j) == 1)
+            {
+                printf("invalid argument\n");
+                return(1);
+            }
+            else
+            {
+                printf("valid argument\n");
+                return(0);
+            }
+        }
+        j++;
+    }
+    return (0);
+
+}
+
+static size_t find_export_index(char *s1, char *s2) 
+{
+    if (*s2 == '\0') {
+        return (0);
+    }
+    size_t i = 0;
+    size_t j = 0;
+   // int index_export = 0;
+
+    while (s1[i] != '\0') {
+
+        while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i]) {
+            i++;
+            j++;
+        }
+
+        if (s2[j] == '\0') {
+            return (i);
+        }
+
+        s1++;
+    }
+    return (0);
+}
+
+void    ft_export(t_shell *var, char *args)
+{
+    int     i;
+    size_t     index_var;
+    char **tmp;
+
+    i = 1;
+
+    i = i;
+    tmp = NULL;
+    tmp = tmp;
+    var = var;
+    args = args;
+    index_var = find_export_index(args, "export ");
+    //printf("EXPORT : %s\n", args[i]);
+
+    if(valid_env_var(args + index_var) == 0)
+    {
+        printf("valiidddd\n");
+        //add to env
+    }
+    else
+        printf("invalid\n");
+
+    // while (args[i])
+    // {
+    //     if ((ft_strncmp(args[i], "export\0", 7)))
+    //     {
+    //         if(valid_env_var(args, i + 1) == 0)
+    //             printf("validdd\n");
+    //             //add_to_env(args, index);
+    //     }
+    //     i++;
+    // }
+    // return ;
 }

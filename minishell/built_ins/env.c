@@ -12,72 +12,72 @@
 
 #include "../minishell.h"
 
-void ft_init_env(t_env_var **tail, t_env_var **head, char **env)
-{
-    int num;
+// void ft_init_env(t_env_var **tail, t_env_var **head, char **env)
+// {
+//     int num;
 
-	while (env[num])
-		num++;
-    //num = var->num_env_var;
-    *head = NULL;
-    *tail = NULL;
+// 	while (env[num])
+// 		num++;
+//     //num = var->num_env_var;
+//     *head = NULL;
+//     *tail = NULL;
     
-    while (num > 0)
-    {
-        env_new_node(tail, head, env);
-        num--;
-    }
-}
+//     while (num > 0)
+//     {
+//         env_new_node(tail, head, env);
+//         num--;
+//     }
+// }
 
-t_env_var *env_new_node(t_env_var **tail, t_env_var **head, char **env)
-{
-    t_env_var *new_node;
-    static int count = 0;
+// t_env_var *env_new_node(t_env_var **tail, t_env_var **head, char **env)
+// {
+//     t_env_var *new_node;
+//     static int count = 0;
 
-    new_node = safe_malloc(sizeof(t_env_var));
-    new_node->next = NULL;
-    new_node->prev = *tail;
-    new_node->num = count;
-	env = env;
-    //new_node->env[count] = ft_strdup((const char*)env[count]);
+//     new_node = safe_malloc(sizeof(t_env_var));
+//     new_node->next = NULL;
+//     new_node->prev = *tail;
+//     new_node->num = count;
+// 	env = env;
+//     //new_node->env[count] = ft_strdup((const char*)env[count]);
 
-    if (*tail)
-        (*tail)->next = new_node;
-    else
-        *head = new_node;
+//     if (*tail)
+//         (*tail)->next = new_node;
+//     else
+//         *head = new_node;
 
-    *tail = new_node;
-    count++;
-    return new_node;
-}
+//     *tail = new_node;
+//     count++;
+//     return new_node;
+// }
 
-char	**env_variables(t_env_var *var)
-{
-	int		num_vars;
-	int		i;
-	char **env_array;
-	t_env_var	*curr;
+// char	**env_variables(t_env_var *var)
+// {
+// 	int		num_vars;
+// 	int		i;
+// 	char **env_array;
+// 	t_env_var	*curr;
 
-	curr = var;
-	i = 0;
-	num_vars = 0;
-	while(curr)
-	{
-		num_vars++;
-		curr = curr->next;
-	}
-	env_array = (char **)safe_malloc(sizeof(char *) * num_vars + 1);
-	curr = var;
-	i = 0;
-	while(curr)
-	{
-		//env_array[i] = ft_strdup(env_to_str(var->env[i]));
-		i++;
-		curr = curr->next;
-	}
-	env_array[i] = NULL;
-	return(env_array);
-}
+// 	curr = var;
+// 	i = 0;
+// 	num_vars = 0;
+// 	while(curr)
+// 	{
+// 		num_vars++;
+// 		curr = curr->next;
+// 	}
+// 	env_array = (char **)safe_malloc(sizeof(char *) * num_vars + 1);
+// 	curr = var;
+// 	i = 0;
+// 	while(curr)
+// 	{
+// 		//env_array[i] = ft_strdup(env_to_str(var->env[i]));
+// 		i++;
+// 		curr = curr->next;
+// 	}
+// 	env_array[i] = NULL;
+// 	return(env_array);
+// }
 
 int	size_list(t_env_var *tail)
 {
@@ -92,48 +92,43 @@ int	size_list(t_env_var *tail)
 	return (i);
 }
 
-void ft_env(t_env_var *var, char **env)
+void ft_env(t_shell *var)
 {
 	int			i;
-    t_env_var   *tail;
-    t_env_var   *head;
-    //t_shell     *var;
-    t_env_var   *curr;
-   // int         i;
-    char        *equal_sign;
-	char *env_name = "";
+   // t_shell   *curr;
+    //char        *equal_sign;
+	//char *env_name = "";
 
 	i = 0;
-    tail = NULL;
-    head = NULL;
-    
-    ft_init_env(&tail, &head, env);
-    
-    curr = head;
+    //curr = var;
     while (var->env[i])
     {
-        //char *env_name = env_to_str(var->env[i]);
-        if (env_name)
-        {
-            i = 0;
-            while (env[i])
-            {
-                equal_sign = strchr(env[i], '=');
-                if (equal_sign)
-                {
-                    size_t name_length = equal_sign - env[i];
-                    if (strncmp(env[i], env_name, name_length) == 0 && env_name[name_length] == '\0')
-                    {
-                        printf("%s\n", env[i]);
-                        break;
-                    }
-                }
-                i++;
-            }
-        }
-        curr = curr->next;
+        printf("%s\n", var->env[i]);
+        i++;
     }
-    free(var);
+    // while (var->env[i])
+    // {
+    //     if (env_name)
+    //     {
+    //         i = 0;
+    //         while (env[i])
+    //         {
+    //             equal_sign = strchr(env[i], '=');
+    //             if (equal_sign)
+    //             {
+    //                 size_t name_length = equal_sign - env[i];
+    //                 if (strncmp(env[i], env_name, name_length) == 0 && env_name[name_length] == '\0')
+    //                 {
+    //                     printf("%s\n", env[i]);
+    //                     break;
+    //                 }
+    //             }
+    //             i++;
+    //         }
+    //     }
+    //     curr = curr->next;
+    // }
+    // free(var);
 }
 
 // char	*env_to_str(t_typ_env var)
