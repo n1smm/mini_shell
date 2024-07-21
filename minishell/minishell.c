@@ -120,8 +120,8 @@ int main(int argc, char **argv, char **env)
 		split_input(input, &tail, &head);
 		parser(&tail, &head);
 
-		ft_executor(data, &tail, input, env);
-		/* executor(&tail, env); */
+		/* ft_executor(data, &tail, input, env); */
+		executor(&tail, env);
 
 		printf("\n	PRINT LIST TOKEN :\n\n"),
 		print_list(tail);

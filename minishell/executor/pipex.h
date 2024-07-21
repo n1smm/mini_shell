@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/18 15:45:39 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/21 18:58:18 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 /* main */
 int		executor(t_token **tail, char **envp);
-char	*pipe_loop(t_token **tail);
+char	**pipe_loop(t_token **tail);
 void	pid_error(char *msg, char **str, int free_me);
 void	free_mtrx(char **mtrx);
 /* path_finder */
