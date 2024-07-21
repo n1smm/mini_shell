@@ -118,6 +118,19 @@ static int check_env_var(char *str, int index)
     return(0);
 }
 
+void add_to_env(t_shell *var, char *new_var)
+{
+    int i = 0;
+
+    var->num_env_var += 1;
+    while(var->env[i])
+        i++;
+    var->env[i] = ft_strdup(new_var);
+    var->env[i + 1] = NULL;
+    //QUESTA è SOLO UNA SIMULAZIONE!! VOGLIO ANDARE A DORMIE!!
+    //va naturalmente diviso tra var name e var value con = divisore
+}
+
 int valid_env_var(char *args)
 {
     int j;
@@ -201,7 +214,7 @@ void    ft_export(t_shell *var, char *args)
     if(valid_env_var(args + index_var) == 0)
     {
         printf("valiidddd\n");
-        //add to env
+        add_to_env(var, args + index_var);
     }
     else
         printf("invalid\n");
