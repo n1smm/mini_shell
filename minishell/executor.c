@@ -7,9 +7,10 @@ void	ft_executor(t_shell *data, t_token **token, char *args, char **env)
 	char **test;
 
 	test = safe_malloc(sizeof(char *) * 2 + 1);
-	test[0] = ft_strdup("export");
-	test[1] = ft_strdup("USER=mon");
-	test[2] = NULL;
+	test[0] = ft_strdup("unset");
+	test[1] = ft_strdup("USER");
+	test[2] = ft_strdup("LOGNAME");
+	test[3] = NULL;
 
 	if(!data)
 		return ;
@@ -30,6 +31,8 @@ void	ft_executor(t_shell *data, t_token **token, char *args, char **env)
 			else if(ft_strncmp(curr->content, "export", 6) == 0)
 				ft_export(data, test);
 				/* ft_export(var, env); */
+			else if(ft_strncmp(curr->content, "unset", 5) == 0)
+				ft_unset(data, test);
 			else if(ft_strncmp(curr->content, "pwd", 3) == 0)
 				ft_pwd();
 			else if(ft_strncmp(curr->content, "echo", 4) == 0)

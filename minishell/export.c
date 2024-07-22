@@ -69,25 +69,25 @@ int ft_var_index(char **env, char *name)
 
 /* se la variabile (name) già esiste, vado a sovrascrivere
 il suo value*/
-int    set_env_var(t_shell *var, char *name, char *value)
-{
-    int index;
-    char *tmp;
+// int    set_env_var(t_shell *var, char *name, char *value)
+// {
+//     int index;
+//     char *tmp;
 
-    index = ft_var_index(var->env, name);
-    //var->num_env_var = ft_count_env(var->env);
-    if (!value)
-        value = "";
-    tmp = ft_strjoin("=", value);
-    if (!tmp)
-        return (1);
-    var->env = update_env(var, index + 1);
-    if (!var->env)
-        return (1);
-    var->env[index] = ft_strjoin(name, tmp);
-    //free(tmp);
-    return (0);
-}
+//     index = ft_var_index(var->env, name);
+//     //var->num_env_var = ft_count_env(var->env);
+//     if (!value)
+//         value = "";
+//     tmp = ft_strjoin("=", value);
+//     if (!tmp)
+//         return (1);
+//     var->env = update_env(var, index + 1);
+//     if (!var->env)
+//         return (1);
+//     var->env[index] = ft_strjoin(name, tmp);
+//     //free(tmp);
+//     return (0);
+// }
 
 char    **name_value_env(char *var)
 {
@@ -135,6 +135,7 @@ void add_to_env(t_shell *var, char *new_var)
     while(var->env[i])
     {
         index = 0;
+        j=0;
         while(var->env[i][j] != '=')
         {
             j++;
