@@ -26,6 +26,10 @@ void    unset_var(char **unset_var, t_shell *var)
     z = 0;
     while(unset_var[x] && unset_var[x][0] != '|')
     {
+        i = 0;
+        z = 0;
+        j = 0;
+        index_uv = 0;
         while(var->env[i])
         {
             j = 0;
@@ -56,7 +60,7 @@ void    ft_unset(t_shell *var, char **args)
     int     index_var;
     char **tmp;
 
-    i = 0; //METTILO POI A 1!!
+    i = 0;
 
     i = i;
     tmp = NULL;
@@ -71,6 +75,7 @@ void    ft_unset(t_shell *var, char **args)
             index_var = i + 1;
         i++;
     }
+    // args[i + 1] = '\0';
     unset_var(args + index_var, var);
     return ;
 

@@ -86,5 +86,8 @@ void				catch_signals();
 void				ctrl_c(int sig);
 void				ctrl_slash(int sig);
 
+char **seq_extract(t_token **tail);
+
+
 void ft_ls(void);
 #endif

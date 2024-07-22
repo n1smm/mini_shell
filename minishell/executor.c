@@ -4,23 +4,13 @@ void	ft_executor(t_shell *data, t_token **token, char *args, char **env)
 {
 	t_token	*curr;
 	env = env;
-	char **test;
+	char **input;
 
-	test = safe_malloc(sizeof(char *) * 2 + 1);
-	test[0] = ft_strdup("unset");
-	test[1] = ft_strdup("USER");
-	test[2] = ft_strdup("LOGNAME");
-	test[3] = NULL;
-
-	if(!data)
-		return ;
-	// init_env_vars(tail, head);
 	args = args;
 	curr = *token;
+	input = seq_extract(token);
 	while (curr)
 	{
-		//printf("%s\n", (*token)->content);
-		//printf("%d\n", (*token)->typ_token);
 		if(curr->typ_token == COMMAND)
 		{
 			printf("%s\n", curr->content);
@@ -29,15 +19,14 @@ void	ft_executor(t_shell *data, t_token **token, char *args, char **env)
 			else if(ft_strncmp(curr->content, "env", 3) == 0)
 				ft_env(data);
 			else if(ft_strncmp(curr->content, "export", 6) == 0)
-				ft_export(data, test);
-				/* ft_export(var, env); */
+				ft_export(data, input);
 			else if(ft_strncmp(curr->content, "unset", 5) == 0)
-				ft_unset(data, test);
+				ft_unset(data, input);
 			else if(ft_strncmp(curr->content, "pwd", 3) == 0)
 				ft_pwd();
 			else if(ft_strncmp(curr->content, "echo", 4) == 0)
 			{
-				;//ft_echo(args);
+				ft_echo(input);
 			}
 			else
 				printf("\nnull\n");
