@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:56:46 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/22 13:51:41 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:19:30 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static char	**comm_seq_init(t_token **tail)
 
 	length = command_len(tail);
 	printf("length: %d \n", length);
-	command_seq = malloc(length + 1);
+	command_seq = safe_malloc(sizeof(char *) * (length + 1));
+	command_seq[length] = 0;
 	return (command_seq);
 }
 
@@ -64,11 +65,11 @@ char **seq_extract(t_token **tail)
 			foo = create_empty_string(1);
 		}
 	}
-	if (foo && foo[0] != 0)
+	if (foo && foo[0] != 0 )
 		command_seq[i++] = ft_strdup(foo);
 	if (foo)
 		free(foo);
 	*tail = curr;
-	command_seq[i] = 0;
+	command_seq[i] = NULL;
 	return (command_seq);
 }
