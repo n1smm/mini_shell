@@ -6,14 +6,14 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/22 12:34:55 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/22 19:22:26 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "pipex.h"
 
-void	comm_forker(char **comm_seq, char **envp, int pipefd[])
+void	comm_forker(char **comm_seq, char **envp, int pipefd[], int is_pipe)
 {
 	pid_t	pid;
 
@@ -25,45 +25,21 @@ void	comm_forker(char **comm_seq, char **envp, int pipefd[])
 	if (pid == 0)
 	{
 		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
+		/* dup2(pipefd[1], STDOUT_FILENO); */
 		execve(path_finder(comm_seq[0]), comm_seq, envp);
 		close(pipefd[1]);
 		pid_error("forker;child failure", NULL, 1);
 	}
 	else
 	{
+		wait(NULL);
 		close(pipefd[1]);
 		free_mtrx(comm_seq);
-		if (dup2(pipefd[0], STDIN_FILENO) == -1)
-			pid_error("forker;parent dup failed", NULL, 0);
+		if (is_pipe)
+			if ((dup2(pipefd[0], STDIN_FILENO) == -1))
+				pid_error("forker;parent dup failed", NULL, 0);
 	}
 }
-
-/* void	files_open(int file[], t_token **tail) */
-/* { */
-/* 	if (find_token(*tail, REDIRECT_IN_DOUBLE)) */
-/* 		file[0] = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0777); */
-/* 	else if (find_token(*tail, REDIRECT_IN)) */
-/* 			file[0] = open(use_token(tail, INFILE)->content, O_RDONLY, 0777); */
-/* 	else */
-/* 		dup2(STDIN_FILENO, file[0]); */
-/* 	if (find_token(*tail, REDIRECT_OUT)) */
-/* 			file[1] = open(use_token(tail, OUTFILE)->content, O_WRONLY | O_CREAT | O_TRUNC, 0666); */
-/* 	else if (find_token(*tail, REDIRECT_OUT_DOUBLE)) */
-/* 			file[1] = open(use_token(tail, OUTFILE)->content, O_WRONLY | O_CREAT | O_APPEND, 0666); */
-/* 	else */
-/* 		dup2(STDOUT_FILENO, file[1]); */
-/* 	if (file[1] == -1) */
-/* 	{ */
-/* 		close(file[0]); */
-/* 		pid_error("open of write end failed", NULL, 0); */
-	/* } */
-/* 	if (file[0] == -1) */
-/* 	{ */
-/* 		close(file[1]); */
-/* 		pid_error("open of read end failed", NULL, 0); */
-/* 	} */
-/* } */
 
 void	out_files(int file[], t_type file_type[], t_token **tail, int i)
 {

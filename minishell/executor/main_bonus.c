@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/22 13:26:04 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/22 19:10:57 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,35 +52,32 @@ char	**pipe_loop(t_token **tail)
 int	executor(t_token **tail, char **envp)
 {
 	int			pipefd[2];
-int			file[1024];
+	int			file[1024];
 	t_type		file_type[1024];
 	t_token		*tmp;
 	char		**comm_seq;
-	int i;
-	/* char		**last; */
+	/* int i; */
 
-	/* last = NULL; */
-	/* here_doc(file, tail); */
-	/* if (dup2(file[0], STDIN_FILENO) == -1) */
-	/* 	pid_error("dup in main failed", NULL, 0); */
 	tmp = *tail;
 	while (*tail) // || (*tail)->typ_token != REDIRECT_OUT || (*tail)->typ_token != REDIRECT_OUT_DOUBLE)
 	{
-		i = 0;
+		/* i = 0; */
 		files_open(file, file_type, tail);
 		redirect_infiles(file, file_type, tail);
 		comm_seq = pipe_loop(tail);
-		while (comm_seq[i])
-		{
-			printf("comm_seq[%d]: %s \n", i, comm_seq[i]);
-			i++;
-		}
-		envp = envp;
-		comm_forker(comm_seq , envp, pipefd);
+		/* while (comm_seq[i]) */
+		/* { */
+		/* 	printf("comm_seq[%d]: %s \n", i, comm_seq[i]); */
+		/* 	i++; */
+		/* } */
+		comm_forker(comm_seq , envp, pipefd, check_pipe(tail));
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;
 
 	}
+	/* if (dup2(pipefd[0], STDOUT_FILENO) == -1) */
+	/* 	pid_error("dup2 to stdout failed", NULL, 0); */
+	/* close(pipefd[0]); */
 	*tail = tmp;
 	/* close(file[0]); */
 	/* unlink_doc(*tail); */
@@ -89,6 +86,6 @@ int			file[1024];
 	/* 	pid_error("outfile dup failed", NULL, 0); */
 	/* execve(path_finder(last[0]), last, envp); */
 	/* free_mtrx(last); */
-	pid_error("last exec failed", NULL, 0);
+	/* pid_error("last exec failed", NULL, 0); */
 	return(0);
 }

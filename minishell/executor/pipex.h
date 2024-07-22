@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/22 13:03:09 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/22 19:11:49 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,14 @@ void	pid_error(char *msg, char **str, int free_me);
 void	free_mtrx(char **mtrx);
 /* path_finder */
 char	*read_path(int pipefd[], char **mtrx);
-// char	*path_finder(char *command, char **mtrx);
 /* utils */
-void	comm_forker(char **comm_seq, char **envp, int pipefd[]);
-/* void	files_open(int file[], t_token **tail); */
+void	comm_forker(char **comm_seq, char **envp, int pipefd[], int is_pipe);
 void 	files_open(int file[], t_type file_type[], t_token **tail);
 void	redirect_infiles(int file[], t_type file_type[], t_token **tail);
 /* utils_bonus */
 void	here_doc(int file[], t_token **tail);
 void	unlink_doc(t_token *tail);
+int		check_pipe(t_token **tail);
 /* sequence_extraction */
 char 	**seq_extract(t_token **tail);
 #endif
