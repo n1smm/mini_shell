@@ -6,19 +6,17 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/19 18:43:22 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/22 12:34:55 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "pipex.h"
 
-void	comm_forker(char *str1, char **envp, int pipefd[])
+void	comm_forker(char **comm_seq, char **envp, int pipefd[])
 {
 	pid_t	pid;
-	char	**first;
 
-	first = ft_split(str1, ' ');
 	if (pipe(pipefd) == -1)
 		pid_error("forker;pipe failed", NULL, 1);
 	pid = fork();
@@ -28,14 +26,14 @@ void	comm_forker(char *str1, char **envp, int pipefd[])
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
-		execve(path_finder(first[0]), first, envp);
+		execve(path_finder(comm_seq[0]), comm_seq, envp);
 		close(pipefd[1]);
 		pid_error("forker;child failure", NULL, 1);
 	}
 	else
 	{
 		close(pipefd[1]);
-		free_mtrx(first);
+		free_mtrx(comm_seq);
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
 			pid_error("forker;parent dup failed", NULL, 0);
 	}

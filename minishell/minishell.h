@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/20 17:25:42 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/22 12:40:41 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void 				ft_lexer(t_token *token);
 /* safe_functions */
 void				*safe_malloc(size_t size);
 char 				*join_wrapper(const char *s1, const char *s2, int free_which);
+char				*create_empty_string(int len);
 /*split_input*/
 void				split_input(char *input, t_token **tail, t_token **head);
 bool				term_character(char c);

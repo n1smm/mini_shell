@@ -6,10 +6,11 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:01:08 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/09 16:01:08 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/22 12:40:26 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 void *safe_malloc(size_t size)
@@ -40,3 +41,13 @@ char *join_wrapper(const char *s1, const char *s2, int free_which)
 	}
 	return (result);
 }
+
+char	*create_empty_string(int len)
+{
+	char	*empty;
+
+	empty = safe_malloc(len);
+	ft_bzero(empty, len);
+	return (empty);
+}
+
