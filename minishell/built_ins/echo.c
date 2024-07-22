@@ -12,49 +12,28 @@
 
 #include "../minishell.h"
 
-void	ft_echo(char **args)
+void ft_echo(char **args)
 {
-	int	i;
-	int	j;
-	int	n_flag;
+    int i = 1;
+    int n_flag = 0;
 
-	i = 1;
-	j = 0;
-	n_flag = 0;
-	printf("TESTING ECHO");
-	if(args[1][0])
-	{
-		while (args[i])
-		{
-			if (args[i][j] == '-')
-			{
-				if(args[i][j + 1] == 'n' && (args[i][j + 2] == ' ' \
-					|| args[i][j + 2] == '\t'))
-					n_flag = 1;
-				i++;
-			}
-		}
-		while (args[i])
-		{
-			ft_putstr_fd(args[i], 1);
-			if(args[i + 1] && args[i][0] != '\0')
-				printf(" ");
-			i++;
-		}
-	}
-	if (n_flag == 0)
-		printf("\n");
-	return ;
+    if (args[i] == NULL) {
+        printf("\n");
+        return;
+    }
+    while (args[i] && strcmp(args[i], "-n") == 0) {
+        n_flag = 1;
+        i++;
+    }
+    while (args[i]) {
+        printf("%s", args[i]);
+        if (args[i + 1]) {
+            printf(" ");
+        }
+        i++;
+    }
+
+    if (n_flag == 0) {
+        printf("\n");
+    }
 }
-/* int	main(int argc, char **argv) */
-/* { */
-/* 	int		i; */
-/* 	char 	*token; */
-	
-/* 	if (argc <1) */
-/* 		return 0; */
-
-
-	
-/* 	return 0; */
-/* } */

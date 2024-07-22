@@ -73,7 +73,7 @@ bool				ft_cd(const char *path);
 void				ft_echo(char **args);
 void				ft_env(t_shell *var);
 bool				ft_pwd(void);
-bool				ft_unset(void);
+void				ft_unset(t_shell *var, char **args);
 void    			ft_export(t_shell *var, char **args);
 
 /* env */
@@ -85,6 +85,9 @@ char				**env_variables(t_env_var *vars);
 void				catch_signals();
 void				ctrl_c(int sig);
 void				ctrl_slash(int sig);
+
+char **seq_extract(t_token **tail);
+
 
 void ft_ls(void);
 #endif
