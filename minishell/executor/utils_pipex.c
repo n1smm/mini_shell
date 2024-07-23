@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/22 19:22:26 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/23 14:39:13 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ void files_open(int file[], t_type file_type[], t_token **tail)
 void	redirect_infiles(int file[], t_type file_type[], t_token **tail)
 {
 	int		i;
-	int		savedin;
+	/* int		savedin; */
 	/* int		savedout; */
 
 	i = 0;
-	savedin = dup(0);
+	/* savedin = dup(0); */
 	//CHECK ERROR
 	/* savedout = dup(1); */
 	while (file_type[i] != NONPRINTABLE && file_type[i] != REDIRECT_OUT && file_type[i] != REDIRECT_OUT_DOUBLE)
@@ -109,7 +109,7 @@ void	redirect_infiles(int file[], t_type file_type[], t_token **tail)
 			here_doc(file,tail);	
 		i++;
 	}
-	dup2(savedin, 0);
+	/* dup2(savedin, 0); */
 	//CHECK ERROR
 	/* dup2(savedout, 1); */
 }
