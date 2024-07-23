@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/23 14:34:07 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/24 00:29:50 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**pipe_loop(t_token **tail)
 
 int	executor(t_token **tail, char **envp)
 {
-	int			pipefd[2];
+	int			pipefd[4];
 	int			file[1024];
 	t_type		file_type[1024];
 	t_token		*tmp;
@@ -59,6 +59,8 @@ int	executor(t_token **tail, char **envp)
 	/* int i; */
 
 	tmp = *tail;
+	pipefd[2] = dup(0);
+	pipefd[3] = dup(1);
 	while (*tail) // || (*tail)->typ_token != REDIRECT_OUT || (*tail)->typ_token != REDIRECT_OUT_DOUBLE)
 	{
 		/* i = 0; */
@@ -74,8 +76,11 @@ int	executor(t_token **tail, char **envp)
 		comm_forker(comm_seq , envp, pipefd, check_pipe(tail));
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;
-
 	}
+	/* if (dup2(file[0], STDOUT_FILENO) == -1) */
+	/* 	pid_error("outfile dup failed", NULL, 0); */
+	dup2(pipefd[2], 0);
+	dup2(pipefd[3], 1);
 	/* if (dup2(pipefd[0], STDOUT_FILENO) == -1) */
 	/* 	pid_error("dup2 to stdout failed", NULL, 0); */
 	/* close(pipefd[0]); */

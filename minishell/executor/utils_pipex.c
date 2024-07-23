@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/23 14:39:13 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/24 00:29:23 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	comm_forker(char **comm_seq, char **envp, int pipefd[], int is_pipe)
 	if (pid == 0)
 	{
 		close(pipefd[0]);
-		/* dup2(pipefd[1], STDOUT_FILENO); */
+		if (is_pipe)
+		{
+			dup2(pipefd[1], STDOUT_FILENO);
+		}
 		execve(path_finder(comm_seq[0]), comm_seq, envp);
 		close(pipefd[1]);
 		pid_error("forker;child failure", NULL, 1);
@@ -35,10 +38,31 @@ void	comm_forker(char **comm_seq, char **envp, int pipefd[], int is_pipe)
 		wait(NULL);
 		close(pipefd[1]);
 		free_mtrx(comm_seq);
-		if (is_pipe)
-			if ((dup2(pipefd[0], STDIN_FILENO) == -1))
-				pid_error("forker;parent dup failed", NULL, 0);
+		if (dup2(pipefd[0], STDIN_FILENO) == -1)
+			pid_error("forker;parent dup failed", NULL, 0);
 	}
+	/* if (pid == 0) */
+	/* { */
+	/* 	close(pipefd[0]); */
+	/* 	if (is_pipe) */
+	/* 		dup2(pipefd[1], STDOUT_FILENO); */
+	/* 	/1* else *1/ */
+	/* 	/1* { *1/ */
+	/* 	/1* 	close(pipefd[1]); *1/ */
+	/* 	/1* 	dup2(pipefd[0], STDIN_FILENO); *1/ */
+	/* 	/1* } *1/ */
+	/* 	close(pipefd[1]); */
+	/* 	close(pipefd[1]); */
+	/* 	pid_error("forker;child failure", NULL, 1); */
+	/* } */
+	/* else */
+	/* { */
+	/* 	close(pipefd[1]); */
+	/* 	wait(NULL); */
+	/* 	free_mtrx(comm_seq); */
+	/* 	/1* if ((dup2(pipefd[0], STDIN_FILENO) == -1)) *1/ */
+	/* 	/1* 		pid_error("forker;parent dup failed", NULL, 0); *1/ */
+	/* } */
 }
 
 void	out_files(int file[], t_type file_type[], t_token **tail, int i)
@@ -85,33 +109,26 @@ void files_open(int file[], t_type file_type[], t_token **tail)
 		}
 		curr = curr->next;
 	}
-	
 	out_files(file, file_type, tail, i);
 }
 
-/* here is a place for a function */
 void	redirect_infiles(int file[], t_type file_type[], t_token **tail)
 {
 	int		i;
-	/* int		savedin; */
-	/* int		savedout; */
 
 	i = 0;
-	/* savedin = dup(0); */
-	//CHECK ERROR
-	/* savedout = dup(1); */
-	while (file_type[i] != NONPRINTABLE && file_type[i] != REDIRECT_OUT && file_type[i] != REDIRECT_OUT_DOUBLE)
+	while (file_type[i] != NONPRINTABLE)// && file_type[i] != REDIRECT_OUT && file_type[i] != REDIRECT_OUT_DOUBLE)
 	{
 		if (file_type[i] == REDIRECT_IN)
 			dup2(file[i], STDIN_FILENO);
 			//CHECK ERROR
 		if (file_type[i] == REDIRECT_IN_DOUBLE)
-			here_doc(file,tail);	
+			here_doc(file,tail);
+		if (file_type[i] == REDIRECT_OUT || file_type[i] == REDIRECT_OUT_DOUBLE)
+			dup2(file[i], STDOUT_FILENO);
+			//CHECK ERROR
 		i++;
 	}
-	/* dup2(savedin, 0); */
-	//CHECK ERROR
-	/* dup2(savedout, 1); */
 }
 
 	 /* int savedin dup(0) */
