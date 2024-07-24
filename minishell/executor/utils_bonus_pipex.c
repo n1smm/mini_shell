@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/18 17:45:44 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/22 19:08:38 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,26 @@ void	unlink_doc(t_token *tail)
 		if (unlink(".here_doc") == -1)
 			perror("unlink failed");
 	}
+}
+
+int	check_pipe(t_token **tail)
+{
+	t_token *curr;
+	int 	pipe;
+	int		command;
+
+	curr = *tail;
+	pipe = 0;
+	command = 0;
+	while(curr)
+	{
+		if (curr->typ_token == PIPELINE)
+			pipe = 1;
+		else if (pipe == 1 && curr->typ_token != PIPELINE && curr->typ_token != WHITESPACE)
+			command = 1;
+		curr = curr->next;
+	} 
+	if (pipe == 1 && command == 1)
+		return(1);
+	return (0);
 }

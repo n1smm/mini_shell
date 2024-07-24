@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/21 15:20:50 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/23 17:34:27 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	check_string(t_token *curr, t_type *mod_type, int is_quote) // TODO
 		curr->typ_token = EXPAND;
 	else if (ft_strchr(curr->content, '/'))
 		curr->typ_token = PATH;
-	else if (*mod_type == WHITESPACE || *mod_type == PIPELINE)
-		curr->typ_token = FALSE_PLACEMENT;
+	/* else if (*mod_type == WHITESPACE || *mod_type == PIPELINE) */
+	/* 	curr->typ_token = FALSE_PLACEMENT; */
 	if (curr->typ_token != STRING)
 		*mod_type = curr->typ_token;
 }
@@ -89,8 +89,10 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_type *mod_type)
 		tmp->typ_token = FALSE_PLACEMENT;
 		return (NULL);
 	}
-	delete_node(tail, tmp);
-	delete_node(tail, curr);
+	*tail = *tail;
+	/* CHECK FREEING OF QUOTES */
+	/* delete_node(tail, tmp); */
+	/* delete_node(tail, curr); */
 	*mod_type = all_quotes_are_equal;
 	return (curr);
 }

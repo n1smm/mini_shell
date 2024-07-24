@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:56:46 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/22 15:19:30 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/23 15:22:07 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,22 @@ static char	**comm_seq_init(t_token **tail)
 	return (command_seq);
 }
 
+static void	free_foo(char **foo, char **command_seq, int i)
+{
+	if (*foo && *foo[0] != 0 )
+		command_seq[i++] = ft_strdup(*foo);
+	if (*foo)
+		free(*foo);
+	command_seq[i] = NULL;
+}
+
+static void	iterate_till_pipe(t_token **tail, t_token *curr)
+{
+	while (curr && curr->typ_token != PIPELINE)
+		curr = curr->next;
+	*tail = curr;
+}
+
 char **seq_extract(t_token **tail)
 {
 	char	**command_seq;
@@ -65,11 +81,7 @@ char **seq_extract(t_token **tail)
 			foo = create_empty_string(1);
 		}
 	}
-	if (foo && foo[0] != 0 )
-		command_seq[i++] = ft_strdup(foo);
-	if (foo)
-		free(foo);
-	*tail = curr;
-	command_seq[i] = NULL;
+	free_foo(&foo, command_seq, i);
+	iterate_till_pipe(tail, curr);
 	return (command_seq);
 }

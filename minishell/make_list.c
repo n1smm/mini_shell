@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/20 17:25:42 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/23 17:13:47 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,14 @@ void delete_node(t_token **tail, t_token *del)
         *tail = del->next;
     if (del->next != NULL)
         del->next->prev = del->prev;
-
-    // Change prev only if node to be deleted is NOT the first node
     if (del->prev != NULL)
+	{
         del->prev->next = del->next;
-
-    // Finally, free the memory occupied by del
-    free(del);
+	}
+	del->next = NULL;
+	del->prev = NULL;
+	free(del);
+	del = NULL;
     return;
 }
 
