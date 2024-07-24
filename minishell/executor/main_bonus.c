@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/24 00:29:50 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/24 13:58:49 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	executor(t_token **tail, char **envp)
 		/* 	printf("comm_seq[%d]: %s \n", i, comm_seq[i]); */
 		/* 	i++; */
 		/* } */
-		comm_forker(comm_seq , envp, pipefd, check_pipe(tail));
+		comm_forker(comm_seq , envp, pipefd, check_pipe(tail, file_type));
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;
 	}

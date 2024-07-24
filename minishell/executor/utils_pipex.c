@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/24 00:29:23 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/24 18:26:01 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,7 @@ void	comm_forker(char **comm_seq, char **envp, int pipefd[], int is_pipe)
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
 			pid_error("forker;parent dup failed", NULL, 0);
 	}
-	/* if (pid == 0) */
-	/* { */
-	/* 	close(pipefd[0]); */
-	/* 	if (is_pipe) */
-	/* 		dup2(pipefd[1], STDOUT_FILENO); */
-	/* 	/1* else *1/ */
-	/* 	/1* { *1/ */
-	/* 	/1* 	close(pipefd[1]); *1/ */
-	/* 	/1* 	dup2(pipefd[0], STDIN_FILENO); *1/ */
-	/* 	/1* } *1/ */
-	/* 	close(pipefd[1]); */
-	/* 	close(pipefd[1]); */
-	/* 	pid_error("forker;child failure", NULL, 1); */
-	/* } */
-	/* else */
-	/* { */
-	/* 	close(pipefd[1]); */
-	/* 	wait(NULL); */
-	/* 	free_mtrx(comm_seq); */
-	/* 	/1* if ((dup2(pipefd[0], STDIN_FILENO) == -1)) *1/ */
-	/* 	/1* 		pid_error("forker;parent dup failed", NULL, 0); *1/ */
-	/* } */
+
 }
 
 void	out_files(int file[], t_type file_type[], t_token **tail, int i)
@@ -88,6 +67,7 @@ void	out_files(int file[], t_type file_type[], t_token **tail, int i)
 	file_type[i] = NONPRINTABLE;
 }
 
+
 void files_open(int file[], t_type file_type[], t_token **tail)
 {
 	int		i;
@@ -99,7 +79,7 @@ void files_open(int file[], t_type file_type[], t_token **tail)
 	{
 		if (curr->typ_token == REDIRECT_IN_DOUBLE)
 		{	
-			file[i] = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0777); //consequitve heredocs with diff names
+			file[i] = create_heredoc(i, 1);
 			file_type[i++] = REDIRECT_IN_DOUBLE;
 		}
 		else if (curr->typ_token == REDIRECT_IN)
@@ -112,30 +92,50 @@ void files_open(int file[], t_type file_type[], t_token **tail)
 	out_files(file, file_type, tail, i);
 }
 
+static void	dup_last_file(int file[], t_type file_type[], int i, int io)
+{
+	int in;
+	int	out;
+	int	tmp;
+
+	in = 0;
+	out = 0;
+	tmp = i;
+	while (file_type[++i] != NONPRINTABLE)
+	{
+		if (file_type[i] == REDIRECT_IN || file_type[i] == REDIRECT_IN_DOUBLE)
+			in = 1;
+		if (file_type[i] == REDIRECT_OUT || file_type[i] == REDIRECT_OUT_DOUBLE)
+			out = 1;
+	}
+	if (io == 0 && in == 0)
+		dup2(file[tmp], STDIN_FILENO);
+	if (io == 1 && out == 0)
+		dup2(file[i], STDOUT_FILENO);
+}
+
 void	redirect_infiles(int file[], t_type file_type[], t_token **tail)
 {
 	int		i;
+	t_token	*curr;
 
 	i = 0;
+	curr = *tail;
 	while (file_type[i] != NONPRINTABLE)// && file_type[i] != REDIRECT_OUT && file_type[i] != REDIRECT_OUT_DOUBLE)
 	{
 		if (file_type[i] == REDIRECT_IN)
-			dup2(file[i], STDIN_FILENO);
+			dup_last_file(file, file_type, i, 0);
+			/* dup2(file[i], STDIN_FILENO); */
 			//CHECK ERROR
 		if (file_type[i] == REDIRECT_IN_DOUBLE)
-			here_doc(file,tail);
+		{
+			here_doc_redirect(file, &curr, i);
+			dup_last_file(file, file_type, i, 0);
+		}
 		if (file_type[i] == REDIRECT_OUT || file_type[i] == REDIRECT_OUT_DOUBLE)
-			dup2(file[i], STDOUT_FILENO);
+			dup_last_file(file, file_type, i, 1);
+			/* dup2(file[i], STDOUT_FILENO); */
 			//CHECK ERROR
 		i++;
 	}
 }
-
-	 /* int savedin dup(0) */
-     /* int savedout dup1 */
-
-
-	/* if < << dup2 fd stind */
-	/* else if > >> dup2 fd out */
-
-	/* dup2(savedin , 0 */ 
