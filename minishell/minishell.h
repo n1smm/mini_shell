@@ -81,10 +81,17 @@ t_env_var             *init_env_vars(t_env_var **tail, t_env_var **head);
 void 				ft_init_env(t_env_var **tail, t_env_var **head, char **env);
 t_env_var			*env_new_node(t_env_var **tail, t_env_var **head, char **env);
 char				**env_variables(t_env_var *vars);
+
 /*signals*/
 void				catch_signals();
 void				ctrl_c(int sig);
 void				ctrl_slash(int sig);
+
+/* garbage collector */
+void    init_garbage(t_trash *garbage);
+void    add_to_garbage(t_token *garbage, void *trash);
+void    free_garbage(t_token *garbage);
+void    safe_exit(t_token *garbage, int i);
 
 char **seq_extract(t_token **tail);
 

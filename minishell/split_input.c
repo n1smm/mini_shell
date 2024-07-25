@@ -29,18 +29,14 @@ void	ft_add_token(const char *word, size_t end, t_type type, t_token **head)
 {
 	char *str;
 
+	(*head)->trash = NULL;
 	str = NULL;
 	if(!word)
 		return ;
-	//head = head;
-	//type = type;
-	//ft_strlcpy(str, word, end);
 	str = ft_strdup2(word, end);
-	/* printf("%s\n", str); */
 	double_lstadd_back(str, head);
 	(*head)->typ_token = type;
-	/* printf("type: %d\n", type); */
-	//ft_lexer(new);
+	add_to_garbage(*head, (char *)word);
 }
 
 char	*ft_chardup(char character)
@@ -64,7 +60,8 @@ void	ft_add_token2(char character)
 	new = (t_token *)safe_malloc(sizeof(t_token));
 	new->content = (char *)safe_malloc(sizeof(char) * 1);
 	new->content = ft_strdup(term);
-	/* printf("%s\n", new->content); */
+	new->trash = NULL;
+	add_to_garbage(new, term);
 	free(term);
 }
 
@@ -110,17 +107,9 @@ void split_input(char *input, t_token **tail, t_token **head)
 {
 	size_t i;
 	int	j;
-	// int	x;
-	// int z;
-	//char *word;
-	//t_token	*token;
-
-	//int		len;
 
 	i = 0;
 	j = 0;
-
-	//word = NULL;
 	t_type  type = WHITESPACE;
 	while (input[i])
 	{
@@ -155,34 +144,4 @@ void split_input(char *input, t_token **tail, t_token **head)
 		ft_add_token(input + j, (i - j), type, head);
 	}
 	tail = tail;
-	//print_list(*tail);
 }
-		//else if (input[i] == ' ')
-		//token is whitepace
-		//else if (input[i] == '|')
-		//pipe
-		
-		// input[i]
-
-		//here we create the node with len of j to i
-		// if(term_character(input[i]) == true)
-		// {
-		// 	ft_term_check(input + i);
-		// 	ft_add_token(input);
-		// }
-		// while ((term_character(input[i + z++]) == false) && 
-		// 	input[i + z])
-		// 	x++;
-		// word = (char *)safe_malloc(sizeof(char) * x + 1);
-		// while ((term_character(input[i]) == false) && 
-		// 	input[i])
-		// 	word[j++] = input[i++];
-		// word[j] = 0;
-		// ft_add_token(word);
-		// free (word);
-		// j = 0;
-		// if (term_character(input[i]))
-		// {
-		// 	ft_add_token2(input[i]);
-		// 	i++;
-		// }

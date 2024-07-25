@@ -57,31 +57,13 @@ typedef	struct s_env_var
 	char				**env;
 	struct s_env_var	*next;
 	struct s_env_var	*prev;
-}				t_env_var;
+	//t_trash				*trash;
+}					t_env_var;
 
 typedef struct	s_dir
 {
-	char	*file_name;
-}				t_dir;
-
-typedef struct s_token
-{
-	t_type			typ_token;
-	char			*content;
-	struct s_token	*next;
-	struct s_token	*prev;
-}					t_token;
-
-typedef struct	s_shell
-{
-	bool	running;
-	size_t		num_env_var;
-	char	**env;
-	char	*var_name;
-	char	*var_value;
-	t_token *token;
-	struct s_shell *next;
-}				t_shell;
+	char			*file_name;
+}					t_dir;
 
 typedef struct s_trash
 {
@@ -89,57 +71,26 @@ typedef struct s_trash
 	void			*next;
 }					t_trash;
 
-// typedef	enum s_typ_env
-// {
-// 	SSH_AUTH_SOCK,
-// 	SESSION_MANAGER,
-// 	GNOME_TERMINAL_SCREEN,
-// 	SSH_AGENT_PID,
-// 	LANGUAGE,
-// 	LANG,
-// 	XDG_CURRENT_DESKTOP,
-// 	IM_CONFIG_PHASE,
-// 	XDG_GREETER_DATA_DIR,
-// 	COLORTERM,
-// 	LIBVIRT_DEFAULT_URI,
-// 	GPG_AGENT_INFO,
-// 	DESKTOP_SESSION,
-// 	USER,
-// 	XDG_MENU_PREFIX,
-// 	XDG_SESSION_PATH,
-// 	QT_IM_MODULE,
-// 	NO_PROXY,
-// 	HOME,
-// 	DBUS_SESSION_BUS_ADDRESS,
-// 	DOCKER_HOST,
-// 	GTK_MODULES,
-// 	XDG_CONFIG_DIRS,
-// 	VTE_VERSION,
-// 	JOURNAL_STREAM,
-// 	XDG_SESSION_DESKTOP,
-// 	KRB5CCNAME,
-// 	GNOME_DESKTOP_SESSION_ID,
-// 	MANAGERPID,
-// 	QT_ACCESSIBILITY,
-// 	XDG_SEAT_PATH,
-// 	LOGNAME,
-// 	GNOME_TERMINAL_SERVICE,
-// 	PATH_2,
-// 	XMODIFIERS,
-// 	SHELL,
-// 	XDG_SESSION_TYPE,
-// 	no_proxy,
-// 	DBUS_STARTER_BUS_TYPE,
-// 	INVOCATION_ID,
-// 	SHLVL,
-// 	XAUTHORITY,
-// 	GDM_LANG,
-// 	DBUS_STARTER_ADDRESS,
-// 	DISPLAY,
-// 	TERM,
-// 	GDMSESSION,
-// 	XDG_SESSION_CLASS,
-// 	PWD,
-// 	OLDPWD,
-// }				t_typ_env;
+typedef struct s_token
+{
+	t_type			typ_token;
+	char			*content;
+	struct s_token	*next;
+	struct s_token	*prev;
+	t_trash			*trash;
+}					t_token;
+
+typedef struct	s_shell
+{
+	bool			running;
+	size_t			num_env_var;
+	char			**env;
+	char			*var_name;
+	char			*var_value;
+	t_token			*token;
+	struct s_shell	*next;
+	t_trash			*trash;
+}				t_shell;
+
+
 #endif

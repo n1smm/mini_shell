@@ -25,9 +25,7 @@ void	ft_executor(t_shell *data, t_token **token, char *args, char **env)
 			else if(ft_strncmp(curr->content, "pwd", 3) == 0)
 				ft_pwd();
 			else if(ft_strncmp(curr->content, "echo", 4) == 0)
-			{
 				ft_echo(input);
-			}
 			else
 				printf("\nnull\n");
 		}
