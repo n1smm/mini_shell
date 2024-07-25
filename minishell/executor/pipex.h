@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/23 20:00:11 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/25 14:43:40 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,14 @@ void	free_mtrx(char **mtrx);
 char	*read_path(int pipefd[], char **mtrx);
 /* utils */
 void	comm_forker(char **comm_seq, char **envp, int pipefd[], int is_pipe);
-void 	files_open(int file[], t_type file_type[], t_token **tail);
+void 	files_open(int file[], t_type file_type[], t_token **tail, int pipefd[]);
 void	redirect_infiles(int file[], t_type file_type[], t_token **tail);
 /* utils_bonus */
-void	here_doc(int file[], t_token **tail);
+void	here_doc(int file[], t_token **tail, int i);
 void	unlink_doc(t_token *tail);
-int		check_pipe(t_token **tail);
+int		check_pipe(t_token **tail, t_type file_type[]);
+int		create_heredoc(int j, int flag);
+void	here_doc_redirect(int file[], t_token **tail, int i);
 /* sequence_extraction */
 char 	**seq_extract(t_token **tail);
 #endif
