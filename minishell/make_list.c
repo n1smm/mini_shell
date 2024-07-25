@@ -17,12 +17,12 @@ t_token	*init(char *content, t_token **tail, t_token **head)
 	t_token	*new_node;
 
 	new_node = safe_malloc(sizeof(t_token));
-	/* if (!new_node) */
-	/* 	return (NULL); */
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	new_node->content = content;
 	new_node->typ_token = 0;
+	add_to_garbage(new_node, new_node);
+	add_to_garbage(new_node, content);
 	*tail = new_node;
 	*head = new_node;
 	return (new_node);
@@ -35,8 +35,6 @@ bool	double_lstadd_front(char *content, t_token **tail)
 
 	new = safe_malloc(sizeof(t_token));
 	curr = *tail;
-	/* if (!new) */
-	/* 	return (false); */
 	if (*tail == NULL)
 	{
 		free(new);
@@ -44,6 +42,9 @@ bool	double_lstadd_front(char *content, t_token **tail)
 	}
 	new->content = content;
 	new->next = curr;
+	new->trash = NULL;
+	add_to_garbage(new, new);
+	add_to_garbage(new, content);
 	curr->prev = new;
 	*tail = new;
 	return (true);
@@ -65,8 +66,11 @@ bool	double_lstadd_back(char *content, t_token **head)
 	}
 	new->content = content;
 	new->next = NULL;
-	curr->next = new;
 	new->prev = curr;
+	new->trash = NULL;
+	add_to_garbage(new, new);
+	add_to_garbage(new, content);
+	curr->next = new;
 	*head = new;
 	return (true);
 }
@@ -80,9 +84,7 @@ void delete_node(t_token **tail, t_token *del)
     if (del->next != NULL)
         del->next->prev = del->prev;
     if (del->prev != NULL)
-	{
-        del->prev->next = del->next;
-	}
+		del->prev->next = del->next;
 	del->next = NULL;
 	del->prev = NULL;
 	free(del);
