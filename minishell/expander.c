@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/20 22:27:39 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/25 15:10:24 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,71 +115,27 @@ void	expand_checker(t_token *curr)
 	}
 }
 
-/* int main(int argc, char **argv) */
-/* { */
-/* 	if (argc > 3) */
-/* 		return 0; */
-/* 	char *input; */
-/* 	char *input2; */
+char	*expand_string_checker(char *content)
+{
+	//char	*expand;
+	int		i;
+	int		j;
 
-/* 	t_token *curr = { */
-/* 	input = expander(argv[1], COMMAND); */
-/* 	input2 = expander(argv[2], EXPAND); */
-/* 	if (!input || !input2) */
-/* 	{ */
-/* 		printf("not a valid input"); */
-/* 		return 1; */
-/* 	} */
-/* 	printf("command is: %s\n", input); */
-/* 	printf("path is: %s\n", input2); */
-/* 	free(input); */
-/* 	free(input2); */
-/* } */
-
-// void print_tokens(t_token *head)
-// {
-//     t_token *curr = head;
-//     while (curr)
-//     {
-//         printf("Token: %s, Type: %d\n", curr->content, curr->typ_token);
-//         curr = curr->next;
-//     }
-// }
-
-// int main()
-// {
-//     // Create tokens
-//     t_token token1 = {WORD, "ls", NULL, NULL};
-//     t_token token2 = {STRING, "/etc/passwd", NULL, &token1};
-//     t_token token3 = {PIPELINE, "|", NULL, &token2};
-//     t_token token4 = {WORD, "echo", NULL, &token3};
-//     t_token token5 = {QUOTE, "\"", NULL, &token4};
-//     t_token token6 = {WORD, "hello", NULL, &token5};
-//     t_token token7 = {STRING, "$$$USER/hello$$$HOME$", NULL, &token6};
-//     t_token token8 = {STRING, "/this/is/not/a/path", NULL, &token7};
-//     t_token token9 = {QUOTE, "\"", NULL, &token8};
-
-//     token1.next = &token2;
-//     token2.next = &token3;
-//     token3.next = &token4;
-//     token4.next = &token5;
-//     token5.next = &token6;
-//     token6.next = &token7;
-//     token7.next = &token8;
-//     token8.next = &token9;
-
-//     // Simulate expansion on token7 (with content "$USER")
-//     expand_checker(&token7);
-
-//     // Print tokens to see the results
-//     print_tokens(&token1);
-
-//     return 0;
-// }
-
-
-
-
-
-
-
+	i = 0;
+	j = 0;
+	while (content[j])
+	{
+		i = 0;
+		while (content[i] != '$' && content[i] != 0)
+			i++;
+		if (content[i])
+			++i;
+		j = i;
+		while (content[j] != 0 && (ft_isalnum(content[j]) || content[j] == '_'))
+			j++;
+		if (j == i && content[j] == '$')
+			j++;
+		content = refactor_expanded_string(content, i, j - i);
+	}
+	return (content);
+}
