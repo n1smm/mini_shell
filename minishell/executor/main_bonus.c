@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/24 13:58:49 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/25 14:41:09 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	executor(t_token **tail, char **envp)
 	while (*tail) // || (*tail)->typ_token != REDIRECT_OUT || (*tail)->typ_token != REDIRECT_OUT_DOUBLE)
 	{
 		/* i = 0; */
-		files_open(file, file_type, tail);
+		files_open(file, file_type, tail, pipefd);
 		if (file_type[0] != PRINTABLE)
 			redirect_infiles(file, file_type, tail);
 		comm_seq = pipe_loop(tail);

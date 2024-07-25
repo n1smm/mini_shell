@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/24 18:26:01 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/25 14:43:17 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	out_files(int file[], t_type file_type[], t_token **tail, int i)
 }
 
 
-void files_open(int file[], t_type file_type[], t_token **tail)
+void files_open(int file[], t_type file_type[], t_token **tail, int pipefd[])
 {
 	int		i;
 	t_token	*curr;
@@ -79,11 +79,13 @@ void files_open(int file[], t_type file_type[], t_token **tail)
 	{
 		if (curr->typ_token == REDIRECT_IN_DOUBLE)
 		{	
+			dup2(pipefd[2], 0);
 			file[i] = create_heredoc(i, 1);
 			file_type[i++] = REDIRECT_IN_DOUBLE;
 		}
 		else if (curr->typ_token == REDIRECT_IN)
 		{
+			dup2(pipefd[2], 0);
 			file[i] = open(curr->next->content, O_RDONLY, 0777);
 			file_type[i++] = REDIRECT_IN;
 		}
@@ -111,7 +113,7 @@ static void	dup_last_file(int file[], t_type file_type[], int i, int io)
 	if (io == 0 && in == 0)
 		dup2(file[tmp], STDIN_FILENO);
 	if (io == 1 && out == 0)
-		dup2(file[i], STDOUT_FILENO);
+		dup2(file[tmp], STDOUT_FILENO);
 }
 
 void	redirect_infiles(int file[], t_type file_type[], t_token **tail)
