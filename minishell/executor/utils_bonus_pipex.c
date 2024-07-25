@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/24 18:07:55 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/07/25 15:24:32 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ void	here_doc(int file[], t_token **tail, int i)
 {
 	char	*input;
 	char	*limiter;
-	/* t_token	*curr; */
 
-	/* curr = *tail; */
 	if (!find_token(*tail, REDIRECT_IN_DOUBLE))
 		return ;
 	limiter = use_token(tail, LIMITER)->content;
@@ -36,6 +34,7 @@ void	here_doc(int file[], t_token **tail, int i)
 	{
 		write(1, "heredoc> ", 9);
 		input = get_next_line(0);
+		/* input = expand_string_checker(input); */
 		if (!input || ((ft_strncmp(input, limiter, ft_strlen(limiter)) == 0)
 				&& ft_strlen(input) == ft_strlen(limiter) + 1))
 		{

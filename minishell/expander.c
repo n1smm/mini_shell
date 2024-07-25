@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/25 15:10:24 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/25 15:16:43 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ static void	refurbish_node(t_token *curr, char *content, bool free_me)
 
 void	expand_checker(t_token *curr)
 {
-	//char	*expand;
 	char	*content;
 	bool	free_me;
 	int		i;
@@ -117,7 +116,6 @@ void	expand_checker(t_token *curr)
 
 char	*expand_string_checker(char *content)
 {
-	//char	*expand;
 	int		i;
 	int		j;
 
