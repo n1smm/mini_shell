@@ -97,19 +97,19 @@ int main(int argc, char **argv, char **env)
 	char		*prompt;
 	t_token 	*head;
 	t_token 	*tail;
-	//t_shell		*data;
+	t_shell		*data;
 //	t_trash		*garbage;
 
 	tail = NULL;
 	head = NULL;
-	//data = NULL;
+	data = NULL;
 //	garbage = NULL;
 	argc = argc;
 	argv = argv;
 	env = env ;
 	//t_input *commands;
 	//init_garbage(garbage);
-	//ft_init_shell(&data, env);
+	ft_init_shell(&data, env);
 	ft_init(&tail, &head);
 	while(1)
 	{
@@ -118,36 +118,27 @@ int main(int argc, char **argv, char **env)
 		prompt = prompt_check();
 		input = readline(prompt);
 		if (!input || ft_strncmp(input, "exit", 5) == 0)
-		{
-			// free(prompt);
-			// free(input);
 			break ;
-		}
 		add_history(input); //non dà leaks
-		//split_input(input, &tail, &head);
-		//parser(&tail, &head);
+		split_input(input, &tail, &head);
+		parser(&tail, &head);
 
 		//ft_executor(data, &tail, input, env);
 		//executor(&tail, env);
+		new_executor(&tail, data, env);
 
-		// printf("\n	PRINT LIST TOKEN :\n\n"),
-		// print_list(tail);
-		// printf("\n");
+		printf("\n	PRINT LIST TOKEN :\n\n"),
+		print_list(tail);
+		printf("\n");
 		free(input);
 		free(prompt);
-		if (tail)
-		{
-			free_garbage(tail);
-			free(tail);
-			tail = NULL;
-			head = NULL;
-		}
-		//free_tokens(&tail, &head, 0);
+		free_garbage(tail);
+		free_tokens(&tail, &head, 0);
 	}
+	printf("\nMinishell è terminato\n");
 	free(input);
 	free(prompt);
 	free_garbage(tail);
-	free(tail);
 	tail = NULL;
 	head = NULL;
 	rl_clear_history();

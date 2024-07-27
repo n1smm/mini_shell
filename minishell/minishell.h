@@ -48,6 +48,8 @@ char				*ft_chardup(char character);
 void				parser(t_token **tail, t_token **head);
 /*executor*/
 void	            ft_executor(t_shell *data, t_token **token, char *args, char **env);
+int                 new_executor(t_token **tail, t_shell *data, char **envp);
+void	            execute_comm(t_token *tail, char **input, t_shell *data);
 /*list functions*/
 void				ft_add_token(const char *word, size_t end, t_type type, t_token **head);
 void				ft_add_token2(char character);

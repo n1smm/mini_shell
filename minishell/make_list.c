@@ -21,10 +21,11 @@ t_token	*init(char *content, t_token **tail, t_token **head)
 	new_node->prev = NULL;
 	new_node->content = content;
 	new_node->typ_token = 0;
-	add_to_garbage(new_node, new_node);
-	add_to_garbage(new_node, content);
+	new_node->trash = NULL;
 	*tail = new_node;
 	*head = new_node;
+	add_to_garbage(new_node, new_node);
+	add_to_garbage(new_node, content);
 	return (new_node);
 }
 
