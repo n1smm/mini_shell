@@ -29,7 +29,7 @@ void	comm_forker(char *str1, char **envp, int pipefd[])
 		dup2(pipefd[1], STDOUT_FILENO);
 		execve(path_finder(first[0], first), first, envp);
 		close(pipefd[1]);
-		pid_error("forker;child failure", NULL, 1);
+		//pid_error("forker;child failure", NULL, 1);
 	}
 	else
 	{

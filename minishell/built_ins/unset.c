@@ -12,6 +12,11 @@
 
 #include "../minishell.h"
 
+// void    unset_var2(char **unset_var, t_shell *var, )
+// {
+    
+// }
+
 void    unset_var(char **unset_var, t_shell *var)
 {
     int i;
@@ -34,15 +39,11 @@ void    unset_var(char **unset_var, t_shell *var)
         {
             j = 0;
             while(var->env[i][j] != '=')
-            {
                 j++;
-            }
             if (var->env[i][j] == '=')
                 index_uv = j;
             if(ft_strncmp(var->env[i], unset_var[x], index_uv) == 0)
-            {
                 i++;
-            }
             var->env[z] = ft_strdup(var->env[i]);
             i++;
             z++;

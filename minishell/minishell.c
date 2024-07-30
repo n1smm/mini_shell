@@ -12,39 +12,71 @@ static size_t	count_env_vars(char **env)
 	return(env_num);
 }
 
-void	ft_init_shell(t_shell **data, char **env)
-{
-	size_t	i;
-	size_t	j;
+// void	ft_init_shell(t_shell **data, char **env)
+// {
+// 	size_t	i;
+// 	size_t	j;
 
-	i = 0;
-	j = 0;
-	*data = safe_malloc(sizeof(t_shell));
-	(*data)->trash = NULL;
-	add_to_garbage((t_token *)(*data), *data);
-	(*data)->num_env_var = count_env_vars(env);
+// 	i = 0;
+// 	j = 0;
+// 	*data = safe_malloc(sizeof(t_shell));
+// 	(*data)->trash = NULL;
+// 	add_to_garbage((t_token *)(*data), *data);
+// 	(*data)->num_env_var = count_env_vars(env);
 	
-	(*data)->env = safe_malloc(sizeof(char *) * ((*data)->num_env_var + 1));
-	add_to_garbage((t_token *)(*data), (*data)->env);
-	while (i < (*data)->num_env_var)
-	{
-		(*data)->env[i] = ft_strdup(env[i]);
-		if (!(*data)->env)
-		{
-			while(j < i)
-			{
-				free((*data)->env[j]);
-				j++;
-			}
-			free((*data)->env);
-			free(data);
-			return ;
-		}
-		i++;
-		add_to_garbage((t_token *)(*data), (*data)->env[i]);
-	}
-	(*data)->env[(*data)->num_env_var] = NULL;
-	(*data)->next = NULL;
+// 	(*data)->env = safe_malloc(sizeof(char *) * ((*data)->num_env_var + 1));
+// 	add_to_garbage((t_token *)(*data), (*data)->env);
+// 	while (i < (*data)->num_env_var)
+// 	{
+// 		(*data)->env[i] = ft_strdup(env[i]);
+// 		if (!(*data)->env)
+// 		{
+// 			while(j < i)
+// 			{
+// 				free((*data)->env[j]);
+// 				j++;
+// 			}
+// 			free((*data)->env);
+// 			free(data);
+// 			return ;
+// 		}
+// 		i++;
+// 		add_to_garbage((t_token *)(*data), (*data)->env[i]);
+// 	}
+// 	(*data)->env[(*data)->num_env_var] = NULL;
+// 	(*data)->next = NULL;
+// }
+
+void ft_init_shell(t_shell **data, char **env)
+{
+    size_t i;
+
+    *data = safe_malloc(sizeof(t_shell));
+    (*data)->trash = NULL;
+
+    (*data)->num_env_var = count_env_vars(env);
+    
+    (*data)->env = safe_malloc(sizeof(char *) * ((*data)->num_env_var + 1));
+    add_to_garbage((t_token *)(*data), (*data)->env);
+
+    for (i = 0; i < (*data)->num_env_var; i++)
+    {
+        (*data)->env[i] = ft_strdup(env[i]);
+        if (!(*data)->env[i])
+        {
+            while (i > 0)
+            {
+                free((*data)->env[--i]);
+            }
+            free((*data)->env);
+            free(*data);
+            *data = NULL;
+            return;
+        }
+        add_to_garbage((t_token *)(*data), (*data)->env[i]);
+    }
+    (*data)->env[(*data)->num_env_var] = NULL;
+    (*data)->next = NULL;
 }
 
 void ft_init(t_token **tail, t_token **head)
@@ -63,7 +95,7 @@ void ft_init(t_token **tail, t_token **head)
 	(*tail)->next = NULL;
 	(*tail)->prev = NULL;
 	(*tail)->trash = NULL;
-	add_to_garbage(*tail, *tail);
+	//add_to_garbage(*tail, *tail);
 	add_to_garbage(*tail, place_holder);
 }
 
@@ -91,6 +123,14 @@ static char *prompt_check(void)
 	return (prompt);
 }
 
+void	free_input_prompt(char *input, char *prompt)
+{
+	if (input)
+		free(input);
+	if (prompt)
+		free(prompt);
+}
+
 int main(int argc, char **argv, char **env)
 {
 	char		*input;
@@ -98,19 +138,20 @@ int main(int argc, char **argv, char **env)
 	t_token 	*head;
 	t_token 	*tail;
 	t_shell		*data;
-//	t_trash		*garbage;
+	//t_trash		*garbage;
 
 	tail = NULL;
 	head = NULL;
 	data = NULL;
-//	garbage = NULL;
+	//garbage = NULL;
 	argc = argc;
 	argv = argv;
 	env = env ;
 	//t_input *commands;
-	//init_garbage(garbage);
+	//init_garbage(&garbage);
 	ft_init_shell(&data, env);
 	ft_init(&tail, &head);
+	tail->trash = NULL;
 	while(1)
 	{
 		catch_signals(); //non dà leaks
@@ -127,17 +168,18 @@ int main(int argc, char **argv, char **env)
 		//executor(&tail, env);
 		new_executor(&tail, data, env);
 
-		printf("\n	PRINT LIST TOKEN :\n\n"),
-		print_list(tail);
-		printf("\n");
-		free(input);
-		free(prompt);
+		// printf("\n	PRINT LIST TOKEN :\n\n"),
+		// print_list(tail);
+		// printf("\n");
+		free_input_prompt(input, prompt);
 		free_garbage(tail);
 		free_tokens(&tail, &head, 0);
+		rl_clear_history();
+		rl_free_line_state();
+		rl_cleanup_after_signal();
 	}
 	printf("\nMinishell è terminato\n");
-	free(input);
-	free(prompt);
+	free_input_prompt(input, prompt);
 	free_garbage(tail);
 	tail = NULL;
 	head = NULL;

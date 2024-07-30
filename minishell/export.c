@@ -142,7 +142,7 @@ void    ft_export(t_shell *var, char **args)
         if(valid_env_var(args[index_var]) == 0)
             add_to_env(var, args[index_var]);
         else
-            printf("export: `%s': not a valid identifier", args[index_var]);
+            printf("export: `%s': not a valid identifier\n", args[index_var]);
         index_var++;
     }
     return ;

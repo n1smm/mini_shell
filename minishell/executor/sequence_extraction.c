@@ -36,7 +36,7 @@ static char	**comm_seq_init(t_token **tail)
 	int		length;
 
 	length = command_len(tail);
-	printf("length: %d \n", length);
+	//printf("length: %d \n", length);
 	command_seq = safe_malloc(sizeof(char *) * (length + 1));
 	command_seq[length] = 0;
 	return (command_seq);

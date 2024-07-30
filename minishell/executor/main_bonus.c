@@ -43,11 +43,33 @@ char	**pipe_loop(t_token **tail)
 	path = path_finder(use_token(tail, COMMAND)->content);
 	if (path == NULL)
 	{
-		pid_error("command not found", NULL, 0);
+		;//printf("command not found: No such file or direcotry\n");
+		//pid_error("command not found", NULL, 0);
 	}
 	free(path);
 	command_seq = seq_extract(tail);
 	return (command_seq);
+}
+
+int	cmd_exists(char **input)
+{
+	if(ft_strncmp(input[0], "ls", 2) == 0 || \
+		ft_strncmp(input[0], "chmod", 5) == 0 || \
+			ft_strncmp(input[0], "read", 4) == 0 || \
+				ft_strncmp(input[0], "mkdir", 5) == 0 || \
+					ft_strncmp(input[0], "touch", 5) == 0 || \
+						ft_strncmp(input[0], "rm", 2) == 0 || \
+							ft_strncmp(input[0], "cp", 2) == 0 || \
+								ft_strncmp(input[0], "mv", 2) == 0 || \
+									ft_strncmp(input[0], "cat", 3) == 0 || \
+										ft_strncmp(input[0], "grep", 4) == 0 || \
+											ft_strncmp(input[0], "sudo", 4) == 0 || \
+												ft_strncmp(input[0], "df", 2) == 0 || \
+													ft_strncmp(input[0], "history", 7) == 0 || \
+														ft_strncmp(input[0], "ps", 2) == 0)
+															return (0);
+	else
+		return (1);
 }
 
 int	execute_comm(char **input, t_shell *data)
@@ -57,7 +79,7 @@ int	execute_comm(char **input, t_shell *data)
 		ft_cd(input[1]);
 		return (1);
 	}
-	if(ft_strncmp(input[0], "env", 3) == 0)
+	else if(ft_strncmp(input[0], "env", 3) == 0)
 	{
 		ft_env(data);
 		return (1);
@@ -82,8 +104,13 @@ int	execute_comm(char **input, t_shell *data)
 		ft_echo(input);
 		return (1);
 	}
+	else if(cmd_exists(input) == 0)
+		return(0);
 	else
+	{
+		printf("command not found: No such file or direcotry\n");
 		return (0);
+	}
 }
 
 int	new_executor(t_token **tail, t_shell *data, char **envp)
@@ -104,7 +131,7 @@ int	new_executor(t_token **tail, t_shell *data, char **envp)
 		if (file_type[0] != PRINTABLE)
 			redirect_infiles(file, file_type, tail);
 		comm_seq = pipe_loop(tail);
-		if (!execute_comm(comm_seq, data))
+		if (execute_comm(comm_seq, data) == 0)
 			comm_forker(comm_seq , envp, pipefd, check_pipe(tail, file_type));
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;

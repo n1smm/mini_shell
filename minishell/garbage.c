@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+// void    init_garbage(t_trash *garbage)
+// {
+//     garbage->content = NULL;
+//     garbage->next = NULL;
+// }
+
 void    add_to_garbage(t_token *garbage, void *trash)
 {
     t_trash *new_trash;
@@ -12,16 +18,19 @@ void    add_to_garbage(t_token *garbage, void *trash)
 
 void    free_garbage(t_token *garbage)
 {
-    if(!garbage || !garbage->trash)
+    if(!garbage)
         return ;
     t_trash *curr;
     t_trash *next;
 
     curr = garbage->trash;
+    if (!curr)
+        return ;
     while(curr)
     {
         next = curr->next;
-        free(curr->content);
+        if (curr->content)
+            free(curr->content);
         free(curr);
         curr = next;
     }

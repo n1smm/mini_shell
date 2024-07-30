@@ -25,18 +25,18 @@ char	*ft_strdup2(const char *s, size_t end)
 	return ((char *)i);
 }
 
-void	ft_add_token(const char *word, size_t end, t_type type, t_token **head)
+void ft_add_token(const char *word, size_t end, t_type type, t_token **head)
 {
-	char *str;
+    if(!word || !head || !*head)
+        return ;
+    char *str;
 
-	(*head)->trash = NULL;
-	str = NULL;
-	if(!word)
-		return ;
-	str = ft_strdup2(word, end);
-	double_lstadd_back(str, head);
-	(*head)->typ_token = type;
-	add_to_garbage(*head, (char *)word);
+    str = ft_strdup2(word, end);
+    if (!str)
+        return ;
+    double_lstadd_back(str, head);
+    (*head)->typ_token = type;
+    add_to_garbage(*head, str);
 }
 
 char	*ft_chardup(char character)
