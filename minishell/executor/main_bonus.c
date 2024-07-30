@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/25 14:41:09 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/30 17:42:15 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	pid_error(char *msg, char **str, int free_me)
 		free(*str);
 }
 
-char	**pipe_loop(t_token **tail, char **input, t_shell *data)
+char	**pipe_loop(t_token **tail)
 {
 	char	*path;
 	char	**command_seq;
@@ -45,29 +45,45 @@ char	**pipe_loop(t_token **tail, char **input, t_shell *data)
 	{
 		pid_error("command not found", NULL, 0);
 	}
-	execute_comm(*tail, input, data);
 	free(path);
 	command_seq = seq_extract(tail);
 	return (command_seq);
 }
 
-void	execute_comm(t_token *tail, char **input, t_shell *data)
+int	execute_comm(char **input, t_shell *data)
 {
-	if (ft_strncmp(tail->content, "ls", 3) == 0)
-		ft_ls();
-	else if(ft_strncmp(tail->content, "env", 3) == 0)
+	if (ft_strncmp(input[0], "cd", 3) == 0)
+	{
+		ft_cd(input[1]);
+		return (1);
+	}
+	if(ft_strncmp(input[0], "env", 3) == 0)
+	{
 		ft_env(data);
-	else if(ft_strncmp(tail->content, "export", 6) == 0)
+		return (1);
+	}
+	else if(ft_strncmp(input[0], "export", 6) == 0)
+	{
 		ft_export(data, input);
-	else if(ft_strncmp(tail->content, "unset", 5) == 0)
+		return (1);
+	}
+	else if(ft_strncmp(input[0], "unset", 5) == 0)
+	{
 		ft_unset(data, input);
-	else if(ft_strncmp(tail->content, "pwd", 3) == 0)
+		return (1);
+	}
+	else if(ft_strncmp(input[0], "pwd", 3) == 0)
+	{
 		ft_pwd();
-	else if(ft_strncmp(tail->content, "echo", 4) == 0)
+		return (1);
+	}
+	else if(ft_strncmp(input[0], "echo", 4) == 0)
+	{
 		ft_echo(input);
+		return (1);
+	}
 	else
-		pid_error("command not found", NULL, 0);
-
+		return (0);
 }
 
 int	new_executor(t_token **tail, t_shell *data, char **envp)
@@ -77,10 +93,8 @@ int	new_executor(t_token **tail, t_shell *data, char **envp)
 	t_type		file_type[1024];
 	t_token		*tmp;
 	char		**comm_seq;
-	char		**input;
 
 	data = data;
-	input = seq_extract(tail);
 	tmp = *tail;
 	pipefd[2] = dup(0);
 	pipefd[3] = dup(1);
@@ -89,12 +103,13 @@ int	new_executor(t_token **tail, t_shell *data, char **envp)
 		files_open(file, file_type, tail, pipefd);
 		if (file_type[0] != PRINTABLE)
 			redirect_infiles(file, file_type, tail);
-		comm_seq = pipe_loop(tail, input, data);
-		comm_forker(comm_seq , envp, pipefd, check_pipe(tail, file_type));
+		comm_seq = pipe_loop(tail);
+		if (!execute_comm(comm_seq, data))
+			comm_forker(comm_seq , envp, pipefd, check_pipe(tail, file_type));
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;
-		if ((*tail)->typ_token == COMMAND)
-			execute_comm(*tail, input, data);
+		/* if ((*tail)->typ_token == COMMAND) */
+		/* 	execute_comm(*tail, input, data); */
 	}
 	dup2(pipefd[2], 0);
 	dup2(pipefd[3], 1);

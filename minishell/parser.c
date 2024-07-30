@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/27 14:36:41 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/30 17:14:16 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static void	check_string(t_token *curr, t_type *mod_type, int is_quote) // TODO
 static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	/* there is problem where <<li"mit" mit becomes command */
-	if (*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
-		|| *mod_type == LIMITER)
+	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
+		|| *mod_type == LIMITER) && is_quote != 1)
 		curr->typ_token = COMMAND;
 	else if (*mod_type == REDIRECT_IN)
 		curr->typ_token = INFILE;

@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/25 15:09:45 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/30 17:19:38 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ char				*ft_chardup(char character);
 void				parser(t_token **tail, t_token **head);
 /*executor*/
 void	            ft_executor(t_shell *data, t_token **token, char *args, char **env);
-int                 new_executor(t_token **tail, t_shell *data, char **envp);
-void	            execute_comm(t_token *tail, char **input, t_shell *data);
 /*list functions*/
 void				ft_add_token(const char *word, size_t end, t_type type, t_token **head);
 void				ft_add_token2(char character);
