@@ -29,6 +29,7 @@ void	comm_forker(char **comm_seq, char **envp, int pipefd[], int is_pipe)
 		{
 			dup2(pipefd[1], STDOUT_FILENO);
 		}
+		printf("Comm seq : %s\n", comm_seq[0]);
 		execve(path_finder(comm_seq[0]), comm_seq, envp);
 		close(pipefd[1]);
 		pid_error("forker;child failure", NULL, 1);

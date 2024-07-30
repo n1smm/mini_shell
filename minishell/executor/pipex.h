@@ -27,7 +27,7 @@
 
 /* main */
 int		executor(t_token **tail, char **envp);
-char	**pipe_loop(t_token **tail);
+char	**pipe_loop(t_token **tail, char **input, t_shell *data);
 void	pid_error(char *msg, char **str, int free_me);
 void	free_mtrx(char **mtrx);
 /* path_finder */
