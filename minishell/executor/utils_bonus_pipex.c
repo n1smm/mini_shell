@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/25 15:24:32 by thiew            ###   ########.fr       */
+/*   Updated: 2024/07/27 14:15:37 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	here_doc(int file[], t_token **tail, int i)
 	{
 		write(1, "heredoc> ", 9);
 		input = get_next_line(0);
-		/* input = expand_string_checker(input); */
+		input = expand_string_checker(input);
 		if (!input || ((ft_strncmp(input, limiter, ft_strlen(limiter)) == 0)
 				&& ft_strlen(input) == ft_strlen(limiter) + 1))
 		{
@@ -49,7 +49,7 @@ void	here_doc(int file[], t_token **tail, int i)
 	free(input);
 }
 
-int	create_heredoc(int j, int flag)
+int	create_heredoc(int j, int create)
 {
 	int			fd;
 	char		*file_name;
@@ -60,9 +60,9 @@ int	create_heredoc(int j, int flag)
 		iteration = join_wrapper("0", iteration, 0);
 	file_name = join_wrapper(".here_doc", iteration, 2);
 	printf("heredoc filename: %s\n", file_name);
-	if (flag)
+	if (create)
 		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (!flag)
+	else if (!create)
 		fd = open(file_name, O_RDONLY, 0644);
 
 	return (fd);
