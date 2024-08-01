@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:56:46 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/23 15:22:07 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/01 19:30:09 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char **seq_extract(t_token **tail)
 	foo = create_empty_string(1);
 	while (CURRENT_COMMAND)
 	{
-		if(curr->typ_token != WHITESPACE)
+		if(curr->typ_token != WHITESPACE && curr->typ_token != QUOTE && curr->typ_token != SINGLE_QUOTE)
 			foo = join_wrapper(foo, curr->content, 1);
 		curr = curr->next;
 		if (curr  && curr->typ_token == WHITESPACE)

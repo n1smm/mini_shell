@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/30 17:14:16 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/01 15:37:16 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,13 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_type *mod_type)
 			check_string(curr, mod_type, is_quote);
 		else
 			curr->typ_token = PRINTABLE;
+		if (curr->typ_token == EXPAND)
+		{
+			expand_checker(curr);
+			if (curr->content[0] == 0)
+				delete_node(tail, curr);
+		}
+
 		/* if (curr == tmp->next) */
 		/* 	all_quotes_are_equal = curr->typ_token; */
         /* printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(*mod_type)); */

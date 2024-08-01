@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/30 17:42:15 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/01 20:24:14 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,6 @@ void	pid_error(char *msg, char **str, int free_me)
 	exit(EXIT_FAILURE);
 	if (free_me == 1)
 		free(*str);
-}
-
-char	**pipe_loop(t_token **tail)
-{
-	char	*path;
-	char	**command_seq;
-
-	path = path_finder(use_token(tail, COMMAND)->content);
-	if (path == NULL)
-	{
-		;//printf("command not found: No such file or direcotry\n");
-		//pid_error("command not found", NULL, 0);
-	}
-	free(path);
-	command_seq = seq_extract(tail);
-	return (command_seq);
 }
 
 int	cmd_exists(char **input)
@@ -104,13 +88,73 @@ int	execute_comm(char **input, t_shell *data)
 		ft_echo(input);
 		return (1);
 	}
-	else if(cmd_exists(input) == 0)
+	else if(path_finder(input[0]))
 		return(0);
 	else
 	{
-		printf("command not found: No such file or direcotry\n");
+		printf("command not found: No such file or directory\n");
 		return (0);
 	}
+}
+
+t_token	*assign_special_boy(t_token *tmp)
+{
+	t_token *curr;
+
+	curr = tmp;
+	while (curr && curr->typ_token != WHITESPACE && curr->typ_token != PIPELINE)
+	{
+		if (curr->typ_token == LIMITER)
+			return (curr);
+		curr = curr->next;
+	}
+	return (NULL);
+}
+
+void	check_redirects(t_token **tail)
+{
+	t_token	*curr;
+	t_token	*tmp;
+
+	curr = *tail;
+	while(curr && curr->typ_token != PIPELINE)
+	{
+		if (curr->typ_token == REDIRECT_IN ||  curr->typ_token == REDIRECT_OUT || curr->typ_token == REDIRECT_IN_DOUBLE || curr->typ_token == REDIRECT_OUT_DOUBLE)
+		{
+			tmp = assign_special_boy(curr);
+			while (curr && curr->typ_token != WHITESPACE && curr->typ_token != PIPELINE)
+			{
+				if (curr->typ_token == QUOTE || curr->typ_token == SINGLE_QUOTE)
+				{
+					if(tmp)
+						tmp->special_boy = true;
+					tmp = curr->next;
+					delete_node(tail, curr);
+					curr = tmp;
+					tmp = NULL;
+				}
+				curr = curr->next;
+			}
+		}
+		curr = curr->next;
+	}
+}
+
+char	**pipe_loop(t_token **tail)
+{
+	char	*path;
+	char	**command_seq;
+
+	check_redirects(tail);
+	path = path_finder(use_token(tail, COMMAND)->content);
+	if (path == NULL)
+	{
+		;//printf("command not found: No such file or direcotry\n");
+		//pid_error("command not found", NULL, 0);
+	}
+	free(path);
+	command_seq = seq_extract(tail);
+	return (command_seq);
 }
 
 int	new_executor(t_token **tail, t_shell *data, char **envp)
@@ -133,6 +177,7 @@ int	new_executor(t_token **tail, t_shell *data, char **envp)
 		comm_seq = pipe_loop(tail);
 		if (execute_comm(comm_seq, data) == 0)
 			comm_forker(comm_seq , envp, pipefd, check_pipe(tail, file_type));
+		close_doc(file, file_type);
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;
 		/* if ((*tail)->typ_token == COMMAND) */

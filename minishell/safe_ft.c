@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:01:08 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/22 12:40:26 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/01 15:24:23 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,22 @@ char	*create_empty_string(int len)
 	return (empty);
 }
 
+int	is_delimiting_node(t_token *curr)
+{
+	if (curr->typ_token == WHITESPACE)
+		return (1);
+	if (curr->typ_token == PIPELINE)
+		return (1);
+	if (curr->typ_token == REDIRECT_IN)
+		return (1);
+	if (curr->typ_token == REDIRECT_OUT)
+		return (1);
+	if (curr->typ_token == REDIRECT_IN_DOUBLE)
+		return (1);
+	if (curr->typ_token == REDIRECT_OUT_DOUBLE)
+		return (1);
+	if (curr->typ_token == WHITESPACE)
+		return (1);
+	else
+		return(0);
+}

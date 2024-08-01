@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/30 17:32:40 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/01 11:54:30 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void 	files_open(int file[], t_type file_type[], t_token **tail, int pipefd[]);
 void	redirect_infiles(int file[], t_type file_type[], t_token **tail);
 /* utils_bonus */
 void	here_doc(int file[], t_token **tail, int i);
-void	unlink_doc(t_token *tail);
+void	close_doc(int file[], t_type file_type[]);
 int		check_pipe(t_token **tail, t_type file_type[]);
 int		create_heredoc(int j, int create);
 void	here_doc_redirect(int file[], t_token **tail, int i);

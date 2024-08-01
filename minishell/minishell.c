@@ -1,5 +1,3 @@
-#include "minishell.h"
-#include "libft/libft.h"
 #include "executor/pipex.h"
 
 static size_t	count_env_vars(char **env)
@@ -163,13 +161,14 @@ int main(int argc, char **argv, char **env)
 		add_history(input); //non dà leaks
 		split_input(input, &tail, &head);
 		parser(&tail, &head);
+		/* after_parsy(&tail, &head); */
 
 		//ft_executor(data, &tail, input, env);
 		//executor(&tail, env);
-		new_executor(&tail, data, env);
+		/* new_executor(&tail, data, env); */
 
-		// printf("\n	PRINT LIST TOKEN :\n\n"),
-		// print_list(tail);
+		printf("\n	PRINT LIST TOKEN :\n\n"),
+		print_list(tail);
 		// printf("\n");
 		free_input_prompt(input, prompt);
 		free_garbage(tail);
