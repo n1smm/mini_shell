@@ -76,26 +76,26 @@ bool	double_lstadd_back(char *content, t_token **head)
 	return (true);
 }
 
-void delete_node(t_token **tail, t_token *del)
+void	delete_node(t_token **tail, t_token *del)
 {
-    if (*tail == NULL || del == NULL)
-        return;
-    if (*tail == del)
-        *tail = del->next;
-    if (del->next != NULL)
-        del->next->prev = del->prev;
-    if (del->prev != NULL)
+	if (*tail == NULL || del == NULL)
+		return ;
+	if (*tail == del)
+		*tail = del->next;
+	if (del->next != NULL)
+		del->next->prev = del->prev;
+	if (del->prev != NULL)
 		del->prev->next = del->next;
 	del->next = NULL;
 	del->prev = NULL;
 	free(del);
 	del = NULL;
-    return;
+	return ;
 }
 
 int	find_token(t_token *tail, t_type type)
 {
-	t_token *curr;
+	t_token	*curr;
 
 	curr = tail;
 	while (curr)
@@ -104,12 +104,12 @@ int	find_token(t_token *tail, t_type type)
 			return (1);
 		curr = curr->next;
 	}
-	return(0);	
+	return (0);
 }
 
-t_token *use_token(t_token **tail, t_type type)
+t_token	*use_token(t_token **tail, t_type type)
 {
-	while(*tail)
+	while (*tail)
 	{
 		if ((*tail)->typ_token == type)
 			return (*tail);
@@ -118,7 +118,7 @@ t_token *use_token(t_token **tail, t_type type)
 	return (NULL);
 }
 
-char *print_token_typ(t_type token_type)
+char	*print_token_typ(t_type token_type)
 {
 	if (token_type == WHITESPACE)
 		return ("WHITESPACE");
@@ -172,7 +172,8 @@ void	print_list(t_token *tail)
 	curr = tail;
 	while (curr != NULL)
 	{
-		printf("index of token: %i\t value_token: %s\t type of token: %s\n", i++, curr->content,
+		printf("index of token: %i\t value_token: %s\t \
+			type of token: %s\n", i++, curr->content,
 			print_token_typ(curr->typ_token));
 		curr = curr->next;
 	}

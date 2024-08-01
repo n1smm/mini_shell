@@ -21,50 +21,50 @@
 // 		return (WORD);
 // }
 
-void ft_lexer(t_token *token)
-{
-	// int	i;
-	// int	j;
-	// int z;
-	// int x;
-	// char *cmd;
+// void ft_lexer(t_token *token)
+// {
+// 	// int	i;
+// 	// int	j;
+// 	// int z;
+// 	// int x;
+// 	// char *cmd;
 
-	// i = 0;
-	// j = 0;
-	// z = 0;
-	// cmd = NULL;
-	if (token)
-	{
-		if(ft_strncmp(token->content, " ", ft_strlen(token->content)) == 0)
-			token->typ_token = WHITESPACE;
-		else if(ft_strncmp(token->content, " ", ft_strlen(token->content)) == 0)
-			token->typ_token = WORD;
-		printf("prova: %s\n", token->content);
-		printf("prova: %d\n", token->typ_token);
-	// 	while ((token[i] >= 9 && token[i] <= 13) || (token[i] == 32
-	// 		&& token[i]))
-	// 		i++;
-	// 	i = 0;
-	// 	j = i;
-	// 	while (!(token[i] >= (t_type *toke9 && token[i] <= 13)) && token[i] != 32
-	// 		&& token[i] != '|' && token[i])
-	// 		i++;
-	// 	cmd = malloc(sizeof(char) * (j + i));
-	// 	x = i - j;
-	// 	while (x > 0)
-	// 	{
-	// 		cmd[z++] = token[i];
-	// 		x--;
-	// 	}
-	// 	cmd[z] = 0;
-	// 	//if ((ft_compare(input + j, i)) == COMMAND)
-	// 	if (token->type == COMMAND)
-	// 		printf("command not found: %s", cmd);
-	// 	else
-	// 		printf("success\n");
-	// 	free(cmd);
-	}
-}
+// 	// i = 0;
+// 	// j = 0;
+// 	// z = 0;
+// 	// cmd = NULL;
+// 	if (token)
+// 	{
+// 		if(ft_strncmp(token->content, " ", ft_strlen(token->content)) == 0)
+// 			token->typ_token = WHITESPACE;
+// 		else if(ft_strncmp(token->content, " ", ft_strlen(token->content)) == 0)
+// 			token->typ_token = WORD;
+// 		printf("prova: %s\n", token->content);
+// 		printf("prova: %d\n", token->typ_token);
+// 	// 	while ((token[i] >= 9 && token[i] <= 13) || (token[i] == 32
+// 	// 		&& token[i]))
+// 	// 		i++;
+// 	// 	i = 0;
+// 	// 	j = i;
+// 	// 	while (!(token[i] >= (t_type *toke9 && token[i] <= 13)) && token[i] != 32
+// 	// 		&& token[i] != '|' && token[i])
+// 	// 		i++;
+// 	// 	cmd = malloc(sizeof(char) * (j + i));
+// 	// 	x = i - j;
+// 	// 	while (x > 0)
+// 	// 	{
+// 	// 		cmd[z++] = token[i];
+// 	// 		x--;
+// 	// 	}
+// 	// 	cmd[z] = 0;
+// 	// 	//if ((ft_compare(input + j, i)) == COMMAND)
+// 	// 	if (token->type == COMMAND)
+// 	// 		printf("command not found: %s", cmd);
+// 	// 	else
+// 	// 		printf("success\n");
+// 	// 	free(cmd);
+// 	}
+// }
 
 // void lexer_main(char *input)
 // {

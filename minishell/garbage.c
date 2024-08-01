@@ -1,45 +1,39 @@
 #include "minishell.h"
 
-// void    init_garbage(t_trash *garbage)
-// {
-//     garbage->content = NULL;
-//     garbage->next = NULL;
-// }
-
-void    add_to_garbage(t_token *garbage, void *trash)
+void	add_to_garbage(t_token *garbage, void *trash)
 {
-    t_trash *new_trash;
+	t_trash	*new_trash;
 
-    new_trash = (t_trash *)safe_malloc(sizeof(t_trash));
-    new_trash->content = trash;
-    new_trash->next = garbage->trash;
-    garbage->trash = new_trash;
+	new_trash = (t_trash *)safe_malloc(sizeof(t_trash));
+	new_trash->content = trash;
+	new_trash->next = garbage->trash;
+	garbage->trash = new_trash;
 }
 
-void    free_garbage(t_token *garbage)
+void	free_garbage(t_token *garbage)
 {
-    if(!garbage)
-        return ;
-    t_trash *curr;
-    t_trash *next;
+	t_trash	*curr;
+	t_trash	*next;
 
-    curr = garbage->trash;
-    if (!curr)
-        return ;
-    while(curr)
-    {
-        next = curr->next;
-        if (curr->content)
-            free(curr->content);
-        free(curr);
-        curr = next;
-    }
-    garbage->trash = NULL;
+	if (!garbage)
+		return ;
+	curr = garbage->trash;
+	if (!curr)
+		return ;
+	while (curr)
+	{
+		next = curr->next;
+		if (curr->content)
+			free(curr->content);
+		free(curr);
+		curr = next;
+	}
+	garbage->trash = NULL;
 }
 
-void    safe_exit(t_token *garbage, int i)
+void	safe_exit(t_token *garbage, int i)
 {
-    if (i == 1)
-        printf("Error : 1");
-    free_garbage(garbage);
+	if (i == 1)
+		printf("Error : 1");
+	free_garbage(garbage);
 }

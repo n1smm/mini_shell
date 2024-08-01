@@ -134,7 +134,7 @@ void	parser(t_token **tail, t_token **head)
 			if (curr->content[0] == 0)
 				delete_node(tail, curr);
 		}
-        /* printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type)); */
+		/* printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type)); */
 		curr = curr->next;
 	}
 }

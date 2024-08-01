@@ -20,7 +20,7 @@ void	catch_signals()
 
 void	ctrl_c(int sig)
 {
-	if(sig == SIGINT)
+	if (sig == SIGINT)
 	{
 		rl_on_new_line();
 		printf("\n");
@@ -32,9 +32,10 @@ void	ctrl_c(int sig)
 
 void	ctrl_slash(int sig)
 {
+	struct termios	term;
+
 	sig = sig;
-	struct termios term;
-    tcgetattr(STDIN_FILENO, &term);
-    term.c_cc[VQUIT] = _POSIX_VDISABLE;  // Disable the quit character
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_cc[VQUIT] = _POSIX_VDISABLE;// Disable the quit character
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

@@ -13,11 +13,12 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-/* if the type of token is correct it will allocate, otherwise it returns null not allocated */
+/* if the type of token is correct it will allocate, 
+otherwise it returns null not allocated */
 char	*expander(char *input, t_type typ_token)
 {
-	char *result;
-	char *result_path;
+	char	*result;
+	char	*result_path;
 
 	if (typ_token == COMMAND)
 	{
@@ -74,7 +75,7 @@ static void	refurbish_node(t_token *curr, char *content, bool free_me)
 	while (content[i])
 	{
 		if (!ft_isalpha(content[i]))
-			curr->typ_token = STRING;	
+			curr->typ_token = STRING;
 		if (content[i++] == '/')
 			path = true;
 	}
