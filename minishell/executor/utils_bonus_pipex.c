@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/01 12:07:04 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/02 17:26:35 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,7 @@ int	check_pipe(t_token **tail, t_type file_type[])
 	}
 	if (pipe == 1 && command == 1)
 		return(1);
+	if (pipe == 1 && command == 0)
+		return (-1);
 	return (0);
 }

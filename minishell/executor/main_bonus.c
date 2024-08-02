@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/02 12:03:49 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/02 17:38:18 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,11 @@ int	execute_comm(char **input, t_shell *data)
 		return(0);
 	else
 	{
+		write(2, "xxx",3);
+		write(2, "\n",1);
 		printf("command not found: No such file or directory\n");
-		return (0);
+		exit(EXIT_FAILURE);
+		return (-1);
 	}
 }
 
@@ -136,7 +139,8 @@ void	check_redirects(t_token **tail)
 				curr = curr->next;
 			}
 		}
-		curr = curr->next;
+		if (curr)
+			curr = curr->next;
 	}
 }
 
@@ -165,18 +169,24 @@ int	new_executor(t_token **tail, t_shell *data, char **envp)
 	char		**comm_seq;
 
 	data = data;
+	envp = envp;
 	tmp = *tail;
 	pipefd[2] = dup(0);
 	pipefd[3] = dup(1);
+	file[1023] = 0;
 	while (*tail)
 	{
 		check_redirects(tail);
 		files_open(file, file_type, tail, pipefd);
-		if (file_type[0] != PRINTABLE)
+		if (file_type[0] != NONPRINTABLE)
 			redirect_infiles(file, file_type, tail);
 		comm_seq = pipe_loop(tail);
-		if (execute_comm(comm_seq, data) == 0)
-			comm_forker(comm_seq , envp, pipefd, check_pipe(tail, file_type));
+		if (check_pipe(tail, file_type) == 0)
+			file[1023] = execute_comm(comm_seq, data);
+		if (file[1023] == 0)
+			comm_forker(comm_seq , data, pipefd, check_pipe(tail, file_type), file, file_type, tail);
+		/* if (check_pipe(tail, file_type) == -1) */
+		/* 	dup2(pipefd[0], pipefd[2]); */
 		close_doc(file, file_type);
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;

@@ -6,14 +6,14 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/25 14:43:17 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:40:54 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "pipex.h"
 
-void	comm_forker(char **comm_seq, char **envp, int pipefd[], int is_pipe)
+void	comm_forker(char **comm_seq, t_shell *data, int pipefd[], int is_pipe, int file[], t_type file_type[], t_token **tail)
 {
 	pid_t	pid;
 
@@ -25,13 +25,19 @@ void	comm_forker(char **comm_seq, char **envp, int pipefd[], int is_pipe)
 	if (pid == 0)
 	{
 		close(pipefd[0]);
-		if (is_pipe)
+		if (file_type[100] == PRINTABLE)
+			redirect_infiles(file, file_type, tail);
+		if (is_pipe == 1)
 		{
 			dup2(pipefd[1], STDOUT_FILENO);
 		}
+		if (check_pipe(tail, file_type) == -1)
+			dup2(STDOUT_FILENO, pipefd[3]);
 		//printf("Comm seq : %s\n", comm_seq[0]);
-		execve(path_finder(comm_seq[0]), comm_seq, envp);
+		if (execute_comm(comm_seq, data) == 0)
+			execve(path_finder(comm_seq[0]), comm_seq, data->env);
 		close(pipefd[1]);
+		exit(EXIT_SUCCESS);
 		//pid_error("forker;child failure", NULL, 1);
 	}
 	else
