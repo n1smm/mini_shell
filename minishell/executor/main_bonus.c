@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/02 17:38:18 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/02 19:40:23 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,13 +178,13 @@ int	new_executor(t_token **tail, t_shell *data, char **envp)
 	{
 		check_redirects(tail);
 		files_open(file, file_type, tail, pipefd);
-		if (file_type[0] != NONPRINTABLE)
-			redirect_infiles(file, file_type, tail);
+		/* if (file_type[0] != NONPRINTABLE) */
+			/* redirect_infiles(file, file_type, tail); */
 		comm_seq = pipe_loop(tail);
 		if (check_pipe(tail, file_type) == 0)
 			file[1023] = execute_comm(comm_seq, data);
 		if (file[1023] == 0)
-			comm_forker(comm_seq , data, pipefd, check_pipe(tail, file_type), file, file_type, tail);
+			comm_forker(comm_seq , data, pipefd, check_pipe(tail, file_type), file, file_type, &tmp);
 		/* if (check_pipe(tail, file_type) == -1) */
 		/* 	dup2(pipefd[0], pipefd[2]); */
 		close_doc(file, file_type);

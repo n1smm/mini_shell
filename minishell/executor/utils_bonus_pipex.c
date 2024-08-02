@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/02 17:26:35 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/02 19:38:50 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	here_doc_redirect(int file[], t_token **tail, int i)
 	file[i] = create_heredoc(i, 0);
 	if (file[i] == -1)
 		pid_error("here_doc; couldn't reopen file", NULL, 0);
-	*tail = (*tail)->next;
+	if (*tail)
+		*tail = (*tail)->next;
 }
 
 void	here_doc(int file[], t_token **tail, int i)
