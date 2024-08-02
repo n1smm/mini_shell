@@ -27,16 +27,16 @@ char	*ft_strdup2(const char *s, size_t end)
 
 void ft_add_token(const char *word, size_t end, t_type type, t_token **head)
 {
-    if(!word || !head || !*head)
-        return ;
-    char *str;
+	if(!word || !head || !*head)
+		return ;
+	char *str;
 
-    str = ft_strdup2(word, end);
-    if (!str)
-        return ;
-    double_lstadd_back(str, head);
-    (*head)->typ_token = type;
-    add_to_garbage(*head, str);
+	str = ft_strdup2(word, end);
+	if (!str)
+		return ;
+	double_lstadd_back(str, head);
+	(*head)->typ_token = type;
+	add_to_garbage(*head, str);
 }
 
 char	*ft_chardup(char character)
@@ -115,9 +115,7 @@ void split_input(char *input, t_token **tail, t_token **head)
 	{
 		j = i;
 		if(term_character(input[i]) == false)
-		{
 			ft_check_word(input, &i, &type);
-		}
 		else if(input[i] == ' ')
 			type = WHITESPACE;
 		else if(input[i] == '|')

@@ -19,7 +19,7 @@ void	ft_init_shell(t_shell **data, char **env)
 	*data = safe_malloc(sizeof(t_shell));
 	(*data)->trash = NULL;
 	(*data)->num_env_var = count_env_vars(env);
-	(*data)->env = safe_malloc(sizeof(char *) * ((*data)->num_env_var + 1));
+	(*data)->env = safe_malloc(sizeof(char *) * 1024);
 	add_to_garbage((t_token *)(*data), (*data)->env);
 	i = 0;
 	while (i < (*data)->num_env_var)
@@ -134,9 +134,9 @@ int	main(int argc, char **argv, char **env)
 		free_input_prompt(input, prompt);
 		free_garbage(tail);
 		free_tokens(&tail, &head, 0);
-		rl_clear_history();
-		rl_free_line_state();
-		rl_cleanup_after_signal();
+		// rl_clear_history();
+		// rl_free_line_state();
+		// rl_cleanup_after_signal();
 	}
 	printf("\nMinishell è terminato\n");
 	free_input_prompt(input, prompt);

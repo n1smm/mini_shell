@@ -36,17 +36,20 @@ static int	eq_len(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] != '=')
+	if (!str)
+		return (0);
+	while (str[i] != '=' && str[i])
 		i++;
 	return (i);
 }
 
-void	add_to_env(t_shell *var, char *new_var)
+static t_shell	*add_to_env(t_shell *var, char *new_var)
 {
 	int		i;
 	int		j;
 	int		index_nv;
 	char	**tmp;
+	char	*new;
 
 	i = 0;
 	j = 0;
@@ -59,17 +62,26 @@ void	add_to_env(t_shell *var, char *new_var)
 	while (var->env[i++])
 	{
 		j = eq_len(var->env[i]);
-		if (ft_strncmp(var->env[i], new_var, j - 1) == 0)
+		if ((ft_strncmp(var->env[i], new_var, j) == 0) && var->env[i])
 		{
 			tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
-			var->env[i] = ft_strjoin(tmp[0], tmp[1]);
-			return ;
+			var->env[i] = join_wrapper(tmp[0], tmp[1], 3);
+			// printf("NEWW %i) : %s\n", i, var->env[i]);
+			//return (var);
 		}
+		// printf("ENV %i) : %s\n", i, var->env[i]);
 	}
-	tmp[1] = ft_substr(new_var, 1, index_nv);
-	i += 1;
-	var->env[i] = ft_strjoin(tmp[0], tmp[1]);
-	var->env[i + 1] = NULL; //JOIN WRAPPER
+	tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
+	//tmp[1] = ft_substr(new_var, 1, index_nv);
+	i--;
+	new =  join_wrapper(tmp[0], tmp[1], 3);
+	var->env[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new) + 1);
+	var->env[i] = ft_strdup(new);
+	var->env[i + 1] = NULL;
+	// printf("LAST %i) : %s\n", i, var->env[i]);
+	return (var);
+	// var->env[i] = ft_strjoin(tmp[0], tmp[1]);
+	// var->env[i + 1] = NULL; //JOIN WRAPPER
 }
 
 int	valid_env_var(char *args)
@@ -104,11 +116,11 @@ void	ft_export(t_shell *var, char **args)
 {
 	int		i;
 	int		index_var;
-	char	**tmp;
+	//char	**tmp;
 
 	i = 0;
-	tmp = NULL;
-	tmp = tmp;
+	// tmp = NULL;
+	// tmp = tmp;
 	var = var;
 	args = args;
 	index_var = 0;
@@ -121,7 +133,10 @@ void	ft_export(t_shell *var, char **args)
 	while (args[index_var] && args[index_var][0] != '|')
 	{
 		if (valid_env_var(args[index_var]) == 0)
-			add_to_env(var, args[index_var]);
+		{
+			printf(" ------  VARIABLE : %s   --------\n\n", args[index_var]);
+			var = add_to_env(var, args[index_var]);
+		}
 		else
 			printf("export: `%s': not a valid identifier\n", args[index_var]);
 		index_var++;

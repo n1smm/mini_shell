@@ -14,7 +14,6 @@
 
 bool	ft_cd(const char *path)
 {
-	printf("FT_CD\n");
 	if (!path)
 		return (-1);
 	chdir(path);
