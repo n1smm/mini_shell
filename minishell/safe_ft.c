@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:01:08 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/01 15:24:23 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/02 11:42:38 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,23 @@ int	is_delimiting_node(t_token *curr)
 		return (1);
 	if (curr->typ_token == REDIRECT_OUT_DOUBLE)
 		return (1);
-	if (curr->typ_token == WHITESPACE)
+	else
+		return(0);
+}
+
+int	is_delimiting_type(t_type type)
+{
+	if (type == WHITESPACE)
+		return (1);
+	if (type == PIPELINE)
+		return (1);
+	if (type == REDIRECT_IN)
+		return (1);
+	if (type == REDIRECT_OUT)
+		return (1);
+	if (type == REDIRECT_IN_DOUBLE)
+		return (1);
+	if (type == REDIRECT_OUT_DOUBLE)
 		return (1);
 	else
 		return(0);

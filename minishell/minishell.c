@@ -165,7 +165,7 @@ int main(int argc, char **argv, char **env)
 
 		//ft_executor(data, &tail, input, env);
 		//executor(&tail, env);
-		/* new_executor(&tail, data, env); */
+		new_executor(&tail, data, env);
 
 		printf("\n	PRINT LIST TOKEN :\n\n"),
 		print_list(tail);
@@ -173,7 +173,7 @@ int main(int argc, char **argv, char **env)
 		free_input_prompt(input, prompt);
 		free_garbage(tail);
 		free_tokens(&tail, &head, 0);
-		rl_clear_history();
+		/* rl_clear_history(); */
 		rl_free_line_state();
 		rl_cleanup_after_signal();
 	}

@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/01 20:24:14 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/02 12:03:49 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ char	**pipe_loop(t_token **tail)
 	char	*path;
 	char	**command_seq;
 
-	check_redirects(tail);
 	path = path_finder(use_token(tail, COMMAND)->content);
 	if (path == NULL)
 	{
@@ -171,6 +170,7 @@ int	new_executor(t_token **tail, t_shell *data, char **envp)
 	pipefd[3] = dup(1);
 	while (*tail)
 	{
+		check_redirects(tail);
 		files_open(file, file_type, tail, pipefd);
 		if (file_type[0] != PRINTABLE)
 			redirect_infiles(file, file_type, tail);
