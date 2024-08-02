@@ -1,5 +1,3 @@
-#include "minishell.h"
-#include "libft/libft.h"
 #include "executor/pipex.h"
 
 static size_t	count_env_vars(char **env)

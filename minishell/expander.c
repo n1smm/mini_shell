@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/07/25 15:16:43 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/01 10:38:06 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ static char	*refactor_expanded_string(char *content, int start, int len)
 	expanded = ft_substr(content, start, len);
 	result = expander(expanded, EXPAND);
 	if (!result)
-	{
-		result = safe_malloc(1);
-		result[0] = 0;
-	}
+		result = create_empty_string(1);
 	free(expanded);
 	expanded = ft_strdup(content + (start + len));
 	contentcpy = ft_substr(content, 0, start - 1);
@@ -97,6 +94,7 @@ void	expand_checker(t_token *curr)
 	j = 0;
 	free_me = false;
 	content = curr->content;
+	printf("content: %s\n", content);
 	while (content[j])
 	{
 		i = 0;

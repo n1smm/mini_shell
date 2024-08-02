@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/27 14:15:37 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:26:35 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,35 @@ int	create_heredoc(int j, int create)
 	return (fd);
 }
 
-void	unlink_doc(t_token *tail)
+void	delete_heredoc(int i)
 {
-	/* if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0) */
-	if (find_token(tail, REDIRECT_IN_DOUBLE) == -1)
+	char		*file_name;
+	char		*iteration;
+	
+	iteration = ft_itoa(i);
+	if (i < 10)
+		iteration = join_wrapper("0", iteration, 0);
+	file_name = join_wrapper(".here_doc", iteration, 2);
+	if (unlink(file_name) == -1)
+		printf("error unlinking %s", file_name); //exit safely
+	free(file_name);
+}
+
+void	close_doc(int file[], t_type file_type[])
+{
+	int	i;
+
+	i = 0;
+	while (file_type[i] != NONPRINTABLE)
 	{
-		if (unlink(".here_doc") == -1)
-			perror("unlink failed");
+		if (file_type[i] != REDIRECT_IN_DOUBLE)
+			close(file[i]);
+		else
+		{
+			close(file[i]);
+			delete_heredoc(i);
+		}
+		i++;
 	}
 }
 
@@ -104,5 +126,7 @@ int	check_pipe(t_token **tail, t_type file_type[])
 	}
 	if (pipe == 1 && command == 1)
 		return(1);
+	if (pipe == 1 && command == 0)
+		return (-1);
 	return (0);
 }
