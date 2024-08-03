@@ -24,7 +24,10 @@ void	free_garbage(t_token *garbage)
 	{
 		next = curr->next;
 		if (curr->content)
+		{
 			free(curr->content);
+			curr->content = NULL;
+		}
 		free(curr);
 		curr = next;
 	}

@@ -15,7 +15,9 @@
 
 void *safe_malloc(size_t size)
 {
-	void *ptr = malloc(size);
+	void *ptr;
+
+	ptr = malloc(size);
 	if (!ptr)
 	{
 		perror("Malloc failed");
