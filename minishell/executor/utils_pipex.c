@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/02 19:30:49 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/03 14:09:22 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	comm_forker(char **comm_seq, t_shell *data, int pipefd[], int is_pipe, int 
 		/* if (check_pipe(tail, file_type) == -1) */
 		/* 	dup2(STDOUT_FILENO, pipefd[3]); */
 		//printf("Comm seq : %s\n", comm_seq[0]);
-		close_doc(file, file_type);
+		close_doc(file, file_type, 0);
 		if (execute_comm(comm_seq, data) == 0)
 			execve(path_finder(comm_seq[0]), comm_seq, data->env);
 		close(pipefd[1]);
@@ -46,7 +46,7 @@ void	comm_forker(char **comm_seq, t_shell *data, int pipefd[], int is_pipe, int 
 	}
 	else
 	{
-		wait(NULL);
+		/* wait(NULL); */
 		close(pipefd[1]);
 		free_mtrx(comm_seq);
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
@@ -142,7 +142,7 @@ void	redirect_infiles(int file[], t_type file_type[], t_token **tail)
 			//CHECK ERROR
 		if (file_type[i] == REDIRECT_IN_DOUBLE)
 		{
-			here_doc_redirect(file, &curr, i);
+			here_doc_redirect(file, &curr, i, curr->special_boy);
 			dup_last_file(file, file_type, i, 0);
 		}
 		if (file_type[i] == REDIRECT_OUT || file_type[i] == REDIRECT_OUT_DOUBLE)

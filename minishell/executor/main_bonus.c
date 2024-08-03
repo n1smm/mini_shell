@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/02 19:40:23 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/03 16:50:36 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,6 @@ void	pid_error(char *msg, char **str, int free_me)
 	exit(EXIT_FAILURE);
 	if (free_me == 1)
 		free(*str);
-}
-
-int	cmd_exists(char **input)
-{
-	if(ft_strncmp(input[0], "ls", 2) == 0 || \
-		ft_strncmp(input[0], "chmod", 5) == 0 || \
-			ft_strncmp(input[0], "read", 4) == 0 || \
-				ft_strncmp(input[0], "mkdir", 5) == 0 || \
-					ft_strncmp(input[0], "touch", 5) == 0 || \
-						ft_strncmp(input[0], "rm", 2) == 0 || \
-							ft_strncmp(input[0], "cp", 2) == 0 || \
-								ft_strncmp(input[0], "mv", 2) == 0 || \
-									ft_strncmp(input[0], "cat", 3) == 0 || \
-										ft_strncmp(input[0], "grep", 4) == 0 || \
-											ft_strncmp(input[0], "sudo", 4) == 0 || \
-												ft_strncmp(input[0], "df", 2) == 0 || \
-													ft_strncmp(input[0], "history", 7) == 0 || \
-														ft_strncmp(input[0], "ps", 2) == 0)
-															return (0);
-	else
-		return (1);
 }
 
 int	execute_comm(char **input, t_shell *data)
@@ -160,7 +139,7 @@ char	**pipe_loop(t_token **tail)
 	return (command_seq);
 }
 
-int	new_executor(t_token **tail, t_shell *data, char **envp)
+int	new_executor(t_token **tail, t_shell *data)
 {
 	int			pipefd[4];
 	int			file[1024];
@@ -168,8 +147,6 @@ int	new_executor(t_token **tail, t_shell *data, char **envp)
 	t_token		*tmp;
 	char		**comm_seq;
 
-	data = data;
-	envp = envp;
 	tmp = *tail;
 	pipefd[2] = dup(0);
 	pipefd[3] = dup(1);
@@ -178,24 +155,19 @@ int	new_executor(t_token **tail, t_shell *data, char **envp)
 	{
 		check_redirects(tail);
 		files_open(file, file_type, tail, pipefd);
-		/* if (file_type[0] != NONPRINTABLE) */
-			/* redirect_infiles(file, file_type, tail); */
 		comm_seq = pipe_loop(tail);
 		if (check_pipe(tail, file_type) == 0)
 			file[1023] = execute_comm(comm_seq, data);
 		if (file[1023] == 0)
 			comm_forker(comm_seq , data, pipefd, check_pipe(tail, file_type), file, file_type, &tmp);
-		/* if (check_pipe(tail, file_type) == -1) */
-		/* 	dup2(pipefd[0], pipefd[2]); */
-		close_doc(file, file_type);
+		close_doc(file, file_type, 1);
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;
-		/* if ((*tail)->typ_token == COMMAND) */
-		/* 	execute_comm(*tail, input, data); */
 	}
 	dup2(pipefd[2], 0);
 	dup2(pipefd[3], 1);
 	*tail = tmp;
+	waiting_pids(tail, file[1023]);
 	return(0);
 }
 
