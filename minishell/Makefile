@@ -25,7 +25,7 @@ INC = -I$(LIBFTDIR) -I. -I./executor -I./includes
 
 all: $(NAME)
 
-$(NAME): $(OBJ_FILES) 
+$(NAME): $(OBJ_FILES) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBS) $(INC) -o $(NAME)
 
 %.o: %.c $(HEADER) $(LIBFT)
