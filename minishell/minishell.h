@@ -33,8 +33,9 @@
 # include <sys/wait.h>
 # include <dlfcn.h>
 
-int	exit_code;
+//int	exit_code;
 
+void                cleanup(t_token *head);
 /* lexer */
 void				lexer_main(char *input);
 void 				ft_lexer(t_token *token);

@@ -68,8 +68,8 @@ void	ft_init(t_token **tail, t_token **head)
 	(*tail)->next = NULL;
 	(*tail)->prev = NULL;
 	(*tail)->trash = NULL;
-	add_to_garbage(*tail, *tail);
-	add_to_garbage(*tail, (*tail)->content);
+	//add_to_garbage(*tail, *tail);
+	//add_to_garbage(*tail, (*tail)->content);
 }
 
 static char	*prompt_check(void)
@@ -137,7 +137,7 @@ int	main(int argc, char **argv, char **env)
 		parser(&tail, &head);
 		//ft_executor(data, &tail, input, env);
 		//executor(&tail, env);
-		new_executor(&tail, data, env);
+		new_executor(&tail, data);
 		// printf("\n	PRINT LIST TOKEN :\n\n"),
 		// print_list(tail);
 		// printf("\n");
@@ -146,6 +146,7 @@ int	main(int argc, char **argv, char **env)
 		free_garbage((t_token *) data);
 		free_garbage(head);
 		free_tokens(head);
+		cleanup(head);
 		//free_tokens(&tail, &head, 0);
 		// rl_clear_history();
 		// rl_free_line_state();
