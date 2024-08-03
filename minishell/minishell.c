@@ -126,9 +126,9 @@ int	main(int argc, char **argv, char **env)
 		//ft_executor(data, &tail, input, env);
 		//executor(&tail, env);
 		new_executor(&tail, data, env);
-		printf("\n	PRINT LIST TOKEN :\n\n"),
-		print_list(tail);
-		printf("\n");
+		// printf("\n	PRINT LIST TOKEN :\n\n"),
+		// print_list(tail);
+		// printf("\n");
 		free_input_prompt(input, prompt);
 		free_garbage(tail);
 		free_tokens(&tail, &head, 0);
@@ -136,7 +136,7 @@ int	main(int argc, char **argv, char **env)
 		// rl_free_line_state();
 		// rl_cleanup_after_signal();
 	}
-	printf("\nMinishell è terminato\n");
+	//printf("\nMinishell è terminato\n");
 	free_input_prompt(input, prompt);
 	free_garbage(tail);
 	tail = NULL;
