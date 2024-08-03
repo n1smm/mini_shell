@@ -128,6 +128,8 @@ char	**pipe_loop(t_token **tail)
 	char	*path;
 	char	**command_seq;
 
+	if (!tail || !*tail)
+		return (NULL);
 	path = path_finder(use_token(tail, COMMAND)->content);
 	if (path == NULL)
 	{

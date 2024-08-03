@@ -12,47 +12,45 @@
 
 #include "../minishell.h"
 
-// void    unset_var2(char **unset_var, t_shell *var, )
-// {
-    
-// }
-
-void    unset_var(char **unset_var, t_shell *var)
+void unset_var(const char *unset_var, t_shell *var)
 {
-    int i;
-    int j;
-    int z;
-    int x;
-    int index_uv;
+	int		i;
+	int		j;
+	char	*eq;
+	size_t 	len_value;
 
-    x = 0;
+	if (!unset_var || !var || !var->env)
+        return;
     i = 0;
-    j = 0;
-    z = 0;
-    while(unset_var[x] && unset_var[x][0] != '|')
+	j = 0;
+    while (var->env[i])
     {
-        i = 0;
-        z = 0;
-        j = 0;
-        index_uv = 0;
-        while(var->env[i])
+        eq = ft_strchr(var->env[i], '=');
+        if (eq)
         {
-            j = 0;
-            while(var->env[i][j] != '=')
+            len_value = eq - var->env[i];
+            if (ft_strncmp(var->env[i], unset_var, len_value) == 0 \
+				&& unset_var[len_value] == '\0')
+            {
+                free(var->env[i]);
+                int k = i;
+                while (var->env[k + 1])
+                {
+                    var->env[k] = var->env[k + 1];
+                    k++;
+                }
+                var->env[k] = NULL;
+            }
+            else
+            {
+                var->env[j] = var->env[i];
+                if (i != j)
+                    var->env[i] = NULL;
                 j++;
-            if (var->env[i][j] == '=')
-                index_uv = j;
-            if(ft_strncmp(var->env[i], unset_var[x], index_uv) == 0)
-                i++;
-            var->env[z] = ft_strdup(var->env[i]);
-            i++;
-            z++;
+            }
         }
-        x++;
+        i++;
     }
-    var->env[z + 1] = NULL;
-    return ;
-
 }
 
 void    ft_unset(t_shell *var, char **args)
@@ -76,8 +74,9 @@ void    ft_unset(t_shell *var, char **args)
             index_var = i + 1;
         i++;
     }
-    // args[i + 1] = '\0';
-    unset_var(args + index_var, var);
-    return ;
-
+    while (args[index_var] && args[index_var][0] != '|')
+	{
+		unset_var(args[index_var], var);
+		index_var++;
+	}
 }
