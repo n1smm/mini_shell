@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/02 11:42:58 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/03 13:09:42 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <dlfcn.h>
+
+int	exit_code;
 
 /* lexer */
 void				lexer_main(char *input);
@@ -69,7 +71,7 @@ char				*path_finder(char *command);
 /*expander*/
 void				expand_checker(t_token *curr);
 char				*expander(char *input, t_type typ_token);
-char				*expand_string_checker(char *content);
+char				*expand_string_checker(char *content, bool special_boy);
 /* free_functions */
 void				free_mtx(void **matrix);
 //void				free_tokens(t_token **tail, t_token **head, int	final_free);

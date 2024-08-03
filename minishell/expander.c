@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/01 10:38:06 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/03 13:00:28 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,15 @@ void	expand_checker(t_token *curr)
 	}
 }
 
-char	*expand_string_checker(char *content)
+char	*expand_string_checker(char *content, bool special_boy)
 {
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
+	if (special_boy == false)
+		return (content);
 	while (content[j])
 	{
 		i = 0;
