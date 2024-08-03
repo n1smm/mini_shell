@@ -71,5 +71,7 @@ void	free_tokens(t_token **tail, t_token **head, int final_free)
 				*head = NULL;
 			}
 		}
+		free(new_node);
+		free(new_node->content);
 	}
 }
