@@ -53,10 +53,11 @@ void	ft_init(t_token **tail, t_token **head)
 	place_holder[0] = 0;
 	(*tail)->typ_token = NONPRINTABLE;
 	(*tail)->content = place_holder;
+	(*tail)->special_boy = false;
 	(*tail)->next = NULL;
 	(*tail)->prev = NULL;
 	(*tail)->trash = NULL;
-	//add_to_garbage(*tail, *tail);
+	add_to_garbage(*tail, *tail);
 	add_to_garbage(*tail, place_holder);
 }
 
