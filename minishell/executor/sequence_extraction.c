@@ -38,6 +38,7 @@ static char	**comm_seq_init(t_token **tail)
 	length = command_len(tail);
 	//printf("length: %d \n", length);
 	command_seq = safe_malloc(sizeof(char *) * (length + 1));
+	add_to_garbage(*tail, command_seq);
 	command_seq[length] = 0;
 	return (command_seq);
 }
@@ -45,7 +46,10 @@ static char	**comm_seq_init(t_token **tail)
 static void	free_foo(char **foo, char **command_seq, int i)
 {
 	if (*foo && *foo[0] != 0 )
+	{
 		command_seq[i++] = ft_strdup(*foo);
+		//add_to_garbage(NULL, command_seq[i]);
+	}
 	if (*foo)
 		free(*foo);
 	command_seq[i] = NULL;

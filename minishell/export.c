@@ -57,6 +57,7 @@ void	add_to_env(t_shell *var, char *new_var)
 	index_nv = eq_len(new_var);
 	// flag = 0;
 	tmp = (char **)safe_malloc(sizeof(char *) * 2 + 1);
+	add_to_garbage((t_token *)var, tmp);
 	tmp[0] = ft_substr(new_var, 0, index_nv + 1);
 	if (!tmp)
 		free(tmp);
@@ -79,8 +80,11 @@ void	add_to_env(t_shell *var, char *new_var)
 	i--;
 	new =  join_wrapper(tmp[0], tmp[1], 3);
 	var->env[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new) + 1);
+	add_to_garbage((t_token *)var, var->env[i]);
 	var->env[i] = ft_strdup(new);
+	add_to_garbage((t_token *)var, var->env[i]);
 	var->env[i + 1] = NULL;
+	add_to_garbage((t_token *)var, var->env[i + 1]);
 	// printf("LAST %i) : %s\n", i, var->env[i]);
 	//return (var);
 	// var->env[i] = ft_strjoin(tmp[0], tmp[1]);
@@ -139,6 +143,7 @@ void	ft_export(t_shell *var, char **args)
 		{
 			printf(" ------  VARIABLE : %s   --------\n\n", args[index_var]);
 			add_to_env(var, args[index_var]);
+			add_to_garbage((t_token *) var, args[index_var]);
 		}
 		else
 			printf("export: `%s': not a valid identifier\n", args[index_var]);

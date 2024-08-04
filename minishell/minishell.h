@@ -33,7 +33,7 @@
 # include <sys/wait.h>
 # include <dlfcn.h>
 
-int	exit_code;
+//int	exit_code;
 
 /* lexer */
 void				lexer_main(char *input);
@@ -76,7 +76,9 @@ char				*expander(char *input, t_type typ_token);
 char				*expand_string_checker(char *content, bool special_boy);
 /* free_functions */
 void				free_mtx(void **matrix);
-void				free_tokens(t_token **tail, t_token **head, int	final_free);
+//void				free_tokens(t_token **tail, t_token **head, int	final_free);
+void                free_tokens(t_token *head);
+
 /* built-ins */
 bool				ft_cd(const char *path);
 void				ft_echo(char **args);
@@ -98,6 +100,7 @@ void				ctrl_slash(int sig);
 
 /* garbage collector */
 void    init_garbage(t_trash *garbage);
+
 void    add_to_garbage(t_token *garbage, void *trash);
 void    free_garbage(t_token *garbage);
 void    safe_exit(t_token *garbage, int i);

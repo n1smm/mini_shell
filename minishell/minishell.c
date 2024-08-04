@@ -10,14 +10,24 @@ static size_t	count_env_vars(char **env)
 	return (env_num);
 }
 
+// void init_t_shell(t_shell *shell)
+// {
+//     shell->trash = NULL;
+//     shell->num_env_var = 0;
+//     shell->env = NULL;
+//     shell->next = NULL;
+// }
+
 void	ft_init_shell(t_shell **data, char **env)
 {
 	size_t	i;
 
-	*data = safe_malloc(sizeof(t_shell));
+	*data = (t_shell *)safe_malloc(sizeof(t_shell));
+	//init_t_shell(*data);
 	(*data)->trash = NULL;
 	(*data)->num_env_var = count_env_vars(env);
 	(*data)->env = safe_malloc(sizeof(char *) * 1024);
+	add_to_garbage((t_token *)(*data), *data);
 	add_to_garbage((t_token *)(*data), (*data)->env);
 	i = 0;
 	while (i < (*data)->num_env_var)
@@ -25,19 +35,20 @@ void	ft_init_shell(t_shell **data, char **env)
 		(*data)->env[i] = ft_strdup(env[i]);
 		if (!(*data)->env[i])
 		{
-			while (i > 0)
-			{
-				free((*data)->env[--i]);
-			}
-			free((*data)->env);
-			free(*data);
+			// while (i > 0)
+			// {
+			// 	free((*data)->env[--i]);
+			// }
+			// free((*data)->env);
+			// free(*data);
+			free_garbage((t_token *)(*data));
 			*data = NULL;
 			return ;
 		}
 		add_to_garbage((t_token *)(*data), (*data)->env[i]);
 		i++;
 	}
-	(*data)->env[(*data)->num_env_var] = NULL;
+	(*data)->env[(*data)->num_env_var + 1] = NULL;
 	(*data)->next = NULL;
 }
 
@@ -48,8 +59,10 @@ void	ft_init(t_token **tail, t_token **head)
 	if (!tail || !head)
 		return ;
 	*tail = (t_token *)safe_malloc(sizeof(t_token));
+	add_to_garbage(*tail, *tail);
 	*head = *tail;
 	place_holder = safe_malloc(1);
+	//add_to_garbage(*tail, place_holder);
 	place_holder[0] = 0;
 	(*tail)->typ_token = NONPRINTABLE;
 	(*tail)->content = place_holder;
@@ -57,8 +70,6 @@ void	ft_init(t_token **tail, t_token **head)
 	(*tail)->next = NULL;
 	(*tail)->prev = NULL;
 	(*tail)->trash = NULL;
-	add_to_garbage(*tail, *tail);
-	add_to_garbage(*tail, place_holder);
 }
 
 static char	*prompt_check(void)
@@ -132,7 +143,10 @@ int	main(int argc, char **argv, char **env)
 		// printf("\n");
 		free_input_prompt(input, prompt);
 		free_garbage(tail);
-		free_tokens(&tail, &head, 0);
+		free_garbage((t_token *) data);
+		//free_garbage(head);
+		free_tokens(head);
+		//free_tokens(&tail, &head, 0);
 		// rl_clear_history();
 		// rl_free_line_state();
 		// rl_cleanup_after_signal();
@@ -140,6 +154,13 @@ int	main(int argc, char **argv, char **env)
 	//printf("\nMinishell è terminato\n");
 	free_input_prompt(input, prompt);
 	free_garbage(tail);
+	free_garbage((t_token *) data);
+	//free_garbage(head);
+	free_tokens(head);
+	free(data);
+	free(data->var_name);
+	free(data->var_value);
+	//free_tokens(&tail, &head, 0);
 	tail = NULL;
 	head = NULL;
 	rl_clear_history();

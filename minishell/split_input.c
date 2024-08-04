@@ -51,19 +51,19 @@ char	*ft_chardup(char character)
 	return ((char *)i);
 }
 
-void	ft_add_token2(char character)
-{
-	t_token	*new;
-	char	*term;
+// void	ft_add_token2(char character)
+// {
+// 	t_token	*new;
+// 	char	*term;
 
-	term = ft_chardup(character);
-	new = (t_token *)safe_malloc(sizeof(t_token));
-	new->content = (char *)safe_malloc(sizeof(char) * 1);
-	new->content = ft_strdup(term);
-	new->trash = NULL;
-	add_to_garbage(new, term);
-	free(term);
-}
+// 	term = ft_chardup(character);
+// 	new = (t_token *)safe_malloc(sizeof(t_token));
+// 	new->content = (char *)safe_malloc(sizeof(char) * 1);
+// 	new->content = ft_strdup(term);
+// 	new->trash = NULL;
+// 	add_to_garbage(new, term);
+// 	free(term);
+// }
 
 bool term_character(char c)
 {
