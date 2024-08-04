@@ -23,11 +23,11 @@ void	ft_init_shell(t_shell **data, char **env)
 	size_t	i;
 
 	*data = (t_shell *)safe_malloc(sizeof(t_shell));
+	add_to_garbage((t_token *)(*data), *data);
 	//init_t_shell(*data);
 	(*data)->trash = NULL;
 	(*data)->num_env_var = count_env_vars(env);
 	(*data)->env = safe_malloc(sizeof(char *) * 1024);
-	add_to_garbage((t_token *)(*data), *data);
 	add_to_garbage((t_token *)(*data), (*data)->env);
 	i = 0;
 	while (i < (*data)->num_env_var)
@@ -48,7 +48,7 @@ void	ft_init_shell(t_shell **data, char **env)
 		add_to_garbage((t_token *)(*data), (*data)->env[i]);
 		i++;
 	}
-	(*data)->env[(*data)->num_env_var + 1] = NULL;
+	(*data)->env[(*data)->num_env_var] = NULL;
 	(*data)->next = NULL;
 }
 
@@ -59,7 +59,7 @@ void	ft_init(t_token **tail, t_token **head)
 	if (!tail || !head)
 		return ;
 	*tail = (t_token *)safe_malloc(sizeof(t_token));
-	add_to_garbage(*tail, *tail);
+	//add_to_garbage(*tail, *tail);
 	*head = *tail;
 	place_holder = safe_malloc(1);
 	//add_to_garbage(*tail, place_holder);
@@ -138,15 +138,15 @@ int	main(int argc, char **argv, char **env)
 		//ft_executor(data, &tail, input, env);
 		//executor(&tail, env);
 		new_executor(&tail, data);
-		// printf("\n	PRINT LIST TOKEN :\n\n"),
-		// print_list(tail);
-		// printf("\n");
+		printf("\n	PRINT LIST TOKEN :\n\n"),
+		print_list(tail);
+		printf("\n");
 		free_input_prompt(input, prompt);
 		free_garbage(tail);
-		free_garbage((t_token *) data);
+		//free_garbage((t_token *) data);
 		//free_garbage(head);
-		free_tokens(head);
-		//free_tokens(&tail, &head, 0);
+		//free_tokens(&tail);
+		free_tokens(&tail, &head, 0);
 		// rl_clear_history();
 		// rl_free_line_state();
 		// rl_cleanup_after_signal();
@@ -156,11 +156,11 @@ int	main(int argc, char **argv, char **env)
 	free_garbage(tail);
 	free_garbage((t_token *) data);
 	//free_garbage(head);
-	free_tokens(head);
+	//free_tokens(&tail);
 	free(data);
 	free(data->var_name);
 	free(data->var_value);
-	//free_tokens(&tail, &head, 0);
+	free_tokens(&tail, &head, 0);
 	tail = NULL;
 	head = NULL;
 	rl_clear_history();

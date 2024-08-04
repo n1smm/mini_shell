@@ -74,8 +74,8 @@ char				*expander(char *input, t_type typ_token);
 char				*expand_string_checker(char *content, bool special_boy);
 /* free_functions */
 void				free_mtx(void **matrix);
-//void				free_tokens(t_token **tail, t_token **head, int	final_free);
-void                free_tokens(t_token *head);
+void				free_tokens(t_token **tail, t_token **head, int	final_free);
+//void                free_tokens(t_token **head);
 
 /* built-ins */
 bool				ft_cd(const char *path);

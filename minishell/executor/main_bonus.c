@@ -169,7 +169,7 @@ int	new_executor(t_token **tail, t_shell *data)
 	dup2(pipefd[2], 0);
 	dup2(pipefd[3], 1);
 	*tail = tmp;
-	waiting_pids(tail, file[1023]);
+	//waiting_pids(tail, file[1023]);
 	return(0);
 }
 
