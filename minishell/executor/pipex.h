@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/03 16:50:01 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/03 17:10:36 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ int		execute_comm(char **input, t_shell *data);
 char	*read_path(int pipefd[], char **mtrx);
 /* utils */
 /* void	comm_forker(char **comm_seq, t_shell *data, int pipefd[], int is_pipe); */
-void	comm_forker(char **comm_seq, t_shell *data, int pipefd[], int is_pipe, int file[], t_type file_type[], t_token **tail);
-void 	files_open(int file[], t_type file_type[], t_token **tail, int pipefd[]);
+void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail);
+/* void 	files_open(int file[], t_type file_type[], t_token **tail, int pipefd[]); */
+void 	files_open(t_token **tail, t_shell *data);
 void	redirect_infiles(int file[], t_type file_type[], t_token **tail);
 /* utils_bonus */
 void	here_doc(int file[], t_token **tail, int i, bool special_boy);

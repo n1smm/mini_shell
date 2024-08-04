@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:01:08 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/02 11:42:38 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/03 18:01:13 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,38 +51,15 @@ char	*create_empty_string(int len)
 	return (empty);
 }
 
-int	is_delimiting_node(t_token *curr)
+int	safe_dup(int old_fd, int new_fd, int which)
 {
-	if (curr->typ_token == WHITESPACE)
-		return (1);
-	if (curr->typ_token == PIPELINE)
-		return (1);
-	if (curr->typ_token == REDIRECT_IN)
-		return (1);
-	if (curr->typ_token == REDIRECT_OUT)
-		return (1);
-	if (curr->typ_token == REDIRECT_IN_DOUBLE)
-		return (1);
-	if (curr->typ_token == REDIRECT_OUT_DOUBLE)
-		return (1);
-	else
-		return(0);
-}
+	int	error;
 
-int	is_delimiting_type(t_type type)
-{
-	if (type == WHITESPACE)
-		return (1);
-	if (type == PIPELINE)
-		return (1);
-	if (type == REDIRECT_IN)
-		return (1);
-	if (type == REDIRECT_OUT)
-		return (1);
-	if (type == REDIRECT_IN_DOUBLE)
-		return (1);
-	if (type == REDIRECT_OUT_DOUBLE)
-		return (1);
-	else
-		return(0);
+	if (which == 1)
+		error = dup2(old_fd, new_fd);
+	else if (which == 0)
+		error = dup(old_fd);
+	if (error == -1)
+		exit(EXIT_FAILURE);
+	return (error);
 }
