@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/04 22:31:05 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/04 22:49:54 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail)
 		pid_error("forker;pipe failed", NULL, 1);
 	pid = fork();
 	if (pid == -1)
-		pid_error("forker;fork failed", NULL, 1);
+		pid_error("forker;fork failed", NULL, 1);	
+	printf("pid of current process: %d\n", pid);
 	if (pid == 0)
 	{
 		close(data->pipefd[0]);

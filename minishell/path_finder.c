@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 static char	*comm_checker(char *command, char **full_path, bool *success)
@@ -34,6 +35,13 @@ static char	*comm_checker(char *command, char **full_path, bool *success)
 
 }
 
+char	*absolute_path(char *command)
+{
+	if (access(command, X_OK) == 0)
+		return (command);
+	return (NULL);
+}
+
 /* if path is correct it returns allocated, if not it returns NULL */
 char *path_finder(char *command)
 {
@@ -42,6 +50,11 @@ char *path_finder(char *command)
 	char	**full_path;
 	bool	success;
 	
+	if(ft_strchr(command,'/'))
+	{
+		absolute_path(command);
+		return (command);
+	}
 	env_path = getenv("PATH");
 	success = false;
 	if (!command)
