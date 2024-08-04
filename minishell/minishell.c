@@ -22,7 +22,7 @@ void	ft_init_shell(t_shell **data, char **env)
 {
 	size_t	i;
 
-	*data = safe_malloc(sizeof(t_shell));
+	*data = (t_shell *)safe_malloc(sizeof(t_shell));
 	//init_t_shell(*data);
 	(*data)->trash = NULL;
 	(*data)->num_env_var = count_env_vars(env);
@@ -48,7 +48,7 @@ void	ft_init_shell(t_shell **data, char **env)
 		add_to_garbage((t_token *)(*data), (*data)->env[i]);
 		i++;
 	}
-	(*data)->env[(*data)->num_env_var] = NULL;
+	(*data)->env[(*data)->num_env_var + 1] = NULL;
 	(*data)->next = NULL;
 }
 
@@ -59,8 +59,10 @@ void	ft_init(t_token **tail, t_token **head)
 	if (!tail || !head)
 		return ;
 	*tail = (t_token *)safe_malloc(sizeof(t_token));
+	add_to_garbage(*tail, *tail);
 	*head = *tail;
 	place_holder = safe_malloc(1);
+	//add_to_garbage(*tail, place_holder);
 	place_holder[0] = 0;
 	(*tail)->typ_token = NONPRINTABLE;
 	(*tail)->content = place_holder;
@@ -68,8 +70,6 @@ void	ft_init(t_token **tail, t_token **head)
 	(*tail)->next = NULL;
 	(*tail)->prev = NULL;
 	(*tail)->trash = NULL;
-	//add_to_garbage(*tail, *tail);
-	//add_to_garbage(*tail, (*tail)->content);
 }
 
 static char	*prompt_check(void)

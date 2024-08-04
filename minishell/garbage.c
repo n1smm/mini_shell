@@ -5,8 +5,8 @@ void add_to_garbage(t_token *garbage, void *trash)
 {
     t_trash *new_trash;
 
-    if (!garbage || !trash)
-        return;
+    // if (!garbage || !trash)
+    //     return;
 
     new_trash = (t_trash *)safe_malloc(sizeof(t_trash));
     new_trash->content = trash;
