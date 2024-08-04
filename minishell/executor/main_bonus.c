@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/03 16:50:36 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/04 14:19:02 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,33 +143,34 @@ char	**pipe_loop(t_token **tail)
 
 int	new_executor(t_token **tail, t_shell *data)
 {
-	int			pipefd[4];
-	int			file[1024];
-	t_type		file_type[1024];
+	/* int			pipefd[4]; */
+	/* int			file[1024]; */
+	/* t_type		file_type[1024]; */
 	t_token		*tmp;
 	char		**comm_seq;
 
 	tmp = *tail;
-	pipefd[2] = dup(0);
-	pipefd[3] = dup(1);
-	file[1023] = 0;
+	data->pipefd[2] = dup(0);//safe_dup(0, 0, 0);
+	data->pipefd[3] = dup(1);//safe_dup(1, 1, 0);
+	printf("fd2: %d, fd3: %d\n",data->pipefd[2], data->pipefd[3]);
+	data->file[1023] = 0;
 	while (*tail)
 	{
 		check_redirects(tail);
-		files_open(file, file_type, tail, pipefd);
+		files_open(tail, data);
 		comm_seq = pipe_loop(tail);
-		if (check_pipe(tail, file_type) == 0)
-			file[1023] = execute_comm(comm_seq, data);
-		if (file[1023] == 0)
-			comm_forker(comm_seq , data, pipefd, check_pipe(tail, file_type), file, file_type, &tmp);
-		close_doc(file, file_type, 1);
+		if (check_pipe(tail, data->file_type) == 0)
+			data->file[1023] = execute_comm(comm_seq, data);
+		if (data->file[1023] == 0)
+			comm_forker(comm_seq , data, check_pipe(tail, data->file_type), &tmp);
+		close_doc(data->file, data->file_type, 0);
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;
 	}
-	dup2(pipefd[2], 0);
-	dup2(pipefd[3], 1);
+	safe_dup(data->pipefd[2], 0, 1);
+	safe_dup(data->pipefd[3], 1, 1);
 	*tail = tmp;
-	//waiting_pids(tail, file[1023]);
+	waiting_pids(tail, data->file[1023]);
 	return(0);
 }
 

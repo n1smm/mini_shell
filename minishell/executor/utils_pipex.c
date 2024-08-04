@@ -6,33 +6,33 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/03 14:09:22 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/04 14:19:02 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "pipex.h"
 
-void	comm_forker(char **comm_seq, t_shell *data, int pipefd[], int is_pipe, int file[], t_type file_type[], t_token **tail)
+void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail)
 {
 	pid_t	pid;
 
-	if (pipe(pipefd) == -1)
+	if (pipe(data->pipefd) == -1)
 		pid_error("forker;pipe failed", NULL, 1);
 	pid = fork();
 	if (pid == -1)
 		pid_error("forker;fork failed", NULL, 1);
 	if (pid == 0)
 	{
-		close(pipefd[0]);
-		if (file_type[0] != NONPRINTABLE)
-			redirect_infiles(file, file_type, tail);
+		close(data->pipefd[0]);
+		if (data->file_type[0] != NONPRINTABLE)
+			redirect_infiles(data->file, data->file_type, tail);
 		if (is_pipe == 1)
 		{
-			dup2(pipefd[1], STDOUT_FILENO);
+			safe_dup(data->pipefd[1], STDOUT_FILENO, 1);
 		}
 		else if (is_pipe == -1)
-			dup2(pipefd[1], pipefd[3]);
+			safe_dup(data->pipefd[1], data->pipefd[3], 1);
 
 		/* if (check_pipe(tail, file_type) == -1) */
 		/* 	dup2(STDOUT_FILENO, pipefd[3]); */
@@ -52,13 +52,13 @@ void	comm_forker(char **comm_seq, t_shell *data, int pipefd[], int is_pipe, int 
 		wait(NULL);
 		close(pipefd[1]);
 		free_mtrx(comm_seq);
-		if (dup2(pipefd[0], STDIN_FILENO) == -1)
+		if (safe_dup(data->pipefd[0], STDIN_FILENO, 1) == -1)
 			pid_error("forker;parent dup failed", NULL, 0);
 	}
 
 }
 
-void	out_files(int file[], t_type file_type[], t_token **tail, int i)
+void	out_files(t_shell *data, t_token **tail, int i)
 {
 	t_token *curr;
 	//hello
@@ -68,21 +68,21 @@ void	out_files(int file[], t_type file_type[], t_token **tail, int i)
 	{
 		if (curr->typ_token == REDIRECT_OUT)
 		{
-			file[i] = open(curr->next->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-			file_type[i++] = REDIRECT_OUT;
+			data->file[i] = open(curr->next->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			data->file_type[i++] = REDIRECT_OUT;
 		}
 		else if (curr->typ_token == REDIRECT_OUT_DOUBLE)
 		{
-			file[i] = open(curr->next->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
-			file_type[i++] = REDIRECT_OUT_DOUBLE;
+			data->file[i] = open(curr->next->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			data->file_type[i++] = REDIRECT_OUT_DOUBLE;
 		}
 		curr = curr->next;
 	}
-	file_type[i] = NONPRINTABLE;
+	data->file_type[i] = NONPRINTABLE;
 }
 
 
-void files_open(int file[], t_type file_type[], t_token **tail, int pipefd[])
+void files_open(t_token **tail, t_shell *data)
 {
 	int		i;
 	t_token	*curr;
@@ -93,19 +93,19 @@ void files_open(int file[], t_type file_type[], t_token **tail, int pipefd[])
 	{
 		if (curr->typ_token == REDIRECT_IN_DOUBLE)
 		{	
-			dup2(pipefd[2], 0);
-			file[i] = create_heredoc(i, 1);
-			file_type[i++] = REDIRECT_IN_DOUBLE;
+			safe_dup(data->pipefd[2], 0, 1);
+			data->file[i] = create_heredoc(i, 1);
+			data->file_type[i++] = REDIRECT_IN_DOUBLE;
 		}
 		else if (curr->typ_token == REDIRECT_IN)
 		{
-			dup2(pipefd[2], 0);
-			file[i] = open(curr->next->content, O_RDONLY, 0777);
-			file_type[i++] = REDIRECT_IN;
+			safe_dup(data->pipefd[2], 0, 1);
+			data->file[i] = open(curr->next->content, O_RDONLY, 0777);
+			data->file_type[i++] = REDIRECT_IN;
 		}
 		curr = curr->next;
 	}
-	out_files(file, file_type, tail, i);
+	out_files(data, tail, i);
 }
 
 static void	dup_last_file(int file[], t_type file_type[], int i, int io)
@@ -125,9 +125,9 @@ static void	dup_last_file(int file[], t_type file_type[], int i, int io)
 			out = 1;
 	}
 	if (io == 0 && in == 0)
-		dup2(file[tmp], STDIN_FILENO);
+		safe_dup(file[tmp], STDIN_FILENO, 1);
 	if (io == 1 && out == 0)
-		dup2(file[tmp], STDOUT_FILENO);
+		safe_dup(file[tmp], STDOUT_FILENO, 1);
 }
 
 void	redirect_infiles(int file[], t_type file_type[], t_token **tail)
