@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/03 17:10:36 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/04 21:13:47 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ void	here_doc_redirect(int file[], t_token **tail, int i, bool special_boy);
 char 	**seq_extract(t_token **tail);
 /* utils mini */
 void	waiting_pids(t_token **tail, int builtin);
+void	execute_wrapper(char **comm_seq, t_shell *data);
 
 #endif

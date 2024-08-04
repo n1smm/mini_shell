@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:03:52 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/03 16:41:05 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/04 22:06:22 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,24 @@ void	waiting_pids(t_token **tail, int builtin)
 			wait(NULL);
 		curr = curr->next;
 	}
+}
+
+void	execute_wrapper(char **comm_seq, t_shell *data)
+{
+	int	which_execute;
+
+	which_execute = 0;
+	close_doc(data->file, data->file_type, 1);
+	which_execute = execute_comm(comm_seq, data);
+	if (which_execute == 0)
+	{
+		if (execve(path_finder(comm_seq[0]), comm_seq, data->env) == -1)
+			pid_error("execve failed", NULL, 1);
+	}
+	else if (which_execute == 2) 
+	{
+		if (execve(comm_seq[0], comm_seq, data->env) == -1)
+			pid_error("execve failed", NULL, 1);
+	}
+	close(data->pipefd[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/02 11:48:39 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/04 18:33:39 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 /* is_quote 0 - not iside quotes, is_quote 1 - inside double quotes, is_quote 2 - inside single */
 static void	check_string(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
-	if ((*mod_type == COMMAND || *mod_type == OPTION)
+	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
+		|| *mod_type == LIMITER || *mod_type == OUTFILE) && is_quote != 1)
+		curr->typ_token = COMMAND;
+	else if ((*mod_type == COMMAND || *mod_type == OPTION)
 		&& curr->content[0] == '-')
 		curr->typ_token = OPTION;
 	else if (*mod_type == REDIRECT_IN)
@@ -39,7 +42,7 @@ static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	/* there is problem where <<li"mit" mit becomes command */
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
-		|| *mod_type == LIMITER) && is_quote != 1)
+		|| *mod_type == LIMITER || *mod_type == OUTFILE) && is_quote != 1)
 		curr->typ_token = COMMAND;
 	else if (*mod_type == REDIRECT_IN)
 		curr->typ_token = INFILE;

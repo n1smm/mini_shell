@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/04 14:19:02 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/04 20:57:53 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	execute_comm(char **input, t_shell *data)
 	}
 	else if(path_finder(input[0]))
 		return(0);
+	else if (ft_strchr(input[0], '/'))
+		return(2);
 	else
 	{
 		write(2, "xxx",3);
@@ -125,44 +127,43 @@ void	check_redirects(t_token **tail)
 
 char	**pipe_loop(t_token **tail)
 {
-	char	*path;
+	/* char	*path; */
 	char	**command_seq;
 
 	if (!tail || !*tail)
 		return (NULL);
-	path = path_finder(use_token(tail, COMMAND)->content);
-	if (path == NULL)
-	{
-		;//printf("command not found: No such file or direcotry\n");
-		//pid_error("command not found", NULL, 0);
-	}
-	free(path);
+	use_token(tail, COMMAND);
+	/* path = path_finder(use_token(tail, COMMAND)->content); */
+	/* if (path == NULL) */
+	/* { */
+	/* 	printf("command not found: No such file or direcotry\n"); */
+	/* 	pid_error("command not found", NULL, 0); */
+	/* } */
+	/* free(path); */
 	command_seq = seq_extract(tail);
 	return (command_seq);
 }
 
 int	new_executor(t_token **tail, t_shell *data)
 {
-	/* int			pipefd[4]; */
-	/* int			file[1024]; */
-	/* t_type		file_type[1024]; */
 	t_token		*tmp;
+	t_token		*tmp2;
 	char		**comm_seq;
 
 	tmp = *tail;
-	data->pipefd[2] = dup(0);//safe_dup(0, 0, 0);
-	data->pipefd[3] = dup(1);//safe_dup(1, 1, 0);
-	printf("fd2: %d, fd3: %d\n",data->pipefd[2], data->pipefd[3]);
+	data->pipefd[2] = dup(0);
+	data->pipefd[3] = dup(1);
 	data->file[1023] = 0;
 	while (*tail)
 	{
+		tmp2 = *tail;
 		check_redirects(tail);
 		files_open(tail, data);
 		comm_seq = pipe_loop(tail);
 		if (check_pipe(tail, data->file_type) == 0)
 			data->file[1023] = execute_comm(comm_seq, data);
-		if (data->file[1023] == 0)
-			comm_forker(comm_seq , data, check_pipe(tail, data->file_type), &tmp);
+		if (data->file[1023] == 0 || data->file[1023] == 2)
+			comm_forker(comm_seq , data, check_pipe(tail, data->file_type), &tmp2);
 		close_doc(data->file, data->file_type, 0);
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;
@@ -173,51 +174,3 @@ int	new_executor(t_token **tail, t_shell *data)
 	waiting_pids(tail, data->file[1023]);
 	return(0);
 }
-
-// /* old executor */
-// int	old_executor(t_token **tail, char **envp)
-// {
-// 	int			pipefd[4];
-// 	int			file[1024];
-// 	t_type		file_type[1024];
-// 	t_token		*tmp;
-// 	char		**comm_seq;
-// 	/* int i; */
-
-// 	tmp = *tail;
-// 	pipefd[2] = dup(0);
-// 	pipefd[3] = dup(1);
-// 	while (*tail) // || (*tail)->typ_token != REDIRECT_OUT || (*tail)->typ_token != REDIRECT_OUT_DOUBLE)
-// 	{
-// 		/* i = 0; */
-// 		files_open(file, file_type, tail, pipefd);
-// 		if (file_type[0] != PRINTABLE)
-// 			redirect_infiles(file, file_type, tail);
-// 		comm_seq = pipe_loop(tail);
-// 		/* while (comm_seq[i]) */
-// 		/* { */
-// 		/* 	printf("comm_seq[%d]: %s \n", i, comm_seq[i]); */
-// 		/* 	i++; */
-// 		/* } */
-// 		comm_forker(comm_seq , envp, pipefd, check_pipe(tail, file_type));
-// 		if ( *tail && (*tail)->typ_token == PIPELINE)
-// 			*tail = (*tail)->next;
-// 	}
-// 	/* if (dup2(file[0], STDOUT_FILENO) == -1) */
-// 	/* 	pid_error("outfile dup failed", NULL, 0); */
-// 	dup2(pipefd[2], 0);
-// 	dup2(pipefd[3], 1);
-// 	/* if (dup2(pipefd[0], STDOUT_FILENO) == -1) */
-// 	/* 	pid_error("dup2 to stdout failed", NULL, 0); */
-// 	/* close(pipefd[0]); */
-// 	*tail = tmp;
-// 	/* close(file[0]); */
-// 	/* unlink_doc(*tail); */
-// 	/* last = ft_split(seq_extract(tail), ' '); */
-// 	/* if (dup2(file[1], STDOUT_FILENO) == -1) */
-// 	/* 	pid_error("outfile dup failed", NULL, 0); */
-// 	/* execve(path_finder(last[0]), last, envp); */
-// 	/* free_mtrx(last); */
-// 	/* pid_error("last exec failed", NULL, 0); */
-// 	return(0);
-// }
