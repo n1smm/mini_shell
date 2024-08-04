@@ -144,9 +144,8 @@ int	main(int argc, char **argv, char **env)
 		free_input_prompt(input, prompt);
 		free_garbage(tail);
 		free_garbage((t_token *) data);
-		free_garbage(head);
+		//free_garbage(head);
 		free_tokens(head);
-		cleanup(head);
 		//free_tokens(&tail, &head, 0);
 		// rl_clear_history();
 		// rl_free_line_state();
@@ -156,7 +155,7 @@ int	main(int argc, char **argv, char **env)
 	free_input_prompt(input, prompt);
 	free_garbage(tail);
 	free_garbage((t_token *) data);
-	free_garbage(head);
+	//free_garbage(head);
 	free_tokens(head);
 	free(data);
 	free(data->var_name);

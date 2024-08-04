@@ -1,19 +1,5 @@
 #include "minishell.h"
 
-void cleanup(t_token *head)
-{
-    t_token *current = head;
-    t_token *next;
-
-    while (current)
-    {
-        next = current->next;
-        free_garbage(current);
-        free(current->content);  // If content is not part of garbage collection
-        free(current);
-        current = next;
-    }
-}
 
 void add_to_garbage(t_token *garbage, void *trash)
 {
@@ -23,8 +9,6 @@ void add_to_garbage(t_token *garbage, void *trash)
         return;
 
     new_trash = (t_trash *)safe_malloc(sizeof(t_trash));
-    if (!new_trash)
-        return;
     new_trash->content = trash;
     new_trash->next = garbage->trash;
     garbage->trash = new_trash;
