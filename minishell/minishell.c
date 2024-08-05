@@ -72,13 +72,13 @@ void	ft_init(t_token **tail, t_token **head)
 	(*tail)->trash = NULL;
 }
 
-static char	*prompt_check(void)
+static char	*prompt_check(t_shell *var)
 {
 	char	*cwd;
 	char	*prompt;
 	char	*user;
 
-	user = expander("USER", EXPAND);
+	user = expander("USER", var, EXPAND);
 	cwd = safe_malloc(1024);
 	if (getcwd(cwd, 1024) != NULL && user != NULL)
 	{
@@ -96,14 +96,6 @@ static char	*prompt_check(void)
 	return (prompt);
 }
 
-void	free_input_prompt(char *input, char *prompt)
-{
-	if (input)
-		free(input);
-	if (prompt)
-		free(prompt);
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	char	*input;
@@ -111,6 +103,7 @@ int	main(int argc, char **argv, char **env)
 	t_token	*head;
 	t_token	*tail;
 	t_shell	*data;
+	int 	i;
 	//t_trash		*garbage;
 	tail = NULL;
 	head = NULL;
@@ -119,28 +112,34 @@ int	main(int argc, char **argv, char **env)
 	argc = argc;
 	argv = argv;
 	env = env ;
+	i = 0;
 	//t_input *commands;
 	//init_garbage(&garbage);
 	ft_init_shell(&data, env);
 	ft_init(&tail, &head);
 	tail->trash = NULL;
+	catch_signals(); //non dà leaks
 	while (1)
 	{
-		catch_signals(); //non dà leaks
 		//printf("exit:%d", g_exit_status);
-		prompt = prompt_check();
+		prompt = prompt_check(data);
 		input = readline(prompt);
 		if (!input || ft_strncmp(input, "exit", 5) == 0)
+		{
+			//free_input_prompt(input, prompt);
 			break ;
+		}
 		add_history(input); //non dà leaks
 		split_input(input, &tail, &head);
-		parser(&tail, &head);
+		while (valid_env_var(argv[i]) == 0 && argv[i])
+		i = 0;
+		parser(&tail, &head, data);
 		//ft_executor(data, &tail, input, env);
 		//executor(&tail, env);
 		new_executor(&tail, data);
-		/* printf("\n	PRINT LIST TOKEN :\n\n"), */
-		/* print_list(tail); */
-		/* printf("\n"); */
+		 printf("\n	PRINT LIST TOKEN :\n\n"),
+		 print_list(tail);
+		 printf("\n");
 		free_input_prompt(input, prompt);
 		free_garbage(tail);
 		//free_garbage((t_token *) data);
@@ -157,9 +156,9 @@ int	main(int argc, char **argv, char **env)
 	free_garbage((t_token *) data);
 	//free_garbage(head);
 	//free_tokens(&tail);
-	free(data);
-	free(data->var_name);
-	free(data->var_value);
+	//free(data);
+	//free(data->var_name);
+	//free(data->var_value);
 	free_tokens(&tail, &head, 0);
 	tail = NULL;
 	head = NULL;

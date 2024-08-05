@@ -78,7 +78,7 @@ char **seq_extract(t_token **tail)
 		if(curr->typ_token != WHITESPACE && curr->typ_token != QUOTE && curr->typ_token != SINGLE_QUOTE)
 			foo = join_wrapper(foo, curr->content, 1);
 		curr = curr->next;
-		if (curr  && curr->typ_token == WHITESPACE)
+		if (foo[0] && curr  && curr->typ_token == WHITESPACE)
 		{
 			command_seq[i++] = ft_strdup(foo);
 			free(foo);

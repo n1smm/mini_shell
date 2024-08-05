@@ -22,9 +22,11 @@ void	ctrl_c(int sig)
 {
 	if (sig == SIGINT)
 	{
-		rl_on_new_line();
 		printf("\n");
+		rl_replace_line("", 0);
 		rl_redisplay();
+		rl_cleanup_after_signal();
+		rl_free_line_state();
 	}
 	else
 		return ;

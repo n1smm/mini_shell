@@ -20,6 +20,8 @@ char	*ft_strdup(const char *s)
 
 	j = 0;
 	z = 0;
+	if (!s)
+		return (NULL);
 	while (s[z])
 	{
 		z++;

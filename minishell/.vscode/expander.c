@@ -22,7 +22,7 @@ char	*expander(char *input, t_type typ_token)
 
 	if (typ_token == COMMAND)
 	{
-		result = path_finder(input);
+		result = path_finder(input, var->env);
 		if (!result)
 			return (NULL);
 		return (result);
@@ -94,7 +94,7 @@ void	expand_checker(t_token *curr)
 	j = 0;
 	free_me = false;
 	content = curr->content;
-	printf("content: %s\n", content);
+	//printf("content: %s\n", content);
 	while (content[j])
 	{
 		i = 0;

@@ -43,19 +43,16 @@ char	*absolute_path(char *command)
 }
 
 /* if path is correct it returns allocated, if not it returns NULL */
-char *path_finder(char *command)
+char *path_finder(char *command, t_shell *data)
 {
 	char	*env_path;
 	char	*path;
 	char	**full_path;
 	bool	success;
-	
-	if(ft_strchr(command,'/'))
-	{
-		absolute_path(command);
-		return (command);
-	}
-	env_path = getenv("PATH");
+
+	// if (!command || command == NULL)
+	// 	return (NULL);
+	env_path = custom_getenv("PATH", data->env);
 	success = false;
 	if (!command)
 		return (NULL);

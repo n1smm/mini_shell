@@ -13,23 +13,48 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
+char *custom_getenv(char *name, char **env) {
+    if (name == NULL || env == NULL) {
+        return NULL;
+    }
+
+    size_t name_len;
+	// char	*res;
+
+	// res = NULL;
+	name_len = ft_strlen(name);
+    int i = 0;
+    while (env[i] != NULL) {
+        if (ft_strncmp(env[i], name, name_len) == 0 && env[i][name_len] == '=') {
+            return &env[i][name_len + 1];
+			// res = ft_strdup((const char *) &env[i][name_len + 1]);
+			// printf("dup : %s\n", &env[i][name_len + 1]);
+			// return (res);
+        }
+        i++;
+    }
+    
+    return (NULL);
+}
+
 /* if the type of token is correct it will allocate, 
 otherwise it returns null not allocated */
-char	*expander(char *input, t_type typ_token)
+char	*expander(char *input, t_shell *var, t_type typ_token)
 {
 	char	*result;
 	char	*result_path;
 
+	var = var;
 	if (typ_token == COMMAND)
 	{
-		result = path_finder(input);
+		result = path_finder(input, var);
 		if (!result)
 			return (NULL);
 		return (result);
 	}
 	else if (typ_token == EXPAND)
 	{
-		result = getenv(input);
+		result = custom_getenv(input, var->env);
 		if (!result)
 			return (NULL);
 		result_path = ft_strdup(result);
@@ -38,7 +63,7 @@ char	*expander(char *input, t_type typ_token)
 	return (NULL);
 }
 
-static char	*refactor_expanded_string(char *content, int start, int len)
+static char	*refactor_expanded_string(char *content, t_shell *var, int start, int len)
 {
 	char	*expanded;
 	char	*result;
@@ -50,7 +75,7 @@ static char	*refactor_expanded_string(char *content, int start, int len)
 		return (result);
 	}
 	expanded = ft_substr(content, start, len);
-	result = expander(expanded, EXPAND);
+	result = expander(expanded, var, EXPAND);
 	if (!result)
 		result = create_empty_string(1);
 	free(expanded);
@@ -83,7 +108,7 @@ static void	refurbish_node(t_token *curr, char *content, bool free_me)
 	curr->content = content;
 }
 
-void	expand_checker(t_token *curr)
+void	expand_checker(t_token *curr, t_shell *var)
 {
 	char	*content;
 	bool	free_me;
@@ -94,7 +119,7 @@ void	expand_checker(t_token *curr)
 	j = 0;
 	free_me = false;
 	content = curr->content;
-	printf("content: %s\n", content);
+	//printf("content: %s\n", content);
 	while (content[j])
 	{
 		i = 0;
@@ -107,13 +132,13 @@ void	expand_checker(t_token *curr)
 			j++;
 		if (j == i && content[j] == '$')
 			j++;
-		content = refactor_expanded_string(content, i, j - i);
+		content = refactor_expanded_string(content, var, i, j - i);
 		refurbish_node(curr, content, free_me);
 		free_me = true;
 	}
 }
 
-char	*expand_string_checker(char *content, bool special_boy)
+char	*expand_string_checker(char *content, t_shell *var, bool special_boy)
 {
 	int		i;
 	int		j;
@@ -134,7 +159,7 @@ char	*expand_string_checker(char *content, bool special_boy)
 			j++;
 		if (j == i && content[j] == '$')
 			j++;
-		content = refactor_expanded_string(content, i, j - i);
+		content = refactor_expanded_string(content, var, i, j - i);
 	}
 	return (content);
 }
