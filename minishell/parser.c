@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/04 18:33:39 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/05 20:00:43 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	check_string(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
-		|| *mod_type == LIMITER || *mod_type == OUTFILE) && is_quote != 1)
+		|| *mod_type == LIMITER || *mod_type == OUTFILE))// && is_quote != 1)
 		curr->typ_token = COMMAND;
 	else if ((*mod_type == COMMAND || *mod_type == OPTION)
 		&& curr->content[0] == '-')
@@ -42,7 +42,7 @@ static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	/* there is problem where <<li"mit" mit becomes command */
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
-		|| *mod_type == LIMITER || *mod_type == OUTFILE) && is_quote != 1)
+		|| *mod_type == LIMITER || *mod_type == OUTFILE))// && is_quote != 1)
 		curr->typ_token = COMMAND;
 	else if (*mod_type == REDIRECT_IN)
 		curr->typ_token = INFILE;
@@ -55,13 +55,6 @@ static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
 	if (curr->typ_token != WORD)
 		*mod_type = curr->typ_token;
 }
-
-/* quotes need to behave the same as the specific part of grammar they are substituting */
-/* that means that if quote is at the start of expression it needs to be considered a command */
-/* all of its content is understood as this part of expression */
-/* TODO - need to check for this cases ex.(l"s") where i need to treat all as one token */
-/* this TODO is resolved by checking all tokens that are not delimited by whitespace */
-/* as one bigger token */
 
 static t_type	mod_before_quote(t_type	mod_type)
 {
@@ -98,7 +91,7 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type 
 		{
 			expand_checker(curr, data);
 			if (curr->content[0] == 0)
-				delete_node(tail, curr);
+				delete_node(tail, curr, NULL);
 		}
 		curr = curr->next;
 	}
@@ -110,6 +103,8 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type 
 	*tail = *tail;
 	if (all_quotes_are_equal != NONPRINTABLE)
 		*mod_type = all_quotes_are_equal;
+	if (curr->next && !is_delimiting_type(curr->next->typ_token))
+			*mod_type = tmp->prev->typ_token;
 	return (curr);
 }
 
@@ -147,7 +142,7 @@ void	parser(t_token **tail, t_token **head, t_shell *data)
 		{
 			expand_checker(curr, data);
 			if (curr->content[0] == 0)
-				delete_node(tail, curr);
+				delete_node(tail, curr, head);
 		}
 		/* printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type)); */
 		curr = curr->next;

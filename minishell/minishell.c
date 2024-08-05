@@ -136,7 +136,7 @@ int	main(int argc, char **argv, char **env)
 		parser(&tail, &head, data);
 		//ft_executor(data, &tail, input, env);
 		//executor(&tail, env);
-		new_executor(&tail, data);
+		new_executor(&tail, data, &head);
 		 printf("\n	PRINT LIST TOKEN :\n\n"),
 		 print_list(tail);
 		 printf("\n");

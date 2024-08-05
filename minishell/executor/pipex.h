@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/05 16:28:05 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:41:02 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		executor(t_token **tail, char **envp);
 char	**pipe_loop(t_token **tail, t_shell *data);
 void	pid_error(char *msg, char **str, int free_me);
 void	free_mtrx(char **mtrx);
-int		new_executor(t_token **tail, t_shell *data);
+int		new_executor(t_token **tail, t_shell *data, t_token **head);
 int		execute_comm(char **input, t_shell *data);
 /* path_finder */
 char	*read_path(int pipefd[], char **mtrx);

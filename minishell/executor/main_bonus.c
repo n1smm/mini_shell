@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/05 16:19:44 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/05 19:24:12 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,32 +37,32 @@ void	pid_error(char *msg, char **str, int free_me)
 
 int	execute_comm(char **input, t_shell *data)
 {
-	if (ft_strncmp(input[0], "cd", 3) == 0)
+	if (ft_strncmp(input[0], "cd", ft_strlen(input[0])) == 0)
 	{
 		ft_cd(input[1]);
 		return (1);
 	}
-	else if(ft_strncmp(input[0], "env", 3) == 0)
+	else if(ft_strncmp(input[0], "env", ft_strlen(input[0])) == 0)
 	{
 		ft_env(data);
 		return (1);
 	}
-	else if(ft_strncmp(input[0], "export", 6) == 0)
+	else if(ft_strncmp(input[0], "export", ft_strlen(input[0])) == 0)
 	{
 		ft_export(data, input);
 		return (1);
 	}
-	else if(ft_strncmp(input[0], "unset", 5) == 0)
+	else if(ft_strncmp(input[0], "unset", ft_strlen(input[0])) == 0)
 	{
 		ft_unset(data, input);
 		return (1);
 	}
-	else if(ft_strncmp(input[0], "pwd", 3) == 0)
+	else if(ft_strncmp(input[0], "pwd", ft_strlen(input[0])) == 0)
 	{
 		ft_pwd();
 		return (1);
 	}
-	else if(ft_strncmp(input[0], "echo", 4) == 0)
+	else if(ft_strncmp(input[0], "echo", ft_strlen(input[0])) == 0)
 	{
 		ft_echo(input);
 		return (1);
@@ -76,12 +76,12 @@ int	execute_comm(char **input, t_shell *data)
 		write(2, "xxx",3);
 		write(2, "\n",1);
 		printf("command not found: No such file or directory\n");
-		exit(EXIT_FAILURE);
+		/* exit(EXIT_FAILURE); */
 		return (-1);
 	}
 }
 
-t_token	*assign_special_boy(t_token *tmp)
+t_token	*find_special_boy(t_token *tmp)
 {
 	t_token *curr;
 
@@ -95,7 +95,16 @@ t_token	*assign_special_boy(t_token *tmp)
 	return (NULL);
 }
 
-void	check_redirects(t_token **tail)
+void	assign_special_boy(t_token **tail, t_token **head, t_token **curr, t_token **tmp)
+{
+	if(*tmp)
+		(*tmp)->special_boy = true;
+	*tmp = (*curr)->next;
+	delete_node(tail, *curr, head);
+	*curr = *tmp;
+	*tmp = NULL;
+}
+void	check_redirects(t_token **tail, t_token **head)
 {
 	t_token	*curr;
 	t_token	*tmp;
@@ -105,17 +114,18 @@ void	check_redirects(t_token **tail)
 	{
 		if (curr->typ_token == REDIRECT_IN ||  curr->typ_token == REDIRECT_OUT || curr->typ_token == REDIRECT_IN_DOUBLE || curr->typ_token == REDIRECT_OUT_DOUBLE)
 		{
-			tmp = assign_special_boy(curr);
+			tmp = find_special_boy(curr);
 			while (curr && curr->typ_token != WHITESPACE && curr->typ_token != PIPELINE)
 			{
 				if (curr->typ_token == QUOTE || curr->typ_token == SINGLE_QUOTE)
 				{
-					if(tmp)
-						tmp->special_boy = true;
-					tmp = curr->next;
-					delete_node(tail, curr);
-					curr = tmp;
-					tmp = NULL;
+					assign_special_boy(tail, head, &curr, &tmp);
+					/* if(tmp) */
+					/* 	tmp->special_boy = true; */
+					/* tmp = curr->next; */
+					/* delete_node(tail, curr, head); */
+					/* curr = tmp; */
+					/* tmp = NULL; */
 				}
 				curr = curr->next;
 			}
@@ -133,14 +143,16 @@ char	**pipe_loop(t_token **tail, t_shell *data)
 
 	if (!tail || !*tail)
 		return (NULL);
-	tmp = ft_strdup(use_token(tail, COMMAND));
+	if(find_token(*tail, PRINTABLE) != 0 && find_token(*tail, PRINTABLE) < find_token(*tail, COMMAND))
+			tmp = ft_strdup(use_token(tail, PRINTABLE));
+	else
+		tmp = ft_strdup(use_token(tail, COMMAND));
 	if (tmp)
 	{
 		path = path_finder(tmp, data);
 		if (path == NULL)
 		{
-			;//printf("command not found: No such file or direcotry\n");
-			//pid_error("command not found", NULL, 0);
+			;
 		}
 		free(path);
 	}
@@ -148,7 +160,7 @@ char	**pipe_loop(t_token **tail, t_shell *data)
 	return (command_seq);
 }
 
-int	new_executor(t_token **tail, t_shell *data)
+int	new_executor(t_token **tail, t_shell *data, t_token **head)
 {
 	t_token		*tmp;
 	t_token		*tmp2;
@@ -162,7 +174,7 @@ int	new_executor(t_token **tail, t_shell *data)
 	{
 		tmp2 = *tail;
 		data->nbr_pipes = count_pipes(*tail);
-		check_redirects(tail);
+		check_redirects(tail, head);
 		files_open(tail, data);
 		comm_seq = pipe_loop(tail, data);
 		if (check_pipe(tail, data->file_type) == 0)

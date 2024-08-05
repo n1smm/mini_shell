@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:36:54 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/01 17:47:07 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:34:33 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	delete_quoted_nodes(t_token **tmp, t_token *end, char **quoted_string)
 	curr = *tmp;
 	while (curr != end)
 	{
-		delete_node(tmp, curr);
+		delete_node(tmp, curr, NULL);
 		curr = *tmp;
 	}
 	free(quoted_string);

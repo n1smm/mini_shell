@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/03 18:01:28 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:32:52 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void				ft_add_token2(char character);
 t_token				*init(char *content, t_token **tail, t_token **head);
 bool				double_lstadd_front(char *content, t_token **tail);
 bool				double_lstadd_back(char *content, t_token **head);
-void 				delete_node(t_token **tail, t_token *del);
+void 				delete_node(t_token **tail, t_token *del, t_token **head);
 char 			*use_token(t_token **tail, t_type type);
 int					find_token(t_token *tail, t_type type);
 char 				*print_token_typ(t_type token_type);

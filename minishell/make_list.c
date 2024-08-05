@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/07/23 17:13:47 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/05 18:39:18 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ bool	double_lstadd_back(char *content, t_token **head)
 	return (true);
 }
 
-void	delete_node(t_token **tail, t_token *del)
+void	delete_node(t_token **tail, t_token *del, t_token **head)
 {
 	if (*tail == NULL || del == NULL)
 		return ;
 	if (*tail == del)
 		*tail = del->next;
+	if (*head == del)
+		*head = del->next;
 	if (del->next != NULL)
 		del->next->prev = del->prev;
 	if (del->prev != NULL)
@@ -96,12 +98,15 @@ void	delete_node(t_token **tail, t_token *del)
 int	find_token(t_token *tail, t_type type)
 {
 	t_token	*curr;
+	int		i;
 
 	curr = tail;
+	i = 0;
 	while (curr)
 	{
+		i++;
 		if (curr->typ_token == type)
-			return (1);
+			return (i);
 		curr = curr->next;
 	}
 	return (0);
