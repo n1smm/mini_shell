@@ -94,7 +94,7 @@ void	expand_checker(t_token *curr)
 	j = 0;
 	free_me = false;
 	content = curr->content;
-	printf("content: %s\n", content);
+	//printf("content: %s\n", content);
 	while (content[j])
 	{
 		i = 0;

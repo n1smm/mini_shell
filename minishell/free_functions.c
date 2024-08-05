@@ -71,6 +71,13 @@ void free_tokens(t_token **tail, t_token **head, int final_free)
         }
     }
 }
+void	free_input_prompt(char *input, char *prompt)
+{
+	if (input)
+		free(input);
+	if (prompt)
+		free(prompt);
+}
 
 // void free_tokens(t_token **head)
 // {

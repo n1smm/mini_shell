@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+void	printf_export(t_shell *var)
+{
+	int	i;
+
+	i = 0;
+	while (var->env[i])
+	{
+		printf("declare -x: %s\n", var->env[i]);
+		i++;
+	}
+	printf("\n");
+}
+
 int	ft_valid_env_var(char *var)
 {
 	int	i;
@@ -123,6 +136,7 @@ void	ft_export(t_shell *var, char **args)
 {
 	int		i;
 	int		index_var;
+	int		flag;
 	//char	**tmp;
 
 	i = 0;
@@ -131,6 +145,7 @@ void	ft_export(t_shell *var, char **args)
 	var = var;
 	args = args;
 	index_var = 0;
+	flag = 0;
 	while (args[i])
 	{
 		if (ft_strncmp(args[i], "export\0", 7) == 0)
@@ -141,13 +156,19 @@ void	ft_export(t_shell *var, char **args)
 	{
 		if (valid_env_var(args[index_var]) == 0)
 		{
-			printf(" ------  VARIABLE : %s   --------\n\n", args[index_var]);
+			flag = 1;
+			//printf(" ------  VARIABLE : %s   --------\n\n", args[index_var]);
 			add_to_env(var, args[index_var]);
 			add_to_garbage((t_token *) var, args[index_var]);
 		}
 		else
+		{
+			flag = 1;
 			printf("export: `%s': not a valid identifier\n", args[index_var]);
+		}
 		index_var++;
 	}
+	if (flag == 0)
+		printf_export(var);
 	return ;
 }

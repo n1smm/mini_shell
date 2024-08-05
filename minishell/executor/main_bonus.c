@@ -152,7 +152,7 @@ int	new_executor(t_token **tail, t_shell *data)
 	tmp = *tail;
 	data->pipefd[2] = dup(0);//safe_dup(0, 0, 0);
 	data->pipefd[3] = dup(1);//safe_dup(1, 1, 0);
-	printf("fd2: %d, fd3: %d\n",data->pipefd[2], data->pipefd[3]);
+	//printf("fd2: %d, fd3: %d\n",data->pipefd[2], data->pipefd[3]);
 	data->file[1023] = 0;
 	while (*tail)
 	{

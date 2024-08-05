@@ -71,9 +71,10 @@ void				print_list(t_token *tail);
 /* path_finder */
 char				*path_finder(char *command);
 /*expander*/
-void				expand_checker(t_token *curr);
-char				*expander(char *input, t_type typ_token);
-char				*expand_string_checker(char *content, bool special_boy);
+void				expand_checker(t_token *curr, t_shell *var);
+char	*expander(char *input, t_shell *var, t_type typ_token);
+//char				*expander(char *input, t_type typ_token);
+char				*expand_string_checker(char *content, t_shell *var, bool special_boy);
 /* free_functions */
 void				free_mtx(void **matrix);
 void				free_tokens(t_token **tail, t_token **head, int	final_free);
@@ -93,11 +94,14 @@ void 				ft_init_env(t_env_var **tail, t_env_var **head, char **env);
 t_env_var			*env_new_node(t_env_var **tail, t_env_var **head, char **env);
 char				**env_variables(t_env_var *vars);
 
+void	free_input_prompt(char *input, char *prompt);
+int	valid_env_var(char *args);
+
 /*signals*/
 void				catch_signals();
-void				ctrl_c(int sig);
+void	            ctrl_c(int sig);
 void				ctrl_slash(int sig);
-
+void	            free_input_prompt(char *input, char *prompt);
 /* garbage collector */
 void    init_garbage(t_trash *garbage);
 

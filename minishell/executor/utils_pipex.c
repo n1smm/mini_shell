@@ -36,21 +36,18 @@ void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail)
 
 		/* if (check_pipe(tail, file_type) == -1) */
 		/* 	dup2(STDOUT_FILENO, pipefd[3]); */
-		printf("Comm seq : %s\n", comm_seq[0]);
-		printf("%s\n", data->env[0]);
-		printf("%s\n", data->env[20]);
-		close_doc(file, file_type, 0);
+		close_doc(data->file, data->file_type, 0);
 		if (execute_comm(comm_seq, data) == 0)
 			if (execve(path_finder(comm_seq[0]), comm_seq, data->env) == -1)
 				pid_error("execve failed", NULL, 1);
-		close(pipefd[1]);
+		close(data->pipefd[1]);
 		exit(EXIT_SUCCESS);
 		//pid_error("forker;child failure", NULL, 1);
 	}
 	else
 	{
 		wait(NULL);
-		close(pipefd[1]);
+		close(data->pipefd[1]);
 		free_mtrx(comm_seq);
 		if (safe_dup(data->pipefd[0], STDIN_FILENO, 1) == -1)
 			pid_error("forker;parent dup failed", NULL, 0);
