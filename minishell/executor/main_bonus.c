@@ -67,7 +67,7 @@ int	execute_comm(char **input, t_shell *data)
 		ft_echo(input);
 		return (1);
 	}
-	else if(path_finder(input[0]))
+	else if(path_finder(input[0], data))
 		return(0);
 	else
 	{
@@ -123,20 +123,25 @@ void	check_redirects(t_token **tail)
 	}
 }
 
-char	**pipe_loop(t_token **tail)
+char	**pipe_loop(t_token **tail, t_shell *data)
 {
 	char	*path;
 	char	**command_seq;
+	char	*tmp;
 
 	if (!tail || !*tail)
 		return (NULL);
-	path = path_finder(use_token(tail, COMMAND)->content);
-	if (path == NULL)
+	tmp = ft_strdup(use_token(tail, COMMAND));
+	if (tmp)
 	{
-		;//printf("command not found: No such file or direcotry\n");
-		//pid_error("command not found", NULL, 0);
+		path = path_finder(tmp, data);
+		if (path == NULL)
+		{
+			;//printf("command not found: No such file or direcotry\n");
+			//pid_error("command not found", NULL, 0);
+		}
+		free(path);
 	}
-	free(path);
 	command_seq = seq_extract(tail);
 	return (command_seq);
 }
@@ -158,7 +163,7 @@ int	new_executor(t_token **tail, t_shell *data)
 	{
 		check_redirects(tail);
 		files_open(tail, data);
-		comm_seq = pipe_loop(tail);
+		comm_seq = pipe_loop(tail, data);
 		if (check_pipe(tail, data->file_type) == 0)
 			data->file[1023] = execute_comm(comm_seq, data);
 		if (data->file[1023] == 0)

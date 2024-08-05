@@ -35,14 +35,16 @@ static char	*comm_checker(char *command, char **full_path, bool *success)
 }
 
 /* if path is correct it returns allocated, if not it returns NULL */
-char *path_finder(char *command)
+char *path_finder(char *command, t_shell *data)
 {
 	char	*env_path;
 	char	*path;
 	char	**full_path;
 	bool	success;
-	
-	env_path = getenv("PATH");
+
+	// if (!command || command == NULL)
+	// 	return (NULL);
+	env_path = custom_getenv("PATH", data->env);
 	success = false;
 	if (!command)
 		return (NULL);

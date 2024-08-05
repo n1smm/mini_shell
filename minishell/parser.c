@@ -71,7 +71,7 @@ static t_type	mod_before_quote(t_type	mod_type)
 	return(type);
 }
 
-static t_token	*check_quote(t_token **tail, t_token *tmp, t_type *mod_type)
+static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type *mod_type)
 {
 	t_token	*curr;
 	t_type	all_quotes_are_equal;
@@ -93,7 +93,7 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_type *mod_type)
 			curr->typ_token = PRINTABLE;
 		if (curr->typ_token == EXPAND)
 		{
-			expand_checker(curr);
+			expand_checker(curr, data);
 			if (curr->content[0] == 0)
 				delete_node(tail, curr);
 		}
@@ -110,7 +110,7 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_type *mod_type)
 	return (curr);
 }
 
-void	parser(t_token **tail, t_token **head)
+void	parser(t_token **tail, t_token **head, t_shell *data)
 {
 	t_token	*curr;
 	t_type	mod_type;
@@ -122,7 +122,7 @@ void	parser(t_token **tail, t_token **head)
 	{
 		if (curr->typ_token == QUOTE || curr->typ_token == SINGLE_QUOTE)
 		{
-			curr = check_quote(tail, curr, &mod_type);
+			curr = check_quote(tail, curr, data, &mod_type);
 			if (!curr)
 				break ;
 		}
@@ -142,7 +142,7 @@ void	parser(t_token **tail, t_token **head)
 			check_string(curr, &mod_type, 0);
 		if (curr->typ_token == EXPAND)
 		{
-			expand_checker(curr);
+			expand_checker(curr, data);
 			if (curr->content[0] == 0)
 				delete_node(tail, curr);
 		}

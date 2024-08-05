@@ -24,7 +24,6 @@ char *custom_getenv(char *name, char **env) {
 	// res = NULL;
 	name_len = ft_strlen(name);
     int i = 0;
-    printf("name : %s\n", name);
     while (env[i] != NULL) {
         if (ft_strncmp(env[i], name, name_len) == 0 && env[i][name_len] == '=') {
             return &env[i][name_len + 1];
@@ -48,14 +47,14 @@ char	*expander(char *input, t_shell *var, t_type typ_token)
 	var = var;
 	if (typ_token == COMMAND)
 	{
-		result = path_finder(input);
+		result = path_finder(input, var);
 		if (!result)
 			return (NULL);
 		return (result);
 	}
 	else if (typ_token == EXPAND)
 	{
-		result = getenv(input);//custom_getenv(input, var->env);
+		result = custom_getenv(input, var->env);
 		if (!result)
 			return (NULL);
 		result_path = ft_strdup(result);
@@ -120,7 +119,7 @@ void	expand_checker(t_token *curr, t_shell *var)
 	j = 0;
 	free_me = false;
 	content = curr->content;
-	printf("content: %s\n", content);
+	//printf("content: %s\n", content);
 	while (content[j])
 	{
 		i = 0;

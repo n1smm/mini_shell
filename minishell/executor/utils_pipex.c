@@ -38,7 +38,7 @@ void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail)
 		/* 	dup2(STDOUT_FILENO, pipefd[3]); */
 		close_doc(data->file, data->file_type, 0);
 		if (execute_comm(comm_seq, data) == 0)
-			if (execve(path_finder(comm_seq[0]), comm_seq, data->env) == -1)
+			if (execve(path_finder(comm_seq[0], data), comm_seq, data->env) == -1)
 				pid_error("execve failed", NULL, 1);
 		close(data->pipefd[1]);
 		exit(EXIT_SUCCESS);

@@ -133,13 +133,13 @@ int	main(int argc, char **argv, char **env)
 		split_input(input, &tail, &head);
 		while (valid_env_var(argv[i]) == 0 && argv[i])
 		i = 0;
-		parser(&tail, &head);
+		parser(&tail, &head, data);
 		//ft_executor(data, &tail, input, env);
 		//executor(&tail, env);
 		new_executor(&tail, data);
-		// printf("\n	PRINT LIST TOKEN :\n\n"),
-		// print_list(tail);
-		// printf("\n");
+		 printf("\n	PRINT LIST TOKEN :\n\n"),
+		 print_list(tail);
+		 printf("\n");
 		free_input_prompt(input, prompt);
 		free_garbage(tail);
 		//free_garbage((t_token *) data);

@@ -22,7 +22,7 @@ char	*expander(char *input, t_type typ_token)
 
 	if (typ_token == COMMAND)
 	{
-		result = path_finder(input);
+		result = path_finder(input, var->env);
 		if (!result)
 			return (NULL);
 		return (result);

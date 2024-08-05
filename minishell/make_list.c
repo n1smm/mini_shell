@@ -107,13 +107,18 @@ int	find_token(t_token *tail, t_type type)
 	return (0);
 }
 
-t_token	*use_token(t_token **tail, t_type type)
+char	*use_token(t_token **tail, t_type type)
 {
+	if (!tail || !*tail)
+		return (NULL);
 	while (*tail)
 	{
 		if ((*tail)->typ_token == type)
-			return (*tail);
-		*tail = (*tail)->next;
+			return ((*tail)->content);
+		if ((*tail)->next)
+			*tail = (*tail)->next;
+		else
+			break ;
 	}
 	return (NULL);
 }

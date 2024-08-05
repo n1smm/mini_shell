@@ -51,7 +51,7 @@ void				split_input(char *input, t_token **tail, t_token **head);
 bool				term_character(char c);
 char				*ft_chardup(char character);
 /*parser*/
-void				parser(t_token **tail, t_token **head);
+void				parser(t_token **tail, t_token **head, t_shell *data);
 /* after_parsy */
 void				after_parsy(t_token **tail, t_token **head);
 /*executor*/
@@ -64,13 +64,14 @@ t_token				*init(char *content, t_token **tail, t_token **head);
 bool				double_lstadd_front(char *content, t_token **tail);
 bool				double_lstadd_back(char *content, t_token **head);
 void 				delete_node(t_token **tail, t_token *del);
-t_token 			*use_token(t_token **tail, t_type type);
+char 			*use_token(t_token **tail, t_type type);
 int					find_token(t_token *tail, t_type type);
 char 				*print_token_typ(t_type token_type);
 void				print_list(t_token *tail);
 /* path_finder */
-char				*path_finder(char *command);
+char				*path_finder(char *command, t_shell *data);
 /*expander*/
+char *custom_getenv(char *name, char **env);
 void				expand_checker(t_token *curr, t_shell *var);
 char	*expander(char *input, t_shell *var, t_type typ_token);
 //char				*expander(char *input, t_type typ_token);
