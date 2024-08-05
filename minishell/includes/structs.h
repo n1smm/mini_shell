@@ -88,6 +88,7 @@ typedef struct	s_shell
 	char			**env;
 	char			*var_name;
 	char			*var_value;
+	int				nbr_pipes;
 	int				pipefd[4];
 	int				file[1024];
 	t_type			file_type[1024];

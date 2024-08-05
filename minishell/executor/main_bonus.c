@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/04 20:57:53 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/05 16:19:44 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	check_redirects(t_token **tail)
 
 char	**pipe_loop(t_token **tail, t_shell *data)
 {
-	/* char	*path; */
+	char	*path;
 	char	**command_seq;
 	char	*tmp;
 
@@ -161,6 +161,7 @@ int	new_executor(t_token **tail, t_shell *data)
 	while (*tail)
 	{
 		tmp2 = *tail;
+		data->nbr_pipes = count_pipes(*tail);
 		check_redirects(tail);
 		files_open(tail, data);
 		comm_seq = pipe_loop(tail, data);
@@ -168,7 +169,7 @@ int	new_executor(t_token **tail, t_shell *data)
 			data->file[1023] = execute_comm(comm_seq, data);
 		if (data->file[1023] == 0 || data->file[1023] == 2)
 			comm_forker(comm_seq , data, check_pipe(tail, data->file_type), &tmp2);
-		close_doc(data->file, data->file_type, 0);
+		close_doc(data, data->file, data->file_type, 0);
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;
 	}

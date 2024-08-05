@@ -6,59 +6,63 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/03 13:33:31 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/05 15:10:53 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "pipex.h"
 
-void	here_doc_redirect(int file[], t_token **tail, int i, bool special_boy)
+void	here_doc_redirect(t_shell *data, t_token **tail, int i, bool special_boy)
 {
-	here_doc(file, tail, i, special_boy);
-	file[i] = create_heredoc(i, 0);
-	if (file[i] == -1)
+	here_doc(data, tail, i, special_boy);
+	data->file[i] = create_heredoc(data, i, 0);
+	if (data->file[i] == -1)
 		pid_error("here_doc; couldn't reopen file", NULL, 0);
 	if (*tail)
 		*tail = (*tail)->next;
 }
 
-void	here_doc(int file[], t_token **tail, int i, bool special_boy)
+void	here_doc(t_shell *data, t_token **tail, int i, bool special_boy)
 {
 	char	*input;
 	char	*limiter;
 
 	if (!find_token(*tail, REDIRECT_IN_DOUBLE))
 		return ;
-	limiter = use_token(tail, LIMITER)->content;
+	use_token(tail, LIMITER);
+	limiter = (*tail)->content;
 	while (1)
 	{
 		write(1, "heredoc> ", 9);
 		input = get_next_line(0);
-		input = expand_string_checker(input, special_boy);
+		input = expand_string_checker(input, data, special_boy);
 		if (!input || ((ft_strncmp(input, limiter, ft_strlen(limiter)) == 0)
 				&& ft_strlen(input) == ft_strlen(limiter) + 1))
 		{
 			free(input);
 			break ;
 		}
-		write(file[i], input, ft_strlen(input));
+		write(data->file[i], input, ft_strlen(input));
 		free(input);
 	}
-	close(file[i]);
-	input = get_next_line(file[i]);
+	close(data->file[i]);
+	input = get_next_line(data->file[i]);
 	free(input);
 }
 
-int	create_heredoc(int j, int create)
+int	create_heredoc(t_shell *data, int j, int create)
 {
 	int			fd;
 	char		*file_name;
 	char		*iteration;
+	char		*pipe;
 	
+	pipe = ft_itoa(data->nbr_pipes);
 	iteration = ft_itoa(j);
 	if (j < 10)
 		iteration = join_wrapper("0", iteration, 0);
+	iteration = join_wrapper(pipe, iteration, 2);
 	file_name = join_wrapper(".here_doc", iteration, 2);
 	printf("heredoc filename: %s\n", file_name);
 	if (create)
@@ -69,21 +73,24 @@ int	create_heredoc(int j, int create)
 	return (fd);
 }
 
-void	delete_heredoc(int i)
+void	delete_heredoc(t_shell *data, int i)
 {
 	char		*file_name;
 	char		*iteration;
+	char		*pipe;
 	
+	pipe = ft_itoa(data->nbr_pipes);
 	iteration = ft_itoa(i);
 	if (i < 10)
 		iteration = join_wrapper("0", iteration, 0);
+	iteration = join_wrapper(pipe, iteration, 2);
 	file_name = join_wrapper(".here_doc", iteration, 2);
 	if (unlink(file_name) == -1)
 		printf("error unlinking %s", file_name); //exit safely
 	free(file_name);
 }
 
-void	close_doc(int file[], t_type file_type[], int delete)
+void	close_doc(t_shell *data, int file[], t_type file_type[], int delete)
 {
 	int	i;
 
@@ -96,7 +103,7 @@ void	close_doc(int file[], t_type file_type[], int delete)
 		{
 			close(file[i]);
 			if (delete)
-				delete_heredoc(i);
+				delete_heredoc(data, i);
 		}
 		i++;
 	}
