@@ -56,6 +56,8 @@ char *path_finder(char *command, t_shell *data)
 	success = false;
 	if (!command)
 		return (NULL);
+	if (ft_strchr(command, '/'))
+		return (absolute_path(command));
 	full_path = ft_split(env_path, ':');
 	command = ft_strjoin("/", command);
 	path = comm_checker(command, full_path, &success);

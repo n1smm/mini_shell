@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/05 20:00:43 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/05 22:02:59 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	check_string(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
-		|| *mod_type == LIMITER || *mod_type == OUTFILE))// && is_quote != 1)
+		|| *mod_type == LIMITER || *mod_type == OUTFILE) && is_quote != 1)
 		curr->typ_token = COMMAND;
 	else if ((*mod_type == COMMAND || *mod_type == OPTION)
 		&& curr->content[0] == '-')
@@ -42,7 +42,7 @@ static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	/* there is problem where <<li"mit" mit becomes command */
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
-		|| *mod_type == LIMITER || *mod_type == OUTFILE))// && is_quote != 1)
+		|| *mod_type == LIMITER || *mod_type == OUTFILE) && is_quote != 1)
 		curr->typ_token = COMMAND;
 	else if (*mod_type == REDIRECT_IN)
 		curr->typ_token = INFILE;
@@ -79,6 +79,7 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type 
 		is_quote = 1;
 	else
 		is_quote = 2;
+	/* curr->typ_token = *mod_type; */
 	while (curr && curr->typ_token != tmp->typ_token)
 	{
 		if (curr->typ_token == WORD)
@@ -103,8 +104,8 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type 
 	*tail = *tail;
 	if (all_quotes_are_equal != NONPRINTABLE)
 		*mod_type = all_quotes_are_equal;
-	if (curr->next && !is_delimiting_type(curr->next->typ_token))
-			*mod_type = tmp->prev->typ_token;
+	/* if (curr->next && !is_delimiting_type(curr->next->typ_token)) */
+	/* 		*mod_type = tmp->prev->typ_token; */
 	return (curr);
 }
 
@@ -144,6 +145,9 @@ void	parser(t_token **tail, t_token **head, t_shell *data)
 			if (curr->content[0] == 0)
 				delete_node(tail, curr, head);
 		}
+		/* if (mod_type == INFILE && !is_delimiting_node(curr->next)) */
+		/* 	mod_type = WORD; */
+
 		/* printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type)); */
 		curr = curr->next;
 	}
