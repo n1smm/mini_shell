@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:39:05 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/03 17:40:33 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/07 20:35:12 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,19 @@ int	is_delimiting_node(t_token *curr)
 		return (1);
 	if (curr->typ_token == REDIRECT_OUT_DOUBLE)
 		return (1);
+	if (curr->typ_token == NONPRINTABLE)
+		return (1);
 	else
 		return(0);
+}
+
+int	is_quote_node(t_token *curr)
+{
+	if (curr->typ_token == QUOTE)
+		return (1);
+	if (curr->typ_token == SINGLE_QUOTE)
+		return (1);
+	return (0);
 }
 
 int	is_delimiting_type(t_type type)

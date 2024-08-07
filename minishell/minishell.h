@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/05 18:32:52 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/07 20:31:04 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int				safe_dup(int old_fd, int new_fd, int which);
 /* utils tokens */
 int					is_delimiting_node(t_token *curr);
 int					is_delimiting_type(t_type type);
+int					is_quote_node(t_token *curr);
 /*split_input*/
 void				split_input(char *input, t_token **tail, t_token **head);
 bool				term_character(char c);

@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/05 22:02:59 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/07 23:25:59 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	check_string(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
-		|| *mod_type == LIMITER || *mod_type == OUTFILE) && is_quote != 1)
+		|| *mod_type == LIMITER || *mod_type == OUTFILE))// && (is_delimiting_node(curr->prev) || is_quote_node(curr->prev)))// && is_quote != 1)
 		curr->typ_token = COMMAND;
 	else if ((*mod_type == COMMAND || *mod_type == OPTION)
 		&& curr->content[0] == '-')
@@ -42,7 +42,7 @@ static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	/* there is problem where <<li"mit" mit becomes command */
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
-		|| *mod_type == LIMITER || *mod_type == OUTFILE) && is_quote != 1)
+		|| *mod_type == LIMITER || *mod_type == OUTFILE))// && is_quote != 1)
 		curr->typ_token = COMMAND;
 	else if (*mod_type == REDIRECT_IN)
 		curr->typ_token = INFILE;
@@ -52,20 +52,20 @@ static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
 		curr->typ_token = OUTFILE;
 	else if (is_quote == 1 || is_quote == 2)
 		curr->typ_token = WORD;
-	if (curr->typ_token != WORD)
+	if (curr->typ_token != WORD || is_quote > 0)
 		*mod_type = curr->typ_token;
 }
 
-static t_type	mod_before_quote(t_type	mod_type)
-{
-	t_type	type;
+/* static t_type	mod_before_quote(t_type	mod_type) */
+/* { */
+/* 	t_type	type; */
 
-	if (is_delimiting_type(mod_type))
-		type = NONPRINTABLE;
-	else
-		type = mod_type;
-	return(type);
-}
+/* 	if (is_delimiting_type(mod_type)) */
+/* 		type = NONPRINTABLE; */
+/* 	else */
+/* 		type = mod_type; */
+/* 	return(type); */
+/* } */
 
 static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type *mod_type)
 {
@@ -74,7 +74,11 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type 
 	int		is_quote;
 
 	curr = tmp->next;
-	all_quotes_are_equal = mod_before_quote(*mod_type);
+	is_quote = 0;
+	if (*mod_type != WORD)
+		all_quotes_are_equal = *mod_type;// mod_before_quote(*mod_type);
+	else
+		all_quotes_are_equal = tmp->prev->typ_token;
 	if (tmp->typ_token == QUOTE)
 		is_quote = 1;
 	else
@@ -102,7 +106,10 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type 
 		return (NULL);
 	}
 	*tail = *tail;
-	if (all_quotes_are_equal != NONPRINTABLE)
+	/* if (tmp->prev->typ_token == WHITESPACE) */
+	if (tmp->prev && curr->next && is_delimiting_node(tmp->prev) && is_delimiting_node(curr->next))
+		return (curr);
+	if (all_quotes_are_equal != NONPRINTABLE)// && curr->prev->typ_token != WORD)
 		*mod_type = all_quotes_are_equal;
 	/* if (curr->next && !is_delimiting_type(curr->next->typ_token)) */
 	/* 		*mod_type = tmp->prev->typ_token; */
@@ -121,7 +128,11 @@ void	parser(t_token **tail, t_token **head, t_shell *data)
 	{
 		if (curr->typ_token == QUOTE || curr->typ_token == SINGLE_QUOTE)
 		{
+			if (curr && !is_delimiting_node(curr->prev))
+				mod_type = WORD;
 			curr = check_quote(tail, curr, data, &mod_type);
+			printf("%s", print_token_typ(mod_type));
+			printf("\n");
 			if (!curr)
 				break ;
 		}

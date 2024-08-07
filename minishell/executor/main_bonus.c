@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/05 19:24:12 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/07 23:41:43 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ void	pid_error(char *msg, char **str, int free_me)
 
 int	execute_comm(char **input, t_shell *data)
 {
+	if (!input[0])
+		return (-1);
+	// exit safely
 	if (ft_strncmp(input[0], "cd", ft_strlen(input[0])) == 0)
 	{
 		ft_cd(input[1]);
@@ -120,12 +123,12 @@ void	check_redirects(t_token **tail, t_token **head)
 				if (curr->typ_token == QUOTE || curr->typ_token == SINGLE_QUOTE)
 				{
 					assign_special_boy(tail, head, &curr, &tmp);
-					/* if(tmp) */
-					/* 	tmp->special_boy = true; */
-					/* tmp = curr->next; */
-					/* delete_node(tail, curr, head); */
-					/* curr = tmp; */
-					/* tmp = NULL; */
+					if(tmp)
+						tmp->special_boy = true;
+					tmp = curr->next;
+					delete_node(tail, curr, head);
+					curr = tmp;
+					tmp = NULL;
 				}
 				curr = curr->next;
 			}
@@ -178,6 +181,7 @@ int	new_executor(t_token **tail, t_shell *data, t_token **head)
 		files_open(tail, data);
 		comm_seq = pipe_loop(tail, data);
 		if (check_pipe(tail, data->file_type) == 0)
+			//here i need to put also redirect files
 			data->file[1023] = execute_comm(comm_seq, data);
 		if (data->file[1023] == 0 || data->file[1023] == 2)
 			comm_forker(comm_seq , data, check_pipe(tail, data->file_type), &tmp2);
