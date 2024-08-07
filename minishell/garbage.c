@@ -36,7 +36,7 @@ void	free_garbage(t_token *garbage)
 		free(curr);
 		curr = next;
 	}
-	garbage->trash = NULL;
+	// garbage->trash = NULL;
 }
 
 void	safe_exit(t_token *garbage, int i)
