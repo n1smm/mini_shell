@@ -7,7 +7,7 @@ void add_to_garbage(t_trash *garbage, void *trash)
 
     new_trash = safe_malloc(sizeof(t_trash));
     //new_trash = trash;
-    if (!garbage)
+    if (!garbage || !garbage->next)
         garbage = new_trash;
     else
     {
@@ -18,6 +18,7 @@ void add_to_garbage(t_trash *garbage, void *trash)
         garbage->next = new_trash;
     }
     new_trash->content = trash;
+    new_trash->next = NULL;
 }
 
 void	free_garbage(t_trash *garbage)

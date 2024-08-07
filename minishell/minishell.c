@@ -21,7 +21,7 @@ static size_t	count_env_vars(char **env)
 void	ft_init_garbage(t_token **tail, t_trash **trash)
 {
 
-	trash = safe_malloc(sizeof(t_trash *));
+	//trash = safe_malloc(sizeof(t_trash *));
 	(*trash) = safe_malloc(sizeof(t_trash));
 	(*trash)->content = NULL;
 	(*trash)->next= NULL;

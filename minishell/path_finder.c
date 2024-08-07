@@ -21,7 +21,7 @@ static char	*comm_checker(char *command, char **full_path, bool *success)
 	i = 0;
 	while (full_path[i])
 	{
-		path = ft_strjoin(full_path[i++], command); //free??
+		path = join_wrapper(full_path[i++], command, 2); //free??
 		if ( 0 == access(path, X_OK))
 		{
 			*success = true;

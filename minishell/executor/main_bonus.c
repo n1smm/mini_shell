@@ -155,6 +155,7 @@ char	**pipe_loop(t_token **tail, t_shell *data)
 			;
 		}
 		free(path);
+		free(tmp);
 	}
 	command_seq = seq_extract(tail);
 	return (command_seq);

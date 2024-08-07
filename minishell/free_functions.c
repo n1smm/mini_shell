@@ -38,6 +38,7 @@ void free_tokens(t_token **tail, t_token **head, int final_free)
             free(curr);
             curr = next_node;
         }
+        // free(tail);
         *head = NULL;
         *tail = NULL;
     }
