@@ -24,8 +24,8 @@ t_token	*init(char *content, t_token **tail, t_token **head)
 	new_node->trash = NULL;
 	*tail = new_node;
 	*head = new_node;
-	add_to_garbage(new_node, new_node);
-	add_to_garbage(new_node, content);
+	add_to_garbage(new_node->trash, new_node);
+	add_to_garbage(new_node->trash, content);
 	return (new_node);
 }
 
@@ -44,8 +44,8 @@ bool	double_lstadd_front(char *content, t_token **tail)
 	new->content = content;
 	new->next = curr;
 	new->trash = NULL;
-	add_to_garbage(new, new);
-	add_to_garbage(new, content);
+	add_to_garbage(new->trash, new);
+	add_to_garbage(new->trash, content);
 	curr->prev = new;
 	*tail = new;
 	return (true);
@@ -69,8 +69,8 @@ bool	double_lstadd_back(char *content, t_token **head)
 	new->next = NULL;
 	new->prev = curr;
 	new->trash = NULL;
-	add_to_garbage(new, new);
-	add_to_garbage(new, content);
+	add_to_garbage(new->trash, new);
+	add_to_garbage(new->trash, content);
 	curr->next = new;
 	*head = new;
 	return (true);

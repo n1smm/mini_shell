@@ -104,10 +104,10 @@ void	            ctrl_c(int sig);
 void				ctrl_slash(int sig);
 void	            free_input_prompt(char *input, char *prompt);
 /* garbage collector */
-void    init_garbage(t_trash *garbage);
+void    ft_init_garbage(t_token **tail, t_trash **garbage);
 
-void    add_to_garbage(t_token *garbage, void *trash);
-void    free_garbage(t_token *garbage);
+void    add_to_garbage(t_trash *garbage, void *trash);
+void    free_garbage(t_trash *garbage);
 void    safe_exit(t_token *garbage, int i);
 
 char **seq_extract(t_token **tail);
