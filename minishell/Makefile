@@ -7,7 +7,7 @@ CFLAGS = -Wall -Wextra -Werror -g -o0
 HEADER = includes/minishell.h executor/pipex.h includes/structs.h
 
 SRC_BUILTINS= built_ins/cd.c built_ins/env.c built_ins/echo.c built_ins/pwd.c built_ins/unset.c 
-EXECUTOR_FILES = ./executor/main_bonus.c ./executor/utils_pipex.c ./executor/utils_bonus_pipex.c ./executor/sequence_extraction.c ./executor/utils_mini.c
+EXECUTOR_FILES = ./executor/main_bonus.c ./executor/utils_pipex.c ./executor/utils_bonus_pipex.c ./executor/sequence_extraction.c ./executor/utils_mini.c ./executor/check_files.c
 GET_NEXT_LINE_FILES = ./executor/gnl_finished/get_next_line.c ./executor/gnl_finished/get_next_line_utils.c
 SRC_FILES = minishell.c expander.c parser.c lexer.c safe_ft.c split_input.c make_list.c free_functions.c \
 	export.c path_finder.c executor.c signals.c commands.c garbage.c init_shell.c after_parsy.c utils_tokens.c\

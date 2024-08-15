@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/05 18:39:18 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/13 17:06:14 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	delete_node(t_token **tail, t_token *del, t_token **head)
 	if (*tail == del)
 		*tail = del->next;
 	if (*head == del)
-		*head = del->next;
+		*head = del->prev;
 	if (del->next != NULL)
 		del->next->prev = del->prev;
 	if (del->prev != NULL)
@@ -94,6 +94,38 @@ void	delete_node(t_token **tail, t_token *del, t_token **head)
 	del = NULL;
 	return ;
 }
+
+t_token	*delete_node2(t_token **tail, t_token **del, t_token **head)
+{
+	t_token *tmp;
+	t_token *prev;
+	t_token *next;
+
+
+
+	tmp = *del;
+	next = (*del)->next;
+	prev = (*del)->prev;
+	if (*tail == NULL || del == NULL)
+		return NULL;
+	if (*tail == *del)
+		*tail = (*del)->next;
+	if (*head == *del)
+		*head = (*del)->prev;
+	if (next != NULL)
+		next->prev = (*del)->prev;
+	if (prev != NULL)
+		prev->next = (*del)->next;
+
+
+	/* del->next = NULL; */
+	/* del->prev = NULL; */
+	free(tmp->content);
+	free(tmp);
+
+	return *del;
+}
+
 
 int	find_token(t_token *tail, t_type type)
 {

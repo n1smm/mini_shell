@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:39:05 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/07 20:35:12 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/12 17:13:35 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,32 @@ int	is_delimiting_type(t_type type)
 		return (1);
 	else
 		return(0);
+}
+
+bool is_redirect(t_token *curr)
+{
+	if (curr->typ_token == REDIRECT_IN)	
+		return (true);
+	if (curr->typ_token == REDIRECT_IN_DOUBLE)	
+		return (true);
+	if (curr->typ_token == REDIRECT_OUT)	
+		return (true);
+	if (curr->typ_token == REDIRECT_OUT_DOUBLE)	
+		return (true);
+	return (false);
+}
+
+bool is_file(t_token *curr)
+{
+	/* if (curr->typ_token == QUOTE) */
+	/* 	return (true); */
+	/* if (curr->typ_token == SINGLE_QUOTE) */
+	/* 	return (true); */
+	if (curr->typ_token == INFILE)
+		return (true);
+	if (curr->typ_token == OUTFILE)
+		return (true);
+	if (curr->typ_token == LIMITER)
+		return (true);
+	return (false);
 }

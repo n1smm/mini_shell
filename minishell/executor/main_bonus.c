@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/07 23:41:43 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/12 17:21:40 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,59 +84,59 @@ int	execute_comm(char **input, t_shell *data)
 	}
 }
 
-t_token	*find_special_boy(t_token *tmp)
-{
-	t_token *curr;
+/* t_token	*find_special_boy(t_token *tmp) */
+/* { */
+/* 	t_token *curr; */
 
-	curr = tmp;
-	while (curr && curr->typ_token != WHITESPACE && curr->typ_token != PIPELINE)
-	{
-		if (curr->typ_token == LIMITER)
-			return (curr);
-		curr = curr->next;
-	}
-	return (NULL);
-}
+/* 	curr = tmp; */
+/* 	while (curr && curr->typ_token != WHITESPACE && curr->typ_token != PIPELINE) */
+/* 	{ */
+/* 		if (curr->typ_token == LIMITER) */
+/* 			return (curr); */
+/* 		curr = curr->next; */
+/* 	} */
+/* 	return (NULL); */
+/* } */
 
-void	assign_special_boy(t_token **tail, t_token **head, t_token **curr, t_token **tmp)
-{
-	if(*tmp)
-		(*tmp)->special_boy = true;
-	*tmp = (*curr)->next;
-	delete_node(tail, *curr, head);
-	*curr = *tmp;
-	*tmp = NULL;
-}
-void	check_redirects(t_token **tail, t_token **head)
-{
-	t_token	*curr;
-	t_token	*tmp;
+/* void	assign_special_boy(t_token **tail, t_token **head, t_token **curr, t_token **tmp) */
+/* { */
+/* 	if(*tmp) */
+/* 		(*tmp)->special_boy = true; */
+/* 	*tmp = (*curr)->next; */
+/* 	delete_node(tail, *curr, head); */
+/* 	*curr = *tmp; */
+/* 	*tmp = NULL; */
+/* } */
+/* void	check_redirects(t_token **tail, t_token **head) */
+/* { */
+/* 	t_token	*curr; */
+/* 	t_token	*tmp; */
 
-	curr = *tail;
-	while(curr && curr->typ_token != PIPELINE)
-	{
-		if (curr->typ_token == REDIRECT_IN ||  curr->typ_token == REDIRECT_OUT || curr->typ_token == REDIRECT_IN_DOUBLE || curr->typ_token == REDIRECT_OUT_DOUBLE)
-		{
-			tmp = find_special_boy(curr);
-			while (curr && curr->typ_token != WHITESPACE && curr->typ_token != PIPELINE)
-			{
-				if (curr->typ_token == QUOTE || curr->typ_token == SINGLE_QUOTE)
-				{
-					assign_special_boy(tail, head, &curr, &tmp);
-					if(tmp)
-						tmp->special_boy = true;
-					tmp = curr->next;
-					delete_node(tail, curr, head);
-					curr = tmp;
-					tmp = NULL;
-				}
-				curr = curr->next;
-			}
-		}
-		if (curr)
-			curr = curr->next;
-	}
-}
+/* 	curr = *tail; */
+/* 	while(curr && curr->typ_token != PIPELINE) */
+/* 	{ */
+/* 		if (curr->typ_token == REDIRECT_IN ||  curr->typ_token == REDIRECT_OUT || curr->typ_token == REDIRECT_IN_DOUBLE || curr->typ_token == REDIRECT_OUT_DOUBLE) */
+/* 		{ */
+/* 			tmp = find_special_boy(curr); */
+/* 			while (curr && curr->typ_token != WHITESPACE && curr->typ_token != PIPELINE) */
+/* 			{ */
+/* 				if (curr->typ_token == QUOTE || curr->typ_token == SINGLE_QUOTE) */
+/* 				{ */
+/* 					assign_special_boy(tail, head, &curr, &tmp); */
+/* 					if(tmp) */
+/* 						tmp->special_boy = true; */
+/* 					tmp = curr->next; */
+/* 					delete_node(tail, curr, head); */
+/* 					curr = tmp; */
+/* 					tmp = NULL; */
+/* 				} */
+/* 				curr = curr->next; */
+/* 			} */
+/* 		} */
+/* 		if (curr) */
+/* 			curr = curr->next; */
+/* 	} */
+/* } */
 
 char	**pipe_loop(t_token **tail, t_shell *data)
 {
@@ -177,7 +177,8 @@ int	new_executor(t_token **tail, t_shell *data, t_token **head)
 	{
 		tmp2 = *tail;
 		data->nbr_pipes = count_pipes(*tail);
-		check_redirects(tail, head);
+		/* check_redirects(tail, head); */
+		check_files(tail, head);
 		files_open(tail, data);
 		comm_seq = pipe_loop(tail, data);
 		if (check_pipe(tail, data->file_type) == 0)

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/05 18:41:02 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/12 17:20:42 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,7 @@ void	waiting_pids(t_token **tail, int builtin);
 void	execute_wrapper(char **comm_seq, t_shell *data);
 int		find_file_type(t_shell *data, t_type type);
 int		count_pipes(t_token *curr);
+/* check_files */
+void 	check_files(t_token **tail, t_token **head);
 
 #endif

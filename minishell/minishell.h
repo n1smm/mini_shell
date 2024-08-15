@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/07 20:31:04 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/12 21:02:05 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int				safe_dup(int old_fd, int new_fd, int which);
 int					is_delimiting_node(t_token *curr);
 int					is_delimiting_type(t_type type);
 int					is_quote_node(t_token *curr);
+bool 				is_redirect(t_token *curr);
+bool 				is_file(t_token *curr);
 /*split_input*/
 void				split_input(char *input, t_token **tail, t_token **head);
 bool				term_character(char c);
@@ -64,6 +66,7 @@ void				ft_add_token2(char character);
 t_token				*init(char *content, t_token **tail, t_token **head);
 bool				double_lstadd_front(char *content, t_token **tail);
 bool				double_lstadd_back(char *content, t_token **head);
+t_token				*delete_node2(t_token **tail, t_token **del, t_token **head);
 void 				delete_node(t_token **tail, t_token *del, t_token **head);
 char 			*use_token(t_token **tail, t_type type);
 int					find_token(t_token *tail, t_type type);
