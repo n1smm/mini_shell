@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/05 15:10:53 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/15 17:14:31 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ void	here_doc(t_shell *data, t_token **tail, int i, bool special_boy)
 	if (!find_token(*tail, REDIRECT_IN_DOUBLE))
 		return ;
 	use_token(tail, LIMITER);
+	special_boy = (*tail)->special_boy;
 	limiter = (*tail)->content;
 	while (1)
 	{
 		write(1, "heredoc> ", 9);
 		input = get_next_line(0);
-		input = expand_string_checker(input, data, special_boy);
+		if ((*tail)->special_boy == false)
+			input = expand_string_checker(input, data, special_boy);
 		if (!input || ((ft_strncmp(input, limiter, ft_strlen(limiter)) == 0)
 				&& ft_strlen(input) == ft_strlen(limiter) + 1))
 		{

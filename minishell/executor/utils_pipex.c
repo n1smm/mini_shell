@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/05 16:28:36 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/15 16:14:58 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,18 @@ void	out_files(t_shell *data, t_token **tail, int i)
 	{
 		if (curr->typ_token == REDIRECT_OUT)
 		{
-			data->file[i] = open(curr->next->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			while (curr && !is_file(curr))
+				curr = curr->next;
+			while (curr && is_file(curr))
+				curr = curr->next;
+			data->file[i] = open(curr->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			data->file_type[i++] = REDIRECT_OUT;
 		}
 		else if (curr->typ_token == REDIRECT_OUT_DOUBLE)
 		{
-			data->file[i] = open(curr->next->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			while (curr && !is_file(curr))
+				curr = curr->next;
+			data->file[i] = open(curr->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
 			data->file_type[i++] = REDIRECT_OUT_DOUBLE;
 		}
 		curr = curr->next;
@@ -92,14 +98,18 @@ void files_open(t_token **tail, t_shell *data)
 	{
 		if (curr->typ_token == REDIRECT_IN_DOUBLE)
 		{	
+			while (curr && !is_file(curr))
+				curr = curr->next;
 			safe_dup(data->pipefd[2], 0, 1);
 			data->file[i] = create_heredoc(data, i, 1);
 			data->file_type[i++] = REDIRECT_IN_DOUBLE;
 		}
 		else if (curr->typ_token == REDIRECT_IN)
 		{
+			while (curr && !is_file(curr))
+				curr = curr->next;
 			safe_dup(data->pipefd[2], 0, 1);
-			data->file[i] = open(curr->next->content, O_RDONLY, 0777);
+			data->file[i] = open(curr->content, O_RDONLY, 0777);
 			data->file_type[i++] = REDIRECT_IN;
 		}
 		curr = curr->next;

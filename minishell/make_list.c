@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:44:22 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/13 17:06:14 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/15 16:57:48 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	delete_node(t_token **tail, t_token *del, t_token **head)
 		del->prev->next = del->next;
 	del->next = NULL;
 	del->prev = NULL;
+	free(del->content);
 	free(del);
 	del = NULL;
 	return ;

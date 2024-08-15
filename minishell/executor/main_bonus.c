@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/12 17:21:40 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/15 16:41:47 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,32 @@ int	execute_comm(char **input, t_shell *data)
 	if (!input[0])
 		return (-1);
 	// exit safely
-	if (ft_strncmp(input[0], "cd", ft_strlen(input[0])) == 0)
+	if (ft_strncmp(input[0], "cd", 3) == 0)
 	{
 		ft_cd(input[1]);
 		return (1);
 	}
-	else if(ft_strncmp(input[0], "env", ft_strlen(input[0])) == 0)
+	else if(ft_strncmp(input[0], "env", 4) == 0)
 	{
 		ft_env(data);
 		return (1);
 	}
-	else if(ft_strncmp(input[0], "export", ft_strlen(input[0])) == 0)
+	else if(ft_strncmp(input[0], "export", 7) == 0)
 	{
 		ft_export(data, input);
 		return (1);
 	}
-	else if(ft_strncmp(input[0], "unset", ft_strlen(input[0])) == 0)
+	else if(ft_strncmp(input[0], "unset", 6) == 0)
 	{
 		ft_unset(data, input);
 		return (1);
 	}
-	else if(ft_strncmp(input[0], "pwd", ft_strlen(input[0])) == 0)
+	else if(ft_strncmp(input[0], "pwd", 4) == 0)
 	{
 		ft_pwd();
 		return (1);
 	}
-	else if(ft_strncmp(input[0], "echo", ft_strlen(input[0])) == 0)
+	else if(ft_strncmp(input[0], "echo", 5) == 0)
 	{
 		ft_echo(input);
 		return (1);
