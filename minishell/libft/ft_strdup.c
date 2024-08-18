@@ -14,26 +14,14 @@
 
 char	*ft_strdup(const char *s)
 {
-	char	*i;
-	size_t	j;
-	size_t	z;
+	char	*duplicate;
+	int		size;
 
-	j = 0;
-	z = 0;
-	if (!s)
-		return (NULL);
-	while (s[z])
-	{
-		z++;
-	}
-	i = (char *) malloc(sizeof(char) * z + 1);
-	if (!i)
-		return (NULL);
-	while (s[j])
-	{
-		i[j] = s[j];
-		j++;
-	}
-	i[j] = '\0';
-	return ((char *)i);
+	size = ft_strlen(s);
+	duplicate = malloc((size + 1) * sizeof(char));
+	if (!duplicate)
+		return (0);
+	ft_memcpy(duplicate, s, size);
+	duplicate[size] = 0;
+	return (duplicate);
 }

@@ -20,12 +20,11 @@ static size_t	count_env_vars(char **env)
 
 void	ft_init_garbage(t_token **tail, t_trash **trash)
 {
-
-	//trash = safe_malloc(sizeof(t_trash *));
 	(*trash) = safe_malloc(sizeof(t_trash));
 	(*trash)->content = NULL;
 	(*trash)->next= NULL;
 	(*tail)->trash = (*trash);
+	//add_to_garbage((*tail)->trash, (*trash));
 
 }
 
@@ -65,17 +64,15 @@ void	ft_init_shell(t_shell **data, char **env, t_token **tail)
 	// add_to_garbage((*tail)->trash, (*data));
 }
 
-void	ft_init(t_token **tail, t_token **head)
+void	ft_init(t_token **tail, t_token **head, t_trash *garbage)
 {
 	char	*place_holder;
 
 	if (!tail || !head)
 		return ;
 	*tail = (t_token *)safe_malloc(sizeof(t_token));
-	//add_to_garbage(*tail, *tail);
 	*head = *tail;
 	place_holder = safe_malloc(1);
-	//add_to_garbage(*tail, place_holder);
 	place_holder[0] = 0;
 	(*tail)->typ_token = NONPRINTABLE;
 	(*tail)->content = place_holder;
@@ -83,6 +80,9 @@ void	ft_init(t_token **tail, t_token **head)
 	(*tail)->next = NULL;
 	(*tail)->prev = NULL;
 	(*tail)->trash = NULL;
+	add_to_garbage(garbage, *tail);
+	//add_to_garbage((*tail)->trash, *head);
+	add_to_garbage(garbage, place_holder);
 }
 
 static char	*prompt_check(t_shell *var)
@@ -127,7 +127,7 @@ int	main(int argc, char **argv, char **env)
 	env = env ;
 	i = 0;
 	//t_input *commands;
-	ft_init(&tail, &head);
+	ft_init(&tail, &head, garbage);
 	ft_init_garbage(&tail, &garbage);
 	ft_init_shell(&data, env, &tail);
 	tail->trash = NULL;
@@ -159,27 +159,31 @@ int	main(int argc, char **argv, char **env)
 		//free_garbage(head);
 		//free_tokens(&tail);
 		free_tokens(&tail, &head, 0);
+
 		// rl_clear_history();
 		// rl_free_line_state();
 		// rl_cleanup_after_signal();
 	}
 	//printf("\nMinishell è terminato\n");
 	free_input_prompt(input, prompt);
-	//free_garbage(tail->trash);
+	free_garbage(tail->trash);
+	free_garbage(garbage->content);
+	//free_garbage(tail->trash->content);
 	//free_garbage((t_token *) data);
 	//free_garbage(head);
 	//free_tokens(&tail);
+	free_garbage(garbage);
 	for(int i = 0; data->env[i]; i++)
 	{
 		free(data->env[i]);
 	}
 	free(data->env);
 	free(data);
+	free(tail->trash);
+	//free(garbage);
 	//free(data->var_name);
 	//free(data->var_value);
 	free_tokens(&tail, &head, 0);
-	tail = NULL;
-	head = NULL;
 	rl_clear_history();
 	rl_free_line_state();
 	rl_cleanup_after_signal();

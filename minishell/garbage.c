@@ -19,6 +19,7 @@ void add_to_garbage(t_trash *garbage, void *trash)
     }
     new_trash->content = trash;
     new_trash->next = NULL;
+	free(trash);
 }
 
 void	free_garbage(t_trash *garbage)
@@ -40,9 +41,9 @@ void	free_garbage(t_trash *garbage)
 			free(curr->content);
 			//curr->content = NULL;
 		}
-		free(curr);
 		curr = next;
 	}
+	free(curr);
 	// garbage->trash = NULL;
 }
 

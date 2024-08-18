@@ -28,6 +28,7 @@ void free_tokens(t_token **tail, t_token **head, int final_free)
 {
     t_token *curr;
     t_token *next_node;
+
     if (*head != NULL)
     {
         curr = *head;
@@ -69,7 +70,10 @@ void free_tokens(t_token **tail, t_token **head, int final_free)
                 *tail = NULL;
                 *head = NULL;
             }
+            //free(new_node);
         }
+        free(new_node->content);
+        free(new_node);
     }
 }
 void	free_input_prompt(char *input, char *prompt)
