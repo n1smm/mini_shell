@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/12 21:02:05 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/22 17:41:04 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char				*ft_chardup(char character);
 /*parser*/
 void				parser(t_token **tail, t_token **head, t_shell *data);
 /* after_parsy */
-void				after_parsy(t_token **tail, t_token **head);
+int				after_parsy(t_token **tail, t_token **head);
 /*executor*/
 void	            ft_executor(t_shell *data, t_token **token, char *args, char **env);
 /*list functions*/

@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/15 18:02:14 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/22 19:50:00 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	pid_error(char *msg, char **str, int free_me)
 int	execute_comm(char **input, t_shell *data)
 {
 	if (!input[0])
+	{
+		printf("command not found: No such file or directory\n");
 		return (-1);
+	}
 	// exit safely
 	if (ft_strncmp(input[0], "cd", 3) == 0)
 	{
