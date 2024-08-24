@@ -145,7 +145,7 @@ int	main(int argc, char **argv, char **env)
 		//free_garbage((t_token *) data);
 		//free_garbage(head);
 		//free_tokens(&tail);
-		free_tokens(&tail, &head, 0);
+		free_tokens(&tail, &head);
 		// rl_clear_history();
 		// rl_free_line_state();
 		// rl_cleanup_after_signal();
@@ -159,7 +159,7 @@ int	main(int argc, char **argv, char **env)
 	//free(data);
 	//free(data->var_name);
 	//free(data->var_value);
-	free_tokens(&tail, &head, 0);
+	free_tokens(&tail, &head);
 	tail = NULL;
 	head = NULL;
 	rl_clear_history();

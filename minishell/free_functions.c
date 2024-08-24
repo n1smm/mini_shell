@@ -23,11 +23,11 @@ void	free_mtx(void **matrix)
 		free(matrix[i++]);
 	free(matrix);
 }
-
-void free_tokens(t_token **tail, t_token **head, int final_free)
+void free_tokens(t_token **tail, t_token **head)
 {
     t_token *curr;
     t_token *next_node;
+
     if (*head != NULL)
     {
         curr = *head;
@@ -40,35 +40,6 @@ void free_tokens(t_token **tail, t_token **head, int final_free)
         }
         *head = NULL;
         *tail = NULL;
-    }
-    if (final_free)
-    {
-        free(tail);
-        free(head);
-    }
-    else
-    {
-        t_token *new_node = malloc(sizeof(t_token));
-        if (new_node)
-        {
-            new_node->content = malloc(1);
-            if (new_node->content)
-            {
-                new_node->content[0] = 0;
-                new_node->next = NULL;
-                new_node->prev = NULL;
-                new_node->typ_token = NONPRINTABLE;
-                new_node->trash = NULL;
-                *head = new_node;
-                *tail = new_node;
-            }
-            else
-            {
-                free(new_node);
-                *tail = NULL;
-                *head = NULL;
-            }
-        }
     }
 }
 void	free_input_prompt(char *input, char *prompt)
