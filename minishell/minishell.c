@@ -141,7 +141,7 @@ int	main(int argc, char **argv, char **env)
 		 print_list(tail);
 		 printf("\n");
 		free_input_prompt(input, prompt);
-		free_garbage(tail);
+		//free_garbage(tail);
 		//free_garbage((t_token *) data);
 		//free_garbage(head);
 		//free_tokens(&tail);
@@ -159,7 +159,7 @@ int	main(int argc, char **argv, char **env)
 	//free(data);
 	//free(data->var_name);
 	//free(data->var_value);
-	free_tokens(&tail, &head);
+	free_tokens_final(&tail, &head);
 	tail = NULL;
 	head = NULL;
 	rl_clear_history();

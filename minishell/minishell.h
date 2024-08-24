@@ -83,6 +83,7 @@ char				*expand_string_checker(char *content, t_shell *var, bool special_boy);
 /* free_functions */
 void				free_mtx(void **matrix);
 void				free_tokens(t_token **tail, t_token **head);
+void free_tokens_final(t_token **tail, t_token **head);
 //void                free_tokens(t_token **head);
 
 /* built-ins */
