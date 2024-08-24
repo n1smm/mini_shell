@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/22 17:41:04 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/24 12:36:21 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void				ft_env(t_shell *var);
 bool				ft_pwd(void);
 void				ft_unset(t_shell *var, char **args);
 void    			ft_export(t_shell *var, char **args);
+int					ft_exit(t_shell *data, char **comm_seq);
 
 /* env */
 t_env_var             *init_env_vars(t_env_var **tail, t_env_var **head);

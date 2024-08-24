@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 22:21:25 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/23 23:09:36 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/24 12:35:57 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	is_number(char *str)
 	int	i;
 
 	i = 0;
+	//TODO check also for sign - or + and length of the code
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
@@ -44,9 +45,9 @@ void	get_exit_code(char **comm_seq)
 }
 		
 
-int	ft_exit(t_token *tail, t_token **head, char **comm_seq)
+int	ft_exit(t_shell *data, char **comm_seq)
 {
-	
+	*data=*data;	
 	write(STDERR_FILENO, "exit", 4);
 	if (comm_seq[1] && comm_seq[2])
 	{

@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/15 16:14:58 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/24 11:47:21 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	out_files(t_shell *data, t_token **tail, int i)
 		{
 			while (curr && !is_file(curr))
 				curr = curr->next;
-			while (curr && is_file(curr))
-				curr = curr->next;
+			/* while (curr && is_file(curr)) */
+			/* 	curr = curr->next; */
 			data->file[i] = open(curr->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			data->file_type[i++] = REDIRECT_OUT;
 		}

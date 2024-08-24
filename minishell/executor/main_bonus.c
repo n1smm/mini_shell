@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/22 19:50:00 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/24 12:36:54 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ int	execute_comm(char **input, t_shell *data)
 	if (ft_strncmp(input[0], "cd", 3) == 0)
 	{
 		ft_cd(input[1]);
+		return (1);
+	}
+
+	else if(ft_strncmp(input[0], "exit", 5) == 0)
+	{
+		ft_exit(data, input);
 		return (1);
 	}
 	else if(ft_strncmp(input[0], "env", 4) == 0)
@@ -131,7 +137,7 @@ int	new_executor(t_token **tail, t_shell *data, t_token **head)
 		files_open(tail, data);
 		comm_seq = pipe_loop(tail, data);
 		if (check_pipe(tail, data->file_type) == 0)
-			//here i need to put also redirect files
+			//TODO here i need to put also redirect files
 			data->file[1023] = execute_comm(comm_seq, data);
 		if (data->file[1023] == 0 || data->file[1023] == 2)
 			comm_forker(comm_seq , data, check_pipe(tail, data->file_type), &tmp2);
