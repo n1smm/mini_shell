@@ -113,6 +113,7 @@ void    init_garbage(t_trash *garbage);
 
 void    add_to_garbage(t_token *garbage, void *trash);
 void    free_garbage(t_token *garbage);
+void	free_garbage_shell(t_shell *garbage);
 void    safe_exit(t_token *garbage, int i);
 
 char **seq_extract(t_token **tail);

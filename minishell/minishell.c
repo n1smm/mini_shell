@@ -23,12 +23,12 @@ void	ft_init_shell(t_shell **data, char **env)
 	size_t	i;
 
 	*data = (t_shell *)safe_malloc(sizeof(t_shell));
-	add_to_garbage((t_token *)(*data), *data);
 	//init_t_shell(*data);
-	(*data)->trash = NULL;
+	(*data)->garbage.trash = NULL;
 	(*data)->num_env_var = count_env_vars(env);
 	(*data)->env = safe_malloc(sizeof(char *) * 1024);
-	add_to_garbage((t_token *)(*data), (*data)->env);
+	add_to_garbage(&((*data)->garbage), (*data)->env);
+	add_to_garbage(&((*data)->garbage), *data);
 	i = 0;
 	while (i < (*data)->num_env_var)
 	{
@@ -41,11 +41,11 @@ void	ft_init_shell(t_shell **data, char **env)
 			// }
 			// free((*data)->env);
 			// free(*data);
-			free_garbage((t_token *)(*data));
+			free_garbage(&((*data)->garbage));
 			*data = NULL;
 			return ;
 		}
-		add_to_garbage((t_token *)(*data), (*data)->env[i]);
+		add_to_garbage(&((*data)->garbage), (*data)->env[i]);
 		i++;
 	}
 	(*data)->env[(*data)->num_env_var] = NULL;
@@ -70,6 +70,7 @@ void	ft_init(t_token **tail, t_token **head)
 	(*tail)->next = NULL;
 	(*tail)->prev = NULL;
 	(*tail)->trash = NULL;
+	(*tail)->last_trash = NULL;
 }
 
 static char	*prompt_check(t_shell *var)
@@ -104,6 +105,9 @@ int	main(int argc, char **argv, char **env)
 	t_token	*tail;
 	t_shell	*data;
 	int 	i;
+	//t_trash	*last_trash;
+
+	//last_trash = NULL;
 	//t_trash		*garbage;
 	tail = NULL;
 	head = NULL;
@@ -117,7 +121,8 @@ int	main(int argc, char **argv, char **env)
 	//init_garbage(&garbage);
 	ft_init_shell(&data, env);
 	ft_init(&tail, &head);
-	tail->trash = NULL;
+	// tail->trash = NULL;
+	// head->trash = NULL;
 	catch_signals(); //non dà leaks
 	while (1)
 	{
@@ -137,9 +142,9 @@ int	main(int argc, char **argv, char **env)
 		//ft_executor(data, &tail, input, env);
 		//executor(&tail, env);
 		new_executor(&tail, data, &head);
-		 printf("\n	PRINT LIST TOKEN :\n\n"),
-		 print_list(tail);
-		 printf("\n");
+		printf("\n	PRINT LIST TOKEN :\n\n"),
+		print_list(tail);
+		printf("\n");
 		free_input_prompt(input, prompt);
 		//free_garbage(tail);
 		//free_garbage((t_token *) data);
@@ -153,7 +158,8 @@ int	main(int argc, char **argv, char **env)
 	//printf("\nMinishell è terminato\n");
 	free_input_prompt(input, prompt);
 	free_garbage(tail);
-	free_garbage((t_token *) data);
+	//free(tail);
+	free_garbage(&(data->garbage));
 	//free_garbage(head);
 	//free_tokens(&tail);
 	//free(data);
