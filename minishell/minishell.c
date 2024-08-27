@@ -63,14 +63,13 @@ void	ft_init(t_token **tail, t_token **head)
 	// place_holder = safe_malloc(1);
 	// place_holder[0] = 0;
 	(*tail)->typ_token = NONPRINTABLE;
-	(*tail)->content = NULL;//place_holder;
+	(*tail)->content = NULL;
 	(*tail)->special_boy = false;
 	(*tail)->next = NULL;
 	(*tail)->prev = NULL;
 	(*tail)->trash = NULL;
 	(*tail)->last_trash = NULL;
 	add_to_garbage(*tail, (*head));
-	// add_to_garbage(*tail, place_holder);
 }
 
 static char	*prompt_check(t_shell *var)
