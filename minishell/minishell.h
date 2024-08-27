@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/27 13:52:56 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/27 15:22:30 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ char				*expand_string_checker(char *content, t_shell *var, bool special_boy);
 /* free_functions */
 void				free_mtx(void **matrix);
 void				free_tokens(t_token **tail, t_token **head, int	final_free);
+void				error_handling(char *msg, int error_code);
 //void                free_tokens(t_token **head);
 
 /* built-ins */

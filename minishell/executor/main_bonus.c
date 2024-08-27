@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/27 13:54:26 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/27 15:32:46 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,7 @@ int	execute_comm(char **input, t_shell *data)
 		return(2);
 	else
 	{
-		write(2, "xxx",3);
-		write(2, "\n",1);
-		printf("command not found: No such file or directory\n");
-		/* exit(EXIT_FAILURE); */
+		error_handling("command not found", 127);
 		return (-1);
 	}
 }

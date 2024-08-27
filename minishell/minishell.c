@@ -1,4 +1,5 @@
 #include "executor/pipex.h"
+int	g_error_code = 0;
 
 static size_t	count_env_vars(char **env)
 {
