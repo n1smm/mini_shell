@@ -27,30 +27,34 @@ void add_to_garbage(t_token *garbage, void *trash)
 // 	trash = NULL;
 // }
 
-void	free_garbage(t_token *garbage)
+void free_garbage(t_token *garbage)
 {
-	t_trash	*curr;
-	t_trash	*next;
+    t_trash *curr;
+    t_trash *next;
+    t_token *start;
 
-	if (!garbage || !garbage->trash)
-		return ;
-	curr = garbage->trash;
-	while (curr)
-	{
-		next = curr->next;
-		if (curr->content)
-		{
-			free(curr->content);
-			curr->content = NULL;
-		}
-		free(curr);
-		curr = next;
-	}
-	// printf ("%p\n", curr->content);
-	//printf ("%p\n", curr);
-	// free_new_trash(&curr->content);
-
-	// garbage->trash = NULL;
+    if (!garbage)
+        return;
+    start = garbage;
+    while (start->prev)
+        start = start->prev;
+    while (start)
+    {
+        curr = start->trash;
+        while (curr)
+        {
+            next = curr->next;
+            if (curr->content)
+            {
+                free(curr->content);
+                curr->content = NULL;
+            }
+            free(curr);
+            curr = next;
+        }
+        start->trash = NULL;
+        start = start->next;
+    }
 }
 
 
