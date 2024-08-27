@@ -104,7 +104,7 @@ char	**pipe_loop(t_token **tail, t_shell *data)
 			;
 		else
 		{
-			free(path);
+			// free(path);
 			path = NULL;
 		}
 		free(tmp);

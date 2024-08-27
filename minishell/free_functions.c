@@ -39,23 +39,6 @@ void free_tokens(t_token **tail, t_token **head)
             curr = next_node;
         }
         free(curr->content);
-        curr->content = malloc(1);
-        if (curr->content)
-        {
-            curr->content[0] = 0;
-            curr->next = NULL;
-            curr->prev = NULL;
-            curr->typ_token = NONPRINTABLE;
-            curr->trash = NULL;
-            *head = curr;
-            *tail = curr;
-        }
-        else
-        {
-            free(curr);
-            *head = NULL;
-            *tail = NULL;
-        }
     }
     else
     {
@@ -99,7 +82,7 @@ void free_tokens_final(t_token **tail, t_token **head)
         while (curr != NULL)
         {
             next_node = curr->next;
-            free(curr->content);
+            // free(curr->content);
             free(curr);
             curr = next_node;
         }

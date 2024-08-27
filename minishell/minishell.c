@@ -54,23 +54,23 @@ void	ft_init_shell(t_shell **data, char **env)
 
 void	ft_init(t_token **tail, t_token **head)
 {
-	char	*place_holder;
+	// char	*place_holder;
 
 	if (!tail || !head)
 		return ;
 	*tail = (t_token *)safe_malloc(sizeof(t_token));
-	//add_to_garbage(*tail, *tail);
 	*head = *tail;
-	place_holder = safe_malloc(1);
-	//add_to_garbage(*tail, place_holder);
-	place_holder[0] = 0;
+	// place_holder = safe_malloc(1);
+	// place_holder[0] = 0;
 	(*tail)->typ_token = NONPRINTABLE;
-	(*tail)->content = place_holder;
+	(*tail)->content = NULL;//place_holder;
 	(*tail)->special_boy = false;
 	(*tail)->next = NULL;
 	(*tail)->prev = NULL;
 	(*tail)->trash = NULL;
 	(*tail)->last_trash = NULL;
+	add_to_garbage(*tail, (*head));
+	// add_to_garbage(*tail, place_holder);
 }
 
 static char	*prompt_check(t_shell *var)
@@ -96,6 +96,22 @@ static char	*prompt_check(t_shell *var)
 	}
 	return (prompt);
 }
+
+// void cleanup_garbage(t_trash **garbage)
+// {
+//     t_trash *current;
+//     t_trash *next;
+
+//     current = *garbage;
+//     while (current)
+//     {
+//         next = current->next;
+//         free(current->content);
+//         free(current);
+//         current = next;
+//     }
+//     *garbage = NULL;
+// }
 
 int	main(int argc, char **argv, char **env)
 {
@@ -160,12 +176,15 @@ int	main(int argc, char **argv, char **env)
 	free_garbage(tail);
 	//free(tail);
 	free_garbage(&(data->garbage));
+	// cleanup_garbage(&(tail)->trash);
 	//free_garbage(head);
 	//free_tokens(&tail);
 	//free(data);
 	//free(data->var_name);
 	//free(data->var_value);
+	// free(tail->trash);
 	free_tokens_final(&tail, &head);
+
 	tail = NULL;
 	head = NULL;
 	rl_clear_history();
