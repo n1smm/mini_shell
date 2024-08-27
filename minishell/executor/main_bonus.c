@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/24 12:36:54 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/27 13:54:26 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	execute_comm(char **input, t_shell *data)
 		ft_echo(input);
 		return (1);
 	}
-	else if(path_finder(input[0], data))
+	else if((correct_path(input[0], data)))
 		return(0);
 	else if (ft_strchr(input[0], '/'))
 		return(2);
@@ -113,6 +113,7 @@ char	**pipe_loop(t_token **tail, t_shell *data)
 			;
 		}
 		free(path);
+		free(tmp);
 	}
 	command_seq = seq_extract(tail);
 	return (command_seq);

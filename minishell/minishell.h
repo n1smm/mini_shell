@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/24 12:36:21 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/27 13:52:56 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char 				*print_token_typ(t_type token_type);
 void				print_list(t_token *tail);
 /* path_finder */
 char				*path_finder(char *command, t_shell *data);
+bool 				correct_path(char *command, t_shell *data);
 /*expander*/
 char *custom_getenv(char *name, char **env);
 void				expand_checker(t_token *curr, t_shell *var);

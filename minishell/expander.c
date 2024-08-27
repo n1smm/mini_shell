@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/15 17:15:39 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/27 12:44:49 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static char	*refactor_expanded_string(char *content, t_shell *var, int start, in
 	contentcpy = ft_substr(content, 0, start - 1);
 	result = join_wrapper(contentcpy, result, 2);
 	result = join_wrapper(result, expanded, 3);
+	free(content);
 	return (result);
 }
 

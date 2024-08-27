@@ -68,6 +68,33 @@ char *path_finder(char *command, t_shell *data)
 	return (NULL);
 }
 
+
+bool correct_path(char *command, t_shell *data)
+{
+	char	*env_path;
+	char	*path;
+	char	**full_path;
+	bool	success;
+
+	// if (!command || command == NULL)
+	// 	return (NULL);
+	env_path = custom_getenv("PATH", data->env);
+	success = false;
+	if (!command)
+		return (NULL);
+	if (ft_strchr(command, '/'))
+		return (absolute_path(command));
+	full_path = ft_split(env_path, ':');
+	command = ft_strjoin("/", command);
+	path = comm_checker(command, full_path, &success);
+	free(command);
+	free_mtx((void **)full_path);
+	free(path);
+	if (success == true)
+		return (true);
+	return (false);
+}
+
 /* if the type of token is correct it will allocate, otherwise it returns null not allocated */
 /* char	*expander(char *input, t_type typ_token) */
 /* { */
