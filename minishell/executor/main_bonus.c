@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/27 15:32:46 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/28 17:35:34 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,9 @@ char	**pipe_loop(t_token **tail, t_shell *data)
 		{
 			;
 		}
+		if (!ft_strchr(path, '/'))
+			free(tmp);
 		free(path);
-		free(tmp);
 	}
 	command_seq = seq_extract(tail);
 	return (command_seq);
@@ -132,7 +133,8 @@ int	new_executor(t_token **tail, t_shell *data, t_token **head)
 		data->nbr_pipes = count_pipes(*tail);
 		/* check_redirects(tail, head); */
 		check_files(tail, head);
-		files_open(tail, data);
+		if (!files_open(tail, data))
+			break ;
 		comm_seq = pipe_loop(tail, data);
 		if (check_pipe(tail, data->file_type) == 0)
 			//TODO here i need to put also redirect files

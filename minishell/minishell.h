@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/27 15:22:30 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/27 18:59:01 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void 				ft_lexer(t_token *token);
 void				*safe_malloc(size_t size);
 char 				*join_wrapper(const char *s1, const char *s2, int free_which);
 char				*create_empty_string(int len);
-int				safe_dup(int old_fd, int new_fd, int which);
+int					safe_dup(int old_fd, int new_fd, int which);
+int					safe_open(char *pathname, int flags, mode_t mode);
 /* utils tokens */
 int					is_delimiting_node(t_token *curr);
 int					is_delimiting_type(t_type type);
