@@ -44,23 +44,13 @@ void free_tokens(t_token **tail, t_token **head)
     t_token *new_node = malloc(sizeof(t_token));
     if (new_node)
     {
-        new_node->content = malloc(1);
-        if (new_node->content)
-        {
-            new_node->content[0] = 0;
-            new_node->next = NULL;
-            new_node->prev = NULL;
-            new_node->typ_token = NONPRINTABLE;
-            new_node->trash = NULL;
-            *head = new_node;
-            *tail = new_node;
-        }
-        else
-        {
-            free(new_node);
-            *tail = NULL;
-            *head = NULL;
-        }
+        new_node->content = NULL;
+        new_node->next = NULL;
+        new_node->prev = NULL;
+        new_node->typ_token = NONPRINTABLE;
+        new_node->trash = NULL;
+        *head = new_node;
+        *tail = new_node;
     }
 }
 
