@@ -31,16 +31,16 @@ void free_garbage(t_token *garbage)
 {
     t_trash *curr;
     t_trash *next;
-    t_token *start;
+    // t_token *start;
 
     if (!garbage)
         return;
-    start = garbage;
-    while (start->prev)
-        start = start->prev;
-    while (start)
+    // start = garbage;
+    // while (garbage->prev)
+    //     garbage = garbage->prev;
+    while (garbage)
     {
-        curr = start->trash;
+        curr = garbage->trash;
         while (curr)
         {
             next = curr->next;
@@ -52,8 +52,8 @@ void free_garbage(t_token *garbage)
             free(curr);
             curr = next;
         }
-        start->trash = NULL;
-        start = start->next;
+        // garbage->trash = NULL;
+        garbage = garbage->next;
     }
 }
 

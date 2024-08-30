@@ -112,7 +112,9 @@ void	            free_input_prompt(char *input, char *prompt);
 void    init_garbage(t_trash *garbage);
 
 void    add_to_garbage(t_token *garbage, void *trash);
+void add_to_garbage2(t_trash *garbage, void *trash);
 void    free_garbage(t_token *garbage);
+void    free_garbage2(t_trash *garbage);
 void	free_garbage_shell(t_shell *garbage);
 void    safe_exit(t_token *garbage, int i);
 
