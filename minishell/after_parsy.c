@@ -6,74 +6,105 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:36:54 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/05 18:34:33 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/22 19:55:10 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	change_node(t_token *tmp, t_type type, char *quoted_string)
+static int	check_quotes(t_token **tail)
 {
 	t_token	*curr;
 
-	if (is_delimiting_node(tmp))
-	{
-		curr = tmp->next;
-		curr->content = join_wrapper(curr->content, quoted_string, 2);
-		curr->typ_token = type;
-	}
-	else
-	{
-		curr = tmp;
-		curr->content = join_wrapper(curr->content, quoted_string, 2);
-		curr->typ_token = type;
-	}
-}
-		
-void	delete_quoted_nodes(t_token **tmp, t_token *end, char **quoted_string)
-{
-	t_token	*curr;
-
-	curr = *tmp;
-	while (curr != end)
-	{
-		delete_node(tmp, curr, NULL);
-		curr = *tmp;
-	}
-	free(quoted_string);
-}
-		
-
-void	after_parsy(t_token **tail, t_token **head)
-{
-	t_token	*curr;
-	t_token	*tmp;
-	t_type	type;
-	char	*quoted_string;
-
-	*head = *head;
 	curr = *tail;
-	quoted_string = create_empty_string(1);
 	while (curr)
 	{
-		if (curr->typ_token == QUOTE || curr->typ_token == SINGLE_QUOTE)
+		if (curr->typ_token == FALSE_PLACEMENT)
 		{
-			tmp = curr->prev;
-			tmp->special_boy = true;
-			curr = curr->next;
-			if (is_delimiting_node(tmp))
-				type = curr->typ_token;
-			else
-				type = tmp->typ_token;
-			while (curr && curr->typ_token != tmp->next->typ_token)
-			{
-				quoted_string = join_wrapper(quoted_string, curr->content, 1);
-				curr = curr->next;
-			}
-			change_node(tmp, type, quoted_string);
-			delete_quoted_nodes(&tmp, curr, &quoted_string);
-			curr = tmp;
+			printf("false placement of: %s", curr->content);
+			return (0);
 		}
 		curr = curr->next;
 	}
+	return (1);
+}
+
+static int	check_after_delimiter(t_token *tmp, t_token *curr, bool *valid)
+{
+	while (tmp)
+	{
+		if (!is_delimiting_node(tmp))
+			*valid = true;
+		tmp = tmp->next;
+	}
+	if (!(*valid))
+	{
+		printf("invalid placement of: %s", curr->content);
+		return (0);
+	}
+	return (1);
+}
+
+
+static int	check_eol(t_token **tail)
+{
+	t_token	*curr;
+	t_token	*tmp;
+	bool	valid;
+
+	curr = (*tail)->next;
+	valid = false;
+	while (curr)
+	{
+		if (is_delimiting_node(curr) && curr->typ_token != WHITESPACE)
+		{
+			tmp = curr;
+			if (!check_after_delimiter(tmp, curr, &valid))
+					return (0);
+			/* while (tmp && !is_delimiting_node(tmp)) */
+			/* { */
+			/* 	if (!is_delimiting_node(tmp)) */
+			/* 		valid = true; */
+			/* 	tmp = tmp->next; */
+			/* } */
+			/* if (!valid) */
+			/* { */
+			/* 	printf("invalid placement of: %s", curr->content); */
+			/* 	return (0); */
+			/* } */
+		}
+		curr = curr->next;
+		valid = false;
+	}
+	return (1);
+}
+
+static int	check_empty(t_token **tail)
+{
+	t_token	*curr;
+	bool	empty;
+
+	curr = (*tail)->next;
+	empty = true;
+	while (curr)
+	{
+		if (curr && curr->typ_token != WHITESPACE)
+			empty = false;
+		curr = curr->next;
+	}
+	if (empty)
+		return (0);
+	return (1);
+}
+
+int	after_parsy(t_token **tail, t_token **head)
+{
+	*head = *head;
+	if (!check_empty(tail))
+		return (0);
+	if (!check_quotes(tail))
+		return (0);
+	if (!check_eol(tail))
+		return (0);
+	return (1);
 }

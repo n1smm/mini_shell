@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:56:46 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/01 19:30:09 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/27 12:50:15 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ char **seq_extract(t_token **tail)
 			command_seq[i++] = ft_strdup(foo);
 			free(foo);
 			foo = create_empty_string(1);
+			//TODO there might be some cases where foo is not freed
 		}
 	}
 	free_foo(&foo, command_seq, i);

@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 16:00:39 by thiew             #+#    #+#             */
-/*   Updated: 2024/06/13 14:28:27 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/27 15:34:19 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,13 @@ void	free_input_prompt(char *input, char *prompt)
 		free(input);
 	if (prompt)
 		free(prompt);
+}
+
+void	error_handling(char *msg, int error_code)
+{
+	perror(msg);
+	/* error_code = error_code; */
+	g_error_code = error_code;
 }
 
 // void free_tokens(t_token **head)

@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:01:08 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/03 18:01:13 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/27 19:16:42 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void *safe_malloc(size_t size)
 	ptr = malloc(size);
 	if (!ptr)
 	{
-		perror("Malloc failed");
+		error_handling("Malloc failed, exiting program", errno);
 		exit (EXIT_FAILURE);
 	}
 	return (ptr);
@@ -62,6 +62,21 @@ int	safe_dup(int old_fd, int new_fd, int which)
 	else if (which == 0)
 		error = dup(old_fd);
 	if (error == -1)
+	{
+		error_handling("Dup2 failed, exiting program", errno);
 		exit(EXIT_FAILURE);
+	}
 	return (error);
 }
+
+int	safe_open(char *pathname, int flags, mode_t mode)
+{
+	int	fd;
+
+	fd = open(pathname, flags, mode);
+	if (fd == -1)
+		error_handling("problem opening file", errno);
+	return(fd);
+}
+
+

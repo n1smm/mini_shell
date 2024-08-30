@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/15 16:14:58 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/27 19:25:37 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,9 @@ void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail)
 
 }
 
-void	out_files(t_shell *data, t_token **tail, int i)
+int	out_files(t_shell *data, t_token **tail, int i)
 {
 	t_token *curr;
-	//hello
 
 	curr = *tail;
 	while(curr && curr->typ_token != PIPELINE)
@@ -69,25 +68,30 @@ void	out_files(t_shell *data, t_token **tail, int i)
 		{
 			while (curr && !is_file(curr))
 				curr = curr->next;
-			while (curr && is_file(curr))
-				curr = curr->next;
-			data->file[i] = open(curr->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			/* while (curr && is_file(curr)) */
+			/* 	curr = curr->next; */
+			data->file[i] = safe_open(curr->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			if (data->file[i] == -1)
+				return (0);
 			data->file_type[i++] = REDIRECT_OUT;
 		}
 		else if (curr->typ_token == REDIRECT_OUT_DOUBLE)
 		{
 			while (curr && !is_file(curr))
 				curr = curr->next;
-			data->file[i] = open(curr->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			data->file[i] = safe_open(curr->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			if (data->file[i] == -1)
+				return (0);
 			data->file_type[i++] = REDIRECT_OUT_DOUBLE;
 		}
 		curr = curr->next;
 	}
 	data->file_type[i] = NONPRINTABLE;
+	return (1);
 }
 
 
-void files_open(t_token **tail, t_shell *data)
+int files_open(t_token **tail, t_shell *data)
 {
 	int		i;
 	t_token	*curr;
@@ -109,12 +113,14 @@ void files_open(t_token **tail, t_shell *data)
 			while (curr && !is_file(curr))
 				curr = curr->next;
 			safe_dup(data->pipefd[2], 0, 1);
-			data->file[i] = open(curr->content, O_RDONLY, 0777);
+			data->file[i] = safe_open(curr->content, O_RDONLY, 0777);
+			if (data->file[i] == -1)
+				return (0);
 			data->file_type[i++] = REDIRECT_IN;
 		}
 		curr = curr->next;
 	}
-	out_files(data, tail, i);
+	return (out_files(data, tail, i));
 }
 
 static void	dup_last_file(int file[], t_type file_type[], int i, int io)

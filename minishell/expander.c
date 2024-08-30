@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/15 17:15:39 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/28 17:20:57 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,20 @@ char	*expander(char *input, t_shell *var, t_type typ_token)
 	return (NULL);
 }
 
+static char	*error_expansions(char *expanded)
+{
+	char	*result;
+
+	result = ft_itoa(g_error_code);
+	if (!result)
+	{
+		error_handling("expansion of ? failed, exiting program", errno);
+		exit(errno);
+	}
+	free(expanded);
+	return (result);
+}
+
 static char	*refactor_expanded_string(char *content, t_shell *var, int start, int len)
 {
 	char	*expanded;
@@ -75,6 +89,11 @@ static char	*refactor_expanded_string(char *content, t_shell *var, int start, in
 		return (result);
 	}
 	expanded = ft_substr(content, start, len);
+	if (expanded[0] == '?')
+	{
+		result = error_expansions(expanded);
+		return (result);
+	}
 	result = expander(expanded, var, EXPAND);
 	if (!result)
 		result = create_empty_string(1);
@@ -83,6 +102,7 @@ static char	*refactor_expanded_string(char *content, t_shell *var, int start, in
 	contentcpy = ft_substr(content, 0, start - 1);
 	result = join_wrapper(contentcpy, result, 2);
 	result = join_wrapper(result, expanded, 3);
+	free(content);
 	return (result);
 }
 
@@ -131,6 +151,8 @@ void	expand_checker(t_token *curr, t_shell *var)
 		while (content[j] != 0 && (ft_isalnum(content[j]) || content[j] == '_'))
 			j++;
 		if (j == i && content[j] == '$')
+			j++;
+		else if (j == i && content[j] == '?')
 			j++;
 		content = refactor_expanded_string(content, var, i, j - i);
 		refurbish_node(curr, content, free_me);

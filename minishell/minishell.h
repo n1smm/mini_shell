@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/12 21:02:05 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/27 18:59:01 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void 				ft_lexer(t_token *token);
 void				*safe_malloc(size_t size);
 char 				*join_wrapper(const char *s1, const char *s2, int free_which);
 char				*create_empty_string(int len);
-int				safe_dup(int old_fd, int new_fd, int which);
+int					safe_dup(int old_fd, int new_fd, int which);
+int					safe_open(char *pathname, int flags, mode_t mode);
 /* utils tokens */
 int					is_delimiting_node(t_token *curr);
 int					is_delimiting_type(t_type type);
@@ -56,7 +57,7 @@ char				*ft_chardup(char character);
 /*parser*/
 void				parser(t_token **tail, t_token **head, t_shell *data);
 /* after_parsy */
-void				after_parsy(t_token **tail, t_token **head);
+int				after_parsy(t_token **tail, t_token **head);
 /*executor*/
 void	            ft_executor(t_shell *data, t_token **token, char *args, char **env);
 /*list functions*/
@@ -74,6 +75,7 @@ char 				*print_token_typ(t_type token_type);
 void				print_list(t_token *tail);
 /* path_finder */
 char				*path_finder(char *command, t_shell *data);
+bool 				correct_path(char *command, t_shell *data);
 /*expander*/
 char *custom_getenv(char *name, char **env);
 void				expand_checker(t_token *curr, t_shell *var);
@@ -82,8 +84,8 @@ char	*expander(char *input, t_shell *var, t_type typ_token);
 char				*expand_string_checker(char *content, t_shell *var, bool special_boy);
 /* free_functions */
 void				free_mtx(void **matrix);
-void				free_tokens(t_token **tail, t_token **head);
-void free_tokens_final(t_token **tail, t_token **head);
+void				free_tokens(t_token **tail, t_token **head, int	final_free);
+void				error_handling(char *msg, int error_code);
 //void                free_tokens(t_token **head);
 
 /* built-ins */
@@ -93,6 +95,7 @@ void				ft_env(t_shell *var);
 bool				ft_pwd(void);
 void				ft_unset(t_shell *var, char **args);
 void    			ft_export(t_shell *var, char **args);
+int					ft_exit(t_shell *data, char **comm_seq);
 
 /* env */
 t_env_var             *init_env_vars(t_env_var **tail, t_env_var **head);

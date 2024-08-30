@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/12 17:20:42 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/27 19:02:00 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*read_path(int pipefd[], char **mtrx);
 /* void	comm_forker(char **comm_seq, t_shell *data, int pipefd[], int is_pipe); */
 void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail);
 /* void 	files_open(int file[], t_type file_type[], t_token **tail, int pipefd[]); */
-void 	files_open(t_token **tail, t_shell *data);
+int 	files_open(t_token **tail, t_shell *data);
 void	redirect_infiles(t_shell *data, int file[], t_type file_type[], t_token **tail);
 /* utils_bonus */
 void	here_doc(t_shell *data, t_token **tail, int i, bool special_boy);
