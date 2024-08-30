@@ -13,7 +13,7 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-static char	*comm_checker(char *command, char **full_path, bool *success)
+static char	*comm_checker(char *command, char **full_path, bool *success, t_shell *data)
 {
 	int		i;
 	char	*path;
@@ -27,7 +27,8 @@ static char	*comm_checker(char *command, char **full_path, bool *success)
 			*success = true;
 			break ;
 		}
-		free(path);
+		add_to_garbage(&(data->garbage), path);
+		//free(path);
 	}
 	if (*success == false)
 		return (NULL);
@@ -60,7 +61,7 @@ char *path_finder(char *command, t_shell *data)
 		return (absolute_path(command));
 	full_path = ft_split(env_path, ':');
 	command = ft_strjoin("/", command);
-	path = comm_checker(command, full_path, &success);
+	path = comm_checker(command, full_path, &success, data);
 	free(command);
 	free_mtx((void **)full_path);
 	if (success == true)
@@ -86,7 +87,7 @@ bool correct_path(char *command, t_shell *data)
 		return (absolute_path(command));
 	full_path = ft_split(env_path, ':');
 	command = ft_strjoin("/", command);
-	path = comm_checker(command, full_path, &success);
+	path = comm_checker(command, full_path, &success, data);
 	free(command);
 	free_mtx((void **)full_path);
 	free(path);
