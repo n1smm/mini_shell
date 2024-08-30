@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 22:21:25 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/24 12:35:57 by thiew            ###   ########.fr       */
+/*   Updated: 2024/08/28 18:43:55 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	get_exit_code(char **comm_seq)
 		//print out the argument
 		write(STDERR_FILENO, "numeric argument required", 25);
 	}
+	g_error_code = exit_code;
 	exit(exit_code);
 }
-		
 
 int	ft_exit(t_shell *data, char **comm_seq)
 {
