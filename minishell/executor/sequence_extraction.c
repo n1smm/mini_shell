@@ -38,8 +38,9 @@ static char	**comm_seq_init(t_token **tail)
 	length = command_len(tail);
 	//printf("length: %d \n", length);
 	command_seq = safe_malloc(sizeof(char *) * (length + 1));
-	add_to_garbage(*tail, command_seq);
+	// add_to_garbage(*tail, command_seq);
 	command_seq[length] = 0;
+	add_to_garbage(*tail, command_seq);
 	return (command_seq);
 }
 

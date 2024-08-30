@@ -104,10 +104,14 @@ char	**pipe_loop(t_token **tail, t_shell *data)
 		tmp = ft_strdup(use_token(tail, COMMAND));
 	if (tmp)
 	{
+		add_to_garbage(*tail, tmp);
 		path = path_finder(tmp, data);
 		if (path == NULL)
-		{
 			;
+		else
+		{
+			// free(path);
+			path = NULL;
 		}
 		if (!ft_strchr(path, '/'))
 			free(tmp);
@@ -149,5 +153,7 @@ int	new_executor(t_token **tail, t_shell *data, t_token **head)
 	safe_dup(data->pipefd[3], 1, 1);
 	*tail = tmp;
 	waiting_pids(tail, data->file[1023]);
+	// if (comm_seq)
+	// 	free(comm_seq);
 	return(0);
 }

@@ -94,6 +94,7 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 	t_trash			*trash;
+	t_trash			*last_trash;
 }					t_token;
 
 typedef struct	s_shell
@@ -108,6 +109,7 @@ typedef struct	s_shell
 	int				file[1024];
 	t_type			file_type[1024];
 	t_token			*token;
+	t_token			garbage;
 	struct s_shell	*next;
 	t_trash			*trash;
 }				t_shell;

@@ -84,7 +84,8 @@ char	*expander(char *input, t_shell *var, t_type typ_token);
 char				*expand_string_checker(char *content, t_shell *var, bool special_boy);
 /* free_functions */
 void				free_mtx(void **matrix);
-void				free_tokens(t_token **tail, t_token **head, int	final_free);
+void				free_tokens(t_token **tail, t_token **head);
+void				free_tokens_final(t_token **tail, t_token **head);
 void				error_handling(char *msg, int error_code);
 //void                free_tokens(t_token **head);
 
@@ -115,7 +116,10 @@ void	            free_input_prompt(char *input, char *prompt);
 void    init_garbage(t_trash *garbage);
 
 void    add_to_garbage(t_token *garbage, void *trash);
+void add_to_garbage2(t_trash *garbage, void *trash);
 void    free_garbage(t_token *garbage);
+void    free_garbage2(t_trash *garbage);
+void	free_garbage_shell(t_shell *garbage);
 void    safe_exit(t_token *garbage, int i);
 
 char **seq_extract(t_token **tail);
