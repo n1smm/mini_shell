@@ -6,24 +6,46 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:03:52 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/05 16:27:33 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/08/31 15:45:20 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "pipex.h"
 
+void	exit_pid_status(pid_t pid, int status)
+{
+	if (pid > 0)
+	{
+		if (WIFEXITED(status))
+			g_error_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_error_code = 128 + WTERMSIG(status);
+	}
+}
+
 void	waiting_pids(t_token **tail, int builtin)
 {
 	t_token *curr;
+	pid_t	pid;
+	int		status;
 
 	curr = *tail;
 	if (!builtin)
-		wait(NULL);
+	{
+		pid = waitpid(-1, &status, 0);
+		exit_pid_status(pid, status);
+	}
+
+		/* wait(NULL); */
 	while (curr)
 	{
 		if (curr->typ_token == PIPELINE)
-			wait(NULL);
+		{
+			pid = waitpid(-1, &status, 0);
+			exit_pid_status(pid, status);
+			/* wait(NULL); */
+		}
 		curr = curr->next;
 	}
 }
