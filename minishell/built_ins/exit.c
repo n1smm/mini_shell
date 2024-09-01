@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 22:21:25 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/28 18:43:55 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/01 16:48:20 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	get_exit_code(char **comm_seq)
 		write(STDERR_FILENO, "numeric argument required", 25);
 	}
 	g_error_code = exit_code;
+	free_mtx((void **)comm_seq);
 	exit(exit_code);
 }
 

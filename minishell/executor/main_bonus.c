@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/28 17:35:34 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/01 16:29:52 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	free_mtrx(char **mtrx)
 		free(mtrx[i]);
 		i++;
 	}
+	free(mtrx[i]);
 	free(mtrx);
 }
 
@@ -92,7 +93,7 @@ int	execute_comm(char **input, t_shell *data)
 
 char	**pipe_loop(t_token **tail, t_shell *data)
 {
-	char	*path;
+	/* char	*path; */
 	char	**command_seq;
 	char	*tmp;
 
@@ -104,18 +105,20 @@ char	**pipe_loop(t_token **tail, t_shell *data)
 		tmp = ft_strdup(use_token(tail, COMMAND));
 	if (tmp)
 	{
-		add_to_garbage(*tail, tmp);
-		path = path_finder(tmp, data);
-		if (path == NULL)
-			;
-		else
-		{
-			// free(path);
-			path = NULL;
-		}
-		if (!ft_strchr(path, '/'))
-			free(tmp);
-		free(path);
+		free (tmp);
+		data = data;
+		/* add_to_garbage(*tail, tmp); */
+		/* path = path_finder(tmp, data); */
+		/* if (path == NULL) */
+		/* 	; */
+		/* else */
+		/* { */
+		/* 	// free(path); */
+		/* 	path = NULL; */
+		/* } */
+		/* if (!ft_strchr(path, '/')) */
+		/* 	free(tmp); */
+		/* free(path); */
 	}
 	command_seq = seq_extract(tail);
 	return (command_seq);
@@ -148,11 +151,13 @@ int	new_executor(t_token **tail, t_shell *data, t_token **head)
 		close_doc(data, data->file, data->file_type, 0);
 		if ( *tail && (*tail)->typ_token == PIPELINE)
 			*tail = (*tail)->next;
+		free_mtrx(comm_seq);
 	}
 	safe_dup(data->pipefd[2], 0, 1);
 	safe_dup(data->pipefd[3], 1, 1);
 	*tail = tmp;
 	waiting_pids(tail, data->file[1023]);
+
 	// if (comm_seq)
 	// 	free(comm_seq);
 	return(0);
