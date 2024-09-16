@@ -25,11 +25,12 @@ void	ft_init_shell(t_shell **data, char **env)
 
 	*data = (t_shell *)safe_malloc(sizeof(t_shell));
 	//init_t_shell(*data);
+	/* (*data)->garbage = NULL; */
 	(*data)->garbage.trash = NULL;
 	(*data)->num_env_var = count_env_vars(env);
 	(*data)->env = safe_malloc(sizeof(char *) * 1024);
 	add_to_garbage(&((*data)->garbage), (*data)->env);
-	add_to_garbage(&((*data)->garbage), *data);
+	/* add_to_garbage(&((*data)->garbage), *data); */
 	i = 0;
 	while (i < (*data)->num_env_var)
 	{
@@ -150,12 +151,12 @@ int	main(int argc, char **argv, char **env)
 		while (valid_env_var(argv[i]) == 0 && argv[i])
 			i = 0;
 		parser(&tail, &head, data);
+		free_input_prompt(input, prompt);
 		if (after_parsy(&tail, &head))
 			new_executor(&tail, data, &head);
 		printf("\n	PRINT LIST TOKEN :\n\n");
 		print_list(tail);
 		printf("\n");
-		free_input_prompt(input, prompt);
 		//free_garbage(tail);
 		//free_garbage((t_token *) data);
 		//free_garbage(head);

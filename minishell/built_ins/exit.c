@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 22:21:25 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/03 13:18:12 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/16 16:03:01 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	get_exit_code(char **comm_seq)
 
 	if (!comm_seq[1])
 		exit_code = 0;
-	if (is_number(comm_seq[1]))
+	else if (is_number(comm_seq[1]))
 		exit_code = ft_atoi(comm_seq[1]);
 	else
 	{
@@ -56,7 +56,9 @@ int	ft_exit(t_shell *data, char **comm_seq, t_token **tail, t_token **head)
 	if (tail)
 	{
 		free_tokens_final(tail, head);
-		/* free_garbage(t_token *garbage); */
+		free_garbage(&(data->garbage));
+		free(data);
+		/* free(data->garbage); */
 	}
 	if (comm_seq[1] && comm_seq[2])
 	{

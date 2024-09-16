@@ -36,7 +36,7 @@ void ft_add_token(const char *word, size_t end, t_type type, t_token **head)
 		return ;
 	double_lstadd_back(str, head);
 	(*head)->typ_token = type;
-	add_to_garbage(*head, str);
+	/* add_to_garbage(*head, str); */
 }
 
 char	*ft_chardup(char character)
@@ -140,6 +140,8 @@ void split_input(char *input, t_token **tail, t_token **head)
 			type = SINGLE_QUOTE;
 		i++;
 		ft_add_token(input + j, (i - j), type, head);
+		add_to_garbage(*tail, (*head)->content);
+		
 	}
 	tail = tail;
 }
