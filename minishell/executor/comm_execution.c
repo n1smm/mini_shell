@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 10:52:38 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/03 13:43:33 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/16 13:51:48 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ int	execute_comm(char **input, t_shell *data, t_token **tail, t_token **head)
 	}
 }
 
-int	polish_pipes(t_shell *data, t_token **tail, t_token **tmp)
+int	polish_pipes(t_shell *data, t_token **tail, t_token *tmp)
 {
 	safe_dup(data->pipefd[2], 0, 1);
 	safe_dup(data->pipefd[3], 1, 1);
-	tail = tmp;
+	*tail = tmp;
 	waiting_pids(tail, data->file[1023]);
 	return (0);
 }

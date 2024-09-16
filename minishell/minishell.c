@@ -145,11 +145,6 @@ int	main(int argc, char **argv, char **env)
 		//printf("exit:%d", g_exit_status);
 		prompt = prompt_check(data);
 		input = readline(prompt);
-		if (!input || ft_strncmp(input, "exit", 5) == 0)
-		{
-			//free_input_prompt(input, prompt);
-			break ;
-		}
 		add_history(input); //non dà leaks
 		split_input(input, &tail, &head);
 		while (valid_env_var(argv[i]) == 0 && argv[i])
@@ -157,7 +152,7 @@ int	main(int argc, char **argv, char **env)
 		parser(&tail, &head, data);
 		if (after_parsy(&tail, &head))
 			new_executor(&tail, data, &head);
-		printf("\n	PRINT LIST TOKEN :\n\n"),
+		printf("\n	PRINT LIST TOKEN :\n\n");
 		print_list(tail);
 		printf("\n");
 		free_input_prompt(input, prompt);
@@ -191,37 +186,3 @@ int	main(int argc, char **argv, char **env)
 	rl_cleanup_after_signal();
 	return (0);
 }
-
-// void	ft_init_shell(t_shell **data, char **env)
-// {
-// 	size_t	i;
-// 	size_t	j;
-
-// 	i = 0;
-// 	j = 0;
-// 	*data = safe_malloc(sizeof(t_shell));
-// 	(*data)->trash = NULL;
-// 	add_to_garbage((t_token *)(*data), *data);
-// 	(*data)->num_env_var = count_env_vars(env);
-// 	(*data)->env = safe_malloc(sizeof(char *) * ((*data)->num_env_var + 1));
-// 	add_to_garbage((t_token *)(*data), (*data)->env);
-// 	while (i < (*data)->num_env_var)
-// 	{
-// 		(*data)->env[i] = ft_strdup(env[i]);
-// 		if (!(*data)->env)
-// 		{
-// 			while(j < i)
-// 			{
-// 				free((*data)->env[j]);
-// 				j++;
-// 			}
-// 			free((*data)->env);
-// 			free(data);
-// 			return ;
-// 		}
-// 		i++;
-// 		add_to_garbage((t_token *)(*data), (*data)->env[i]);
-// 	}
-// 	(*data)->env[(*data)->num_env_var] = NULL;
-// 	(*data)->next = NULL;
-// }

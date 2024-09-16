@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/03 14:31:40 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/16 14:07:59 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,11 @@ int	new_executor(t_token **tail, t_shell *data, t_token **head)
 {
 	t_token	**tmp;
 	t_token	*tmp2;
+	t_token	*tmp3;
 	char	**comm_seq;
 
 	tmp = tail;
+	tmp3 = *tail;
 	init_fds(tmp, tail, data);
 	while (*tail)
 	{
@@ -75,12 +77,12 @@ int	new_executor(t_token **tail, t_shell *data, t_token **head)
 		if (check_pipe(tail, data->file_type) == 0)
 		{
 			redirect_infiles(data, data->file, data->file_type, &tmp2);
-			data->file[1023] = execute_comm(comm_seq, data, tmp, head);
+			data->file[1023] = execute_comm(comm_seq, data, &tmp3, head);
 		}
 		if (data->file[1023] == 0 || data->file[1023] == 2)
 			comm_forker(comm_seq, data, check_pipe(tail, data->file_type),
 				&tmp2);
 		close_and_free(data, tail, comm_seq);
 	}
-	return (polish_pipes(data, tail, tmp));
+	return (polish_pipes(data, tail, tmp3));
 }

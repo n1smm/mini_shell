@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/03 14:08:23 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/16 13:50:58 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		new_executor(t_token **tail, t_shell *data, t_token **head);
 int		execute_comm(char **input, t_shell *data, t_token **tail, t_token **head);
 void	execute_wrapper(char **comm_seq, t_shell *data, int is_pipe, t_token **tail);
 void	init_fds(t_token **tmp, t_token **tail, t_shell *data);
-int		polish_pipes(t_shell *data, t_token **tail, t_token **tmp);
+int		polish_pipes(t_shell *data, t_token **tail, t_token *tmp);
 /* path_finder */
 char	*read_path(int pipefd[], char **mtrx);
 /* utils */
