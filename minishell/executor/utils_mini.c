@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:03:52 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/31 15:45:20 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/03 13:15:35 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	exit_pid_status(pid_t pid, int status)
 
 void	waiting_pids(t_token **tail, int builtin)
 {
-	t_token *curr;
+	t_token	*curr;
 	pid_t	pid;
 	int		status;
 
@@ -36,44 +36,21 @@ void	waiting_pids(t_token **tail, int builtin)
 		pid = waitpid(-1, &status, 0);
 		exit_pid_status(pid, status);
 	}
-
-		/* wait(NULL); */
 	while (curr)
 	{
 		if (curr->typ_token == PIPELINE)
 		{
 			pid = waitpid(-1, &status, 0);
 			exit_pid_status(pid, status);
-			/* wait(NULL); */
 		}
 		curr = curr->next;
 	}
 }
 
-void	execute_wrapper(char **comm_seq, t_shell *data)
-{
-	int	which_execute;
-
-	which_execute = 0;
-	close_doc(data, data->file, data->file_type, 1);
-	which_execute = execute_comm(comm_seq, data);
-	if (which_execute == 0 || which_execute == 2)
-	{
-		if (execve(path_finder(comm_seq[0], data), comm_seq, data->env) == -1)
-			pid_error("execve failed", NULL, 1);
-	}
-	/* else if (which_execute == 2) */ 
-	/* { */
-	/* 	if (execve(comm_seq[0], comm_seq, data->env) == -1) */
-	/* 		pid_error("execve failed", NULL, 1); */
-	/* } */
-	close(data->pipefd[1]);
-}
-
 int	count_pipes(t_token *curr)
 {
 	int	i;
-	
+
 	i = 0;
 	while (curr)
 	{
@@ -95,4 +72,12 @@ int	find_file_type(t_shell *data, t_type type)
 			return (1);
 	}
 	return (0);
+}
+
+void	close_and_free(t_shell *data, t_token **tail, char **comm_seq)
+{
+	close_doc(data, data->file, data->file_type, 0);
+	if (*tail && (*tail)->typ_token == PIPELINE)
+		*tail = (*tail)->next;
+	free_mtrx(comm_seq);
 }

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/27 19:02:00 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/03 14:08:23 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ char	**pipe_loop(t_token **tail, t_shell *data);
 void	pid_error(char *msg, char **str, int free_me);
 void	free_mtrx(char **mtrx);
 int		new_executor(t_token **tail, t_shell *data, t_token **head);
-int		execute_comm(char **input, t_shell *data);
+/* comm_execution */
+int		execute_comm(char **input, t_shell *data, t_token **tail, t_token **head);
+void	execute_wrapper(char **comm_seq, t_shell *data, int is_pipe, t_token **tail);
+void	init_fds(t_token **tmp, t_token **tail, t_shell *data);
+int		polish_pipes(t_shell *data, t_token **tail, t_token **tmp);
 /* path_finder */
 char	*read_path(int pipefd[], char **mtrx);
 /* utils */
@@ -50,10 +54,13 @@ void	here_doc_redirect(t_shell *data, t_token **tail, int i, bool special_boy);
 char 	**seq_extract(t_token **tail);
 /* utils mini */
 void	waiting_pids(t_token **tail, int builtin);
-void	execute_wrapper(char **comm_seq, t_shell *data);
 int		find_file_type(t_shell *data, t_type type);
 int		count_pipes(t_token *curr);
+void	close_and_free(t_shell *data, t_token **tail, char **comm_seq);
 /* check_files */
 void 	check_files(t_token **tail, t_token **head);
+/* utils_files */
+void	redirect_in(t_token *curr, int *i, t_shell *data);
+int		redirect_out(t_token *curr, int *i, t_shell *data);
 
 #endif

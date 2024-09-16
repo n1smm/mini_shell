@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/01 16:30:10 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/03 14:08:07 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,65 +21,40 @@ void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail)
 		pid_error("forker;pipe failed", NULL, 1);
 	pid = fork();
 	if (pid == -1)
-		pid_error("forker;fork failed", NULL, 1);	
-	/* printf("pid of current process: %d\n", pid); */
+		pid_error("forker;fork failed", NULL, 1);
 	if (pid == 0)
 	{
-		close(data->pipefd[0]);
-		if (data->file_type[0] != NONPRINTABLE)
-			redirect_infiles(data, data->file, data->file_type, tail);
-		if (is_pipe == 1)
-		{
-			safe_dup(data->pipefd[1], STDOUT_FILENO, 1);
-		}
-		else if (is_pipe == -1)
-			safe_dup(data->pipefd[1], data->pipefd[3], 1);
-
-		/* if (check_pipe(tail, file_type) == -1) */
-		/* 	dup2(STDOUT_FILENO, pipefd[3]); */
-		close_doc(data, data->file, data->file_type, 0);
-		if (execute_comm(comm_seq, data) == 0)
-			if (execve(path_finder(comm_seq[0], data), comm_seq, data->env) == -1)
-				pid_error("execve failed", NULL, 1);
-		close(data->pipefd[1]);
-		exit(EXIT_SUCCESS);
-		//pid_error("forker;child failure", NULL, 1);
+		execute_wrapper(comm_seq, data, is_pipe, tail);
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
 		if (find_file_type(data, REDIRECT_IN_DOUBLE))
 			wait(NULL);
 		close(data->pipefd[1]);
-		/* free_mtrx(comm_seq); */
 		if (safe_dup(data->pipefd[0], STDIN_FILENO, 1) == -1)
 			pid_error("forker;parent dup failed", NULL, 0);
 	}
-
 }
 
 int	out_files(t_shell *data, t_token **tail, int i)
 {
-	t_token *curr;
+	t_token	*curr;
 
 	curr = *tail;
-	while(curr && curr->typ_token != PIPELINE)
+	while (curr && curr->typ_token != PIPELINE)
 	{
 		if (curr->typ_token == REDIRECT_OUT)
 		{
-			while (curr && !is_file(curr))
-				curr = curr->next;
-			/* while (curr && is_file(curr)) */
-			/* 	curr = curr->next; */
-			data->file[i] = safe_open(curr->content, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-			if (data->file[i] == -1)
+			if (!redirect_out(curr, &i, data))
 				return (0);
-			data->file_type[i++] = REDIRECT_OUT;
 		}
 		else if (curr->typ_token == REDIRECT_OUT_DOUBLE)
 		{
 			while (curr && !is_file(curr))
 				curr = curr->next;
-			data->file[i] = safe_open(curr->content, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			data->file[i] = safe_open(curr->content,
+					O_WRONLY | O_CREAT | O_APPEND, 0666);
 			if (data->file[i] == -1)
 				return (0);
 			data->file_type[i++] = REDIRECT_OUT_DOUBLE;
@@ -90,24 +65,17 @@ int	out_files(t_shell *data, t_token **tail, int i)
 	return (1);
 }
 
-
-int files_open(t_token **tail, t_shell *data)
+int	files_open(t_token **tail, t_shell *data)
 {
 	int		i;
 	t_token	*curr;
-	
+
 	i = 0;
 	curr = *tail;
 	while (curr && curr->typ_token != PIPELINE)
 	{
 		if (curr->typ_token == REDIRECT_IN_DOUBLE)
-		{	
-			while (curr && !is_file(curr))
-				curr = curr->next;
-			safe_dup(data->pipefd[2], 0, 1);
-			data->file[i] = create_heredoc(data, i, 1);
-			data->file_type[i++] = REDIRECT_IN_DOUBLE;
-		}
+			redirect_in(curr, &i, data);
 		else if (curr->typ_token == REDIRECT_IN)
 		{
 			while (curr && !is_file(curr))
@@ -125,7 +93,7 @@ int files_open(t_token **tail, t_shell *data)
 
 static void	dup_last_file(int file[], t_type file_type[], int i, int io)
 {
-	int in;
+	int	in;
 	int	out;
 	int	tmp;
 
@@ -145,19 +113,18 @@ static void	dup_last_file(int file[], t_type file_type[], int i, int io)
 		safe_dup(file[tmp], STDOUT_FILENO, 1);
 }
 
-void	redirect_infiles(t_shell *data, int file[], t_type file_type[], t_token **tail)
+void	redirect_infiles(t_shell *data, int file[], t_type file_type[],
+		t_token **tail)
 {
 	int		i;
 	t_token	*curr;
 
 	i = 0;
 	curr = *tail;
-	while (file_type[i] != NONPRINTABLE)// && file_type[i] != REDIRECT_OUT && file_type[i] != REDIRECT_OUT_DOUBLE)
+	while (file_type[i] != NONPRINTABLE)
 	{
 		if (file_type[i] == REDIRECT_IN)
 			dup_last_file(file, file_type, i, 0);
-			/* dup2(file[i], STDIN_FILENO); */
-			//CHECK ERROR
 		if (file_type[i] == REDIRECT_IN_DOUBLE)
 		{
 			here_doc_redirect(data, &curr, i, curr->special_boy);
@@ -165,8 +132,6 @@ void	redirect_infiles(t_shell *data, int file[], t_type file_type[], t_token **t
 		}
 		if (file_type[i] == REDIRECT_OUT || file_type[i] == REDIRECT_OUT_DOUBLE)
 			dup_last_file(file, file_type, i, 1);
-			/* dup2(file[i], STDOUT_FILENO); */
-			//CHECK ERROR
 		i++;
 	}
 }

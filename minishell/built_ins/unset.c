@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:07:50 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/06/12 17:07:51 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/03 13:22:53 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void unset_var(const char *unset_var, t_shell *var)
     }
 }
 
-void    ft_unset(t_shell *var, char **args)
+int    ft_unset(t_shell *var, char **args)
 {
     int     i;
     int     index_var;
@@ -79,4 +79,5 @@ void    ft_unset(t_shell *var, char **args)
 		unset_var(args[index_var], var);
 		index_var++;
 	}
+	return (1);
 }
