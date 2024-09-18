@@ -140,7 +140,7 @@ void split_input(char *input, t_token **tail, t_token **head)
 			type = SINGLE_QUOTE;
 		i++;
 		ft_add_token(input + j, (i - j), type, head);
-		add_to_garbage(*tail, (*head)->content);
+		/* add_to_garbage(*tail, (*head)->content); */
 		
 	}
 	tail = tail;

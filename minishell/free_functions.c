@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 16:00:39 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/27 15:34:19 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/18 18:21:07 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void free_tokens(t_token **tail, t_token **head)
             curr = next_node;
         }
         free(curr->content);
+		free(curr);
     }
-    t_token *new_node = malloc(sizeof(t_token));
+    t_token *new_node = safe_malloc(sizeof(t_token));
     if (new_node)
     {
         new_node->content = NULL;
@@ -65,10 +66,14 @@ void free_tokens_final(t_token **tail, t_token **head)
         while (curr != NULL)
         {
             next_node = curr->next;
-            // free(curr->content);
+            free(curr->content);
             free(curr);
             curr = next_node;
         }
+		/* assert(*head == NULL && *tail == NULL); */
+		printf("free tokens final: \n");
+		print_list(curr);
+		free(curr);
         *head = NULL;
         *tail = NULL;
     }
