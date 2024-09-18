@@ -11,14 +11,14 @@ void add_to_garbage(t_token *garbage, void *trash)
 {
     t_trash *new_trash;
 
-    char    *cast;
+    // char    *cast;
 
-    cast = trash;
-    printf ("GARBAGE :%p\n", garbage);
-    printf ("TRASH :%s\n", cast);
+    // cast = trash;
     if (!garbage || !trash)
         return;
 
+    // printf ("GARBAGE :%p\n", garbage);
+    // printf ("TRASH :%s\n", cast);
     new_trash = (t_trash *)safe_malloc(sizeof(t_trash));
     new_trash->content = trash;
     new_trash->next = garbage->trash;

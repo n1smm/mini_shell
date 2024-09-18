@@ -52,6 +52,12 @@ void free_tokens(t_token **tail, t_token **head)
         new_node->trash = NULL;
         *head = new_node;
         *tail = new_node;
+        // add_to_garbage((*tail), new_node);
+    }
+    else
+    {
+        free(new_node);
+        new_node = NULL;
     }
 }
 
@@ -60,9 +66,11 @@ void free_tokens_final(t_token **tail, t_token **head)
     t_token *curr;
     t_token *next_node;
 
-    if (*head != NULL)
+    while ((*tail)->prev)
+        (*tail) = (*tail)->prev;
+    if (*tail != NULL)
     {
-        curr = *head;
+        curr = *tail;
         while (curr != NULL)
         {
             next_node = curr->next;
@@ -77,6 +85,8 @@ void free_tokens_final(t_token **tail, t_token **head)
         *head = NULL;
         *tail = NULL;
     }
+    // free (tail);
+    // tail = NULL;
 }
 
 void	free_input_prompt(char *input, char *prompt)

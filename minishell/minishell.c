@@ -62,7 +62,7 @@ void	ft_init(t_token **tail, t_token **head)
 		return ;
 	*tail = (t_token *)safe_malloc(sizeof(t_token));
 	*head = *tail;
-	add_to_garbage(*tail, (*tail));
+	// add_to_garbage(*tail, (*tail));
 	// place_holder = safe_malloc(1);
 	// place_holder[0] = 0;
 	(*tail)->typ_token = NONPRINTABLE;
@@ -138,6 +138,7 @@ int	main(int argc, char **argv, char **env)
 	//init_garbage(&garbage);
 	ft_init_shell(&data, env);
 	ft_init(&tail, &head);
+	// add_to_garbage(tail, tail);
 	// tail->trash = NULL;
 	// head->trash = NULL;
 	catch_signals(); //non dà leaks
@@ -162,6 +163,7 @@ int	main(int argc, char **argv, char **env)
 		//free_garbage(head);
 		//free_tokens(&tail);
 		free_tokens(&tail, &head);
+		// printf("%p", tail);
 		// rl_clear_history();
 		// rl_free_line_state();
 		// rl_cleanup_after_signal();
@@ -179,7 +181,7 @@ int	main(int argc, char **argv, char **env)
 	//free(data->var_value);
 	// free(tail->trash);
 	free_tokens_final(&tail, &head);
-
+	printf("CHECK : %p", tail);
 	tail = NULL;
 	head = NULL;
 	rl_clear_history();
