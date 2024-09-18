@@ -11,6 +11,11 @@ void add_to_garbage(t_token *garbage, void *trash)
 {
     t_trash *new_trash;
 
+    char    *cast;
+
+    cast = trash;
+    printf ("GARBAGE :%p\n", garbage);
+    printf ("TRASH :%s\n", cast);
     if (!garbage || !trash)
         return;
 
