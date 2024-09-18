@@ -52,13 +52,15 @@ void	get_exit_code(char **comm_seq)
 
 int	ft_exit(t_shell *data, char **comm_seq, t_token **tail, t_token **head)
 {
-	*data=*data;	
+	*data=*data;
+	head = head;	
 	write(STDERR_FILENO, "exit", 4);
 	write(STDERR_FILENO, "\n", 1);
 	if (tail)
 	{
 		printf("print before exit: \n");
 		print_list(*tail);
+		// free_garbage_tail(*tail);
 		free_tokens_final(tail, head);
 		free_garbage(&(data->garbage));
 		free(data);

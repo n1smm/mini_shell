@@ -54,7 +54,7 @@ void	ft_init_shell(t_shell **data, char **env)
 	(*data)->next = NULL;
 }
 
-void	ft_init(t_token **tail, t_token **head)
+void	ft_init(t_shell **data, t_token **tail, t_token **head)
 {
 	// char	*place_holder;
 
@@ -62,7 +62,7 @@ void	ft_init(t_token **tail, t_token **head)
 		return ;
 	*tail = (t_token *)safe_malloc(sizeof(t_token));
 	*head = *tail;
-	// add_to_garbage(*tail, (*tail));
+	add_to_garbage(&((*data)->garbage), (*tail));
 	// place_holder = safe_malloc(1);
 	// place_holder[0] = 0;
 	(*tail)->typ_token = NONPRINTABLE;
@@ -137,7 +137,7 @@ int	main(int argc, char **argv, char **env)
 	//t_input *commands;
 	//init_garbage(&garbage);
 	ft_init_shell(&data, env);
-	ft_init(&tail, &head);
+	ft_init(&data, &tail, &head);
 	// add_to_garbage(tail, tail);
 	// tail->trash = NULL;
 	// head->trash = NULL;

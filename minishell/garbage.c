@@ -59,6 +59,33 @@ void free_garbage(t_token *garbage)
     // garbage = garbage->next;
 }
 
+void free_garbage_tail(t_token *garbage)
+{
+    t_trash *curr;
+    t_trash *next;
+    // t_token *start;
+
+    if (!garbage)
+        return;
+    // start = garbage;
+    // while (garbage->prev)
+    //     garbage = garbage->prev;
+    curr = garbage->trash;
+    while (curr)
+    {
+        next = curr->next;
+        if (curr->content)
+        {
+            free(curr->content);
+            curr->content = NULL;
+        }
+        free(curr);
+        curr = next;
+    }
+    // garbage->trash = NULL;
+    // garbage = garbage->next;
+}
+
 void	safe_exit(t_token *garbage, int i)
 {
 	if (i == 1)
