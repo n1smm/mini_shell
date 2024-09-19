@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:39:05 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/12 17:13:35 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/19 16:03:40 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,6 @@ bool is_redirect(t_token *curr)
 
 bool is_file(t_token *curr)
 {
-	/* if (curr->typ_token == QUOTE) */
-	/* 	return (true); */
-	/* if (curr->typ_token == SINGLE_QUOTE) */
-	/* 	return (true); */
 	if (curr->typ_token == INFILE)
 		return (true);
 	if (curr->typ_token == OUTFILE)

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:36:54 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/22 19:55:10 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/19 16:49:06 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,11 @@ static int	check_empty(t_token **tail)
 	bool	empty;
 
 	curr = (*tail)->next;
+	if (curr->typ_token == PIPELINE)
+	{
+		printf("invalid placement of: %s", curr->content);
+		return (0);
+	}
 	empty = true;
 	while (curr)
 	{
@@ -97,6 +102,38 @@ static int	check_empty(t_token **tail)
 	return (1);
 }
 
+int	is_duplicate_node(t_token *curr)
+{
+	while (curr && (!is_delimiting_node(curr) || curr->typ_token == WHITESPACE))
+	{
+		if (!is_delimiting_node(curr))
+			return (0);
+		curr = curr->next;
+	}
+	return (1);
+}
+
+int	check_doubles(t_token **tail)
+{
+	t_token	*curr;
+
+	curr = (*tail)->next;
+	while(curr)
+	{
+		if (is_delimiting_node(curr) && curr->typ_token != WHITESPACE)
+		{
+			curr = curr->next;
+			if (is_duplicate_node(curr))
+			{
+				printf("invalid placement of: %s", curr->prev->content);
+				return (0);
+			}
+		}
+		curr = curr->next;
+	}
+	return (1);
+}
+
 int	after_parsy(t_token **tail, t_token **head)
 {
 	*head = *head;
@@ -105,6 +142,8 @@ int	after_parsy(t_token **tail, t_token **head)
 	if (!check_quotes(tail))
 		return (0);
 	if (!check_eol(tail))
+		return (0);
+	if (!check_doubles(tail))
 		return (0);
 	return (1);
 }
