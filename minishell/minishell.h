@@ -110,6 +110,7 @@ int	valid_env_var( char *args);
 /*signals*/
 void				catch_signals();
 void	            ctrl_c(int sig);
+void	            ctrl_d(int sig);
 void				ctrl_slash(int sig);
 void	            free_input_prompt(char *input, char *prompt);
 /* garbage collector */

@@ -149,6 +149,8 @@ int	main(int argc, char **argv, char **env)
 		//printf("exit:%d", g_exit_status);
 		prompt = prompt_check(data);
 		input = readline(prompt);
+		if (input == NULL)
+			break ;
 		add_history(input); //non dà leaks
 		split_input(input, &tail, &head);
 		while (valid_env_var(argv[i]) == 0 && argv[i])
