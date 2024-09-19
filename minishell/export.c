@@ -134,11 +134,11 @@ static void add_to_export(t_shell *var, char *new_var)
 	// i--;
 	// new =  join_wrapper(tmp[0], tmp[1], 3);
 	var->exp[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new_var) + 1);
-	add_to_garbage((t_token *)var, var->exp[i]);
+	add_to_garbage(&(var->garbage), var->exp[i]); //non spostare mai sotto la riga successiva! leakka sennò
 	var->exp[i] = ft_strdup(new_var);
-	add_to_garbage((t_token *)var, var->exp[i]);
+	// add_to_garbage(&(var->garbage), var->exp[i]);
 	var->exp[i + 1] = NULL;
-	add_to_garbage((t_token *)var, var->exp[i + 1]);
+	add_to_garbage(&(var->garbage), var->exp[i + 1]);
 }
 
 int	valid_env_var(char *args)
