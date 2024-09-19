@@ -84,8 +84,10 @@ static int	check_empty(t_token **tail)
 	t_token	*curr;
 	bool	empty;
 
+	if (!tail || !(*tail))
+		return (1);
 	curr = (*tail)->next;
-	if (curr->typ_token == PIPELINE)
+	if (curr && curr->typ_token == PIPELINE)
 	{
 		printf("invalid placement of: %s", curr->content);
 		return (0);
