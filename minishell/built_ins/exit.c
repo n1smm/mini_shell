@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 22:21:25 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/18 17:48:42 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/19 12:50:45 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,11 @@ int	ft_exit(t_shell *data, char **comm_seq, t_token **tail, t_token **head)
 	write(STDERR_FILENO, "\n", 1);
 	if (tail)
 	{
-		printf("print before exit: \n");
-		print_list(*tail);
+		/* printf("print before exit: \n"); */
+		/* print_list(*tail); */
 		// free_garbage_tail(*tail);
+		close(data->pipefd[2]);
+		close(data->pipefd[3]);
 		free_tokens_final(tail, head);
 		free_garbage(&(data->garbage));
 		// free(data);
