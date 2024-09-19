@@ -24,12 +24,11 @@ void	ctrl_c(int sig)
 	{
 		printf("\n");
 		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_on_new_line();
+		// rl_redisplay();
 		rl_cleanup_after_signal();
 		rl_free_line_state();
 	}
-	else
-		return ;
 }
 
 void	ctrl_slash(int sig)

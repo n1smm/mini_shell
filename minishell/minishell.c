@@ -19,9 +19,11 @@ void	ft_init_shell(t_shell **data, char **env)
 	//init_t_shell(*data);
 	/* (*data)->garbage = NULL; */
 	(*data)->garbage.trash = NULL;
-	(*data)->num_env_var = count_env_vars(env);
+	(*data)->num_env_var = count_env_vars(env); //non serve
 	(*data)->env = safe_malloc(sizeof(char *) * 1024);
+	(*data)->exp = safe_malloc(sizeof(char *) * 1024);
 	add_to_garbage(&((*data)->garbage), (*data)->env);
+	add_to_garbage(&((*data)->garbage), (*data)->exp);
 	add_to_garbage(&((*data)->garbage), *data);
 	i = 0;
 	while (i < (*data)->num_env_var)
@@ -37,6 +39,20 @@ void	ft_init_shell(t_shell **data, char **env)
 		i++;
 	}
 	(*data)->env[(*data)->num_env_var] = NULL;
+	i = 0;
+	while (i < (*data)->num_env_var)
+	{
+		(*data)->exp[i] = ft_strdup(env[i]);
+		if (!(*data)->exp[i])
+		{
+			free_garbage(&((*data)->garbage));
+			*data = NULL;
+			return ;
+		}
+		add_to_garbage(&((*data)->garbage), (*data)->exp[i]);
+		i++;
+	}
+	(*data)->exp[(*data)->num_env_var] = NULL;
 	(*data)->next = NULL;
 }
 
@@ -133,6 +149,8 @@ int	main(int argc, char **argv, char **env)
 		//printf("exit:%d", g_exit_status);
 		prompt = prompt_check(data);
 		input = readline(prompt);
+		if (input == NULL)
+			break ;
 		add_history(input); //non dà leaks
 		split_input(input, &tail, &head);
 		while (valid_env_var(argv[i]) == 0 && argv[i])

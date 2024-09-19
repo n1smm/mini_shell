@@ -75,6 +75,16 @@ typedef	struct s_env_var
 	//t_trash				*trash;
 }					t_env_var;
 
+// typedef	struct s_exp_var
+// {
+// 	//t_typ_env			typ_env;
+// 	int					num;
+// 	char				**exp;
+// 	struct s_env_var	*next;
+// 	struct s_env_var	*prev;
+// 	//t_trash				*trash;
+// }					t_exp_var;
+
 typedef struct	s_dir
 {
 	char			*file_name;
@@ -102,6 +112,7 @@ typedef struct	s_shell
 	bool			running;
 	size_t			num_env_var;
 	char			**env;
+	char			**exp;
 	char			*var_name;
 	char			*var_value;
 	int				nbr_pipes;

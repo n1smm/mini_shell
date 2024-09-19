@@ -65,9 +65,9 @@ int	ft_exit(t_shell *data, char **comm_seq, t_token **tail, t_token **head)
 		close(data->pipefd[3]);
 		free_tokens_final(tail, head);
 		free_garbage(&(data->garbage));
-		/* free(data); */
-		/* printf("print after exit: \n"); */
-		/* print_list(*tail); */
+		// free(data);
+		printf("print after exit: \n");
+		print_list(*tail);
 		/* free(data->garbage); */
 	}
 	if (comm_seq[1] && comm_seq[2])

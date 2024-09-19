@@ -5,9 +5,9 @@ void	printf_export(t_shell *var)
 	int	i;
 
 	i = 0;
-	while (var->env[i])
+	while (var->exp[i])
 	{
-		printf("declare -x: %s\n", var->env[i]);
+		printf("declare -x: %s\n", var->exp[i]);
 		i++;
 	}
 	printf("\n");
@@ -95,13 +95,62 @@ void	add_to_env(t_shell *var, char *new_var)
 	add_to_garbage((t_token *)var, var->env[i + 1]);
 }
 
+static void add_to_export(t_shell *var, char *new_var)
+{
+	int		i;
+	int		j;
+	// int		index_nv;
+	// char	**tmp;
+	// char	*new;
+	// int		flag;
+
+	i = 0;
+	j = 0;
+	// index_nv = eq_len(new_var);
+	// flag = 0;
+	// tmp = (char **)safe_malloc(sizeof(char *) * 2 + 1);
+	// add_to_garbage((t_token *)var, tmp);
+	// tmp[0] = ft_substr(new_var, 0, index_nv + 1);
+	// if (!tmp)
+	// 	free(tmp);
+	// var->num_env_var += 1; //non serve
+	if (!var || ! new_var)
+		return ;
+	while (var->exp[i])
+	{
+		// j = eq_len(var->env[i]);
+		if ((ft_strncmp(var->exp[i], new_var, j) == 1) && var->exp[i])
+		{
+			// tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
+			var->exp[i] = ft_strdup(new_var);//join_wrapper(tmp[0], tmp[1], 3);
+		}
+		// else if ((ft_strncmp(var->exp[i], new_var, j) == 0) && var->exp[i])
+		// {
+		// 	var->exp[i] = ft_strdup(new_var);
+		// }
+		i++;
+	}
+	// tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
+	// i--;
+	// new =  join_wrapper(tmp[0], tmp[1], 3);
+	var->exp[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new_var) + 1);
+	add_to_garbage(&(var->garbage), var->exp[i]); //non spostare mai sotto la riga successiva! leakka sennò
+	var->exp[i] = ft_strdup(new_var);
+	// add_to_garbage(&(var->garbage), var->exp[i]);
+	var->exp[i + 1] = NULL;
+	add_to_garbage(&(var->garbage), var->exp[i + 1]);
+}
+
 int	valid_env_var(char *args)
 {
 	int j;
 
 	j = 0;
-	if (!(ft_strchr(args, '=')))
-		return (1);
+	// if (!(ft_strchr(args, '=')))
+	// {
+	// 	// add_to_env(var, args);
+	// 	return (0);
+	// }
 	if (args[j] == '\0')
 		return (1);
 	if (args[j])
@@ -119,6 +168,11 @@ int	valid_env_var(char *args)
 				return (0);
 		}
 		j++;
+	}
+	if (!(ft_strchr(args, '=')))
+	{
+		// add_to_env(var, args);
+		return (2);
 	}
 	return (0);
 }
@@ -148,10 +202,15 @@ void	ft_export(t_shell *var, char **args)
 			add_to_env(var, args[index_var]);
 			add_to_garbage((t_token *) var, args[index_var]);
 		}
-		else
+		else if (valid_env_var(args[index_var]) == 1)
 		{
 			flag = 1;
 			printf("export: `%s': not a valid identifier\n", args[index_var]);
+		}
+		else
+		{
+			flag = 1;
+			add_to_export(var, args[index_var]);
 		}
 		index_var++;
 	}

@@ -131,6 +131,8 @@ void split_input(char *input, t_token **tail, t_token **head)
 	i = 0;
 	j = 0;
 	t_type  type = WHITESPACE;
+	if (!input)
+		return ;
 	while (input[i])
 	{
 		j = i;

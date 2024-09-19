@@ -105,11 +105,12 @@ t_env_var			*env_new_node(t_env_var **tail, t_env_var **head, char **env);
 char				**env_variables(t_env_var *vars);
 
 void	free_input_prompt(char *input, char *prompt);
-int	valid_env_var(char *args);
+int	valid_env_var( char *args);
 
 /*signals*/
 void				catch_signals();
 void	            ctrl_c(int sig);
+void	            ctrl_d(int sig);
 void				ctrl_slash(int sig);
 void	            free_input_prompt(char *input, char *prompt);
 /* garbage collector */
