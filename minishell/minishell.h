@@ -90,7 +90,7 @@ void				error_handling(char *msg, int error_code);
 //void                free_tokens(t_token **head);
 
 /* built-ins */
-bool				ft_cd(const char *path);
+bool				ft_cd(const char *path, char **input);
 void				ft_echo(char **args);
 void				ft_env(t_shell *var);
 int					ft_pwd(void);

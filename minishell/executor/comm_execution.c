@@ -40,7 +40,7 @@ int	execute_comm1(char **input, t_shell *data, t_token **tail, t_token **head)
 	}
 	if (ft_strncmp(input[0], "cd", 3) == 0)
 	{
-		ft_cd(input[1]);
+		ft_cd(input[1], input);
 		return (1);
 	}
 	else if (ft_strncmp(input[0], "exit", 5) == 0)

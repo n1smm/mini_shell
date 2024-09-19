@@ -12,10 +12,25 @@
 
 #include "../minishell.h"
 
-bool	ft_cd(const char *path)
+bool	ft_cd(const char *path, char **input)
 {
+	int i;
+
+	i = 0;
 	if (!path)
 		return (-1);
-	chdir(path);
+	while(input[i])
+		i++;
+	if (i > 2)
+	{
+		printf("-bash: cd: too many arguments");
+		return (true);
+	}
+	if (chdir(path) == -1)
+	{
+		printf("-bash: cd: %s: No such file or directory", path);
+	}
+	else
+		chdir(path);
 	return(true);
 }
