@@ -52,29 +52,71 @@ void	get_exit_code(char **comm_seq)
 
 int	ft_exit(t_shell *data, char **comm_seq, t_token **tail, t_token **head)
 {
+	int i;
+
+	i = 0;
 	*data=*data;
 	head = head;	
 	write(STDERR_FILENO, "exit", 4);
 	write(STDERR_FILENO, "\n", 1);
-	if (tail)
+	if (comm_seq)
 	{
-		/* printf("print before exit: \n"); */
-		/* print_list(*tail); */
-		// free_garbage_tail(*tail);
-		close(data->pipefd[2]);
-		close(data->pipefd[3]);
-		free_tokens_final(tail, head);
-		free_garbage(&(data->garbage));
-		// free(data);
-		printf("print after exit: \n");
-		print_list(*tail);
-		/* free(data->garbage); */
+		while(comm_seq[i])
+			i++;
+		if (i < 3)
+		{
+			if (tail)
+			{
+				/* printf("print before exit: \n"); */
+				/* print_list(*tail); */
+				// free_garbage_tail(*tail);
+				close(data->pipefd[2]);
+				close(data->pipefd[3]);
+				free_tokens_final(tail, head);
+				free_garbage(&(data->garbage));
+				// free(data);
+				printf("print after exit: \n");
+				print_list(*tail);
+				/* free(data->garbage); */
+				get_exit_code(comm_seq);
+				return (1);
+			}
+		}
+		else
+		{
+			write(STDERR_FILENO, "logout\n", 7);
+			write(STDERR_FILENO, "exit: too many arguments", 24);
+			return (1);
+		}
 	}
-	if (comm_seq[1] && comm_seq[2])
-	{
-		write(STDERR_FILENO, "too many arguments", 18);
-		return (EXIT_FAILURE);
-	}
+	// printf("COMM_SEQ : %s\n", comm_seq[1]);
+	// if (comm_seq)
+	// {
+	// 	if (comm_seq[2])
+	// 	{
+	// 		printf("COMM_SEQ 2 : %s\n", comm_seq[2]);
+	// 		write(STDERR_FILENO, "logout\n", 7);
+	// 		write(STDERR_FILENO, "exit: too many arguments", 24);
+	// 		// return (EXIT_FAILURE);
+	// 	}
+	// }
+	// if (comm_seq[2] != NULL)
+	// {
+	// 	write(STDERR_FILENO, "too many arguments", 18);
+	// 	return (EXIT_FAILURE);
+	// }
+	// if (comm_seq[1] && !comm_seq[2])
+	// {
+	// 	get_exit_code(comm_seq);
+	// 	return (1);
+	// 	// write(STDERR_FILENO, "too many arguments", 18);
+	// 	// return (EXIT_FAILURE);
+	// }
+	// else
+	// {
+	// 	write(STDERR_FILENO, "too many arguments", 18);
+	// 	return (EXIT_FAILURE);
+	// }
 	//free eveerything
 	get_exit_code(comm_seq);
 	return (1);

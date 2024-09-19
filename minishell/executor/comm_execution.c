@@ -44,7 +44,9 @@ int	execute_comm1(char **input, t_shell *data, t_token **tail, t_token **head)
 		return (1);
 	}
 	else if (ft_strncmp(input[0], "exit", 5) == 0)
+	{
 		return (ft_exit(data, input, tail, head));
+	}
 	else if (ft_strncmp(input[0], "env", 4) == 0)
 	{
 		ft_env(data);
