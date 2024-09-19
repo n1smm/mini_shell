@@ -29,9 +29,11 @@ void free_tokens(t_token **tail, t_token **head)
     t_token *curr;
     t_token *next_node;
 
-    if (*head != NULL)
+    while ((*tail)->prev)
+        (*tail) = (*tail)->prev;
+    if (*tail != NULL)
     {
-        curr = *head;
+        curr = *tail;
         while (curr->next != NULL)
         {
             next_node = curr->next;
