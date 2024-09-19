@@ -139,7 +139,6 @@ void	expand_checker(t_token *curr, t_shell *var)
 	j = 0;
 	free_me = false;
 	content = curr->content;
-	//printf("content: %s\n", content);
 	while (content[j])
 	{
 		i = 0;

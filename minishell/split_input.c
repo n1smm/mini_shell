@@ -103,6 +103,26 @@ bool	ft_redirect_double(char *input, size_t *i)
 	return(false);
 }
 
+static t_type	return_redirect_type(char *input, size_t *i)
+{
+	if(input[*i] == '<')
+	{
+		if(ft_redirect_double(input, &*i))
+			return (REDIRECT_IN_DOUBLE);
+		else
+			return (REDIRECT_IN);
+	}
+	else if(input[*i] == '>')
+	{
+		if(ft_redirect_double(input, &*i))
+			return (REDIRECT_OUT_DOUBLE);
+		else
+			return (REDIRECT_OUT);
+	}
+	else
+		return (WHITESPACE);
+}
+
 void split_input(char *input, t_token **tail, t_token **head)
 {
 	size_t i;
@@ -120,28 +140,14 @@ void split_input(char *input, t_token **tail, t_token **head)
 			type = WHITESPACE;
 		else if(input[i] == '|')
 			type = PIPELINE;
-		else if(input[i] == '<')
-		{
-			if(ft_redirect_double(input, &i))
-				type = REDIRECT_IN_DOUBLE;
-			else
-				type = REDIRECT_IN;
-		}
-		else if(input[i] == '>')
-		{
-			if(ft_redirect_double(input, &i))
-				type = REDIRECT_OUT_DOUBLE;
-			else
-				type = REDIRECT_OUT;
-		}
+		else if(input[i] == '<' || input[i] == '>')
+			type = return_redirect_type(input, &i);
 		else if(input[i] == '\"')
 			type = QUOTE;
 		else if(input[i] == '\'')
 			type = SINGLE_QUOTE;
 		i++;
 		ft_add_token(input + j, (i - j), type, head);
-		/* add_to_garbage(*tail, (*head)->content); */
-		
 	}
 	tail = tail;
 }

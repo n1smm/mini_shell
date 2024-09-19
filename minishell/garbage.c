@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-// void add_to_garbage2(t_token *garbage, void *trash)
-// {
-// 	if(!garbage || !trash)
-// 		return ;
-// 	garbage->last_trash = trash;
-// }
-
 void add_to_garbage(t_token *garbage, void *trash)
 {
     t_trash *new_trash;
@@ -25,12 +18,6 @@ void add_to_garbage(t_token *garbage, void *trash)
     garbage->trash = new_trash;
 	// free(new_trash);
 }
-
-// void	free_new_trash(void *trash)
-// {
-// 	free(trash);
-// 	trash = NULL;
-// }
 
 void free_garbage(t_token *garbage)
 {

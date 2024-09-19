@@ -14,9 +14,11 @@
 
 void ft_echo(char **args)
 {
-    int i = 1;
-    int n_flag = 0;
+    int i;
+    int n_flag;
 
+    i = 1;
+    n_flag = 0;
     if (args[i] == NULL) {
         printf("\n");
         return;
@@ -32,7 +34,6 @@ void ft_echo(char **args)
         }
         i++;
     }
-
     if (n_flag == 0) {
         printf("\n");
     }

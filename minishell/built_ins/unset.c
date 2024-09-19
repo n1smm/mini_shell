@@ -18,12 +18,14 @@ void unset_var(const char *unset_var, t_shell *var)
 	int		j;
 	char	*eq;
 	size_t 	len_value;
+    int     k;
 
 	if (!unset_var || !var || !var->env)
         return;
     i = 0;
 	j = 0;
-    while (var->env[i])
+    k = 0;
+    while (var->env[i++])
     {
         eq = ft_strchr(var->env[i], '=');
         if (eq)
@@ -33,7 +35,7 @@ void unset_var(const char *unset_var, t_shell *var)
 				&& unset_var[len_value] == '\0')
             {
                 free(var->env[i]);
-                int k = i;
+                k = i;
                 while (var->env[k + 1])
                 {
                     var->env[k] = var->env[k + 1];
@@ -49,7 +51,6 @@ void unset_var(const char *unset_var, t_shell *var)
                 j++;
             }
         }
-        i++;
     }
 }
 
@@ -60,14 +61,11 @@ int    ft_unset(t_shell *var, char **args)
     char **tmp;
 
     i = 0;
-
-    i = i;
     tmp = NULL;
     tmp = tmp;
     var = var;
     args = args;
     index_var = 0;
-
     while(args[i])
     {
         if(ft_strncmp(args[i], "unset\0", 6) == 0)

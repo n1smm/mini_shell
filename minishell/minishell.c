@@ -11,14 +11,6 @@ static size_t	count_env_vars(char **env)
 	return (env_num);
 }
 
-// void init_t_shell(t_shell *shell)
-// {
-//     shell->trash = NULL;
-//     shell->num_env_var = 0;
-//     shell->env = NULL;
-//     shell->next = NULL;
-// }
-
 void	ft_init_shell(t_shell **data, char **env)
 {
 	size_t	i;
@@ -37,12 +29,6 @@ void	ft_init_shell(t_shell **data, char **env)
 		(*data)->env[i] = ft_strdup(env[i]);
 		if (!(*data)->env[i])
 		{
-			// while (i > 0)
-			// {
-			// 	free((*data)->env[--i]);
-			// }
-			// free((*data)->env);
-			// free(*data);
 			free_garbage(&((*data)->garbage));
 			*data = NULL;
 			return ;

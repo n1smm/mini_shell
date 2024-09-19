@@ -103,24 +103,3 @@ void	error_handling(char *msg, int error_code)
 	/* error_code = error_code; */
 	g_error_code = error_code;
 }
-
-// void free_tokens(t_token **head)
-// {
-//     t_token *current;
-//     t_token *next;
-
-//     next = NULL;
-//     current = *head;
-//     *head = NULL;
-//     while (current)
-//     {
-//         next = current->next;
-//         if (current->content)
-//         {
-//             free(current->content);
-//             current->content = NULL;
-//         }
-//         free(current);
-//         current = next;   
-//     }
-// }

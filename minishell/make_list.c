@@ -102,8 +102,6 @@ t_token	*delete_node2(t_token **tail, t_token **del, t_token **head)
 	t_token *prev;
 	t_token *next;
 
-
-
 	tmp = *del;
 	next = (*del)->next;
 	prev = (*del)->prev;
@@ -117,8 +115,6 @@ t_token	*delete_node2(t_token **tail, t_token **del, t_token **head)
 		next->prev = (*del)->prev;
 	if (prev != NULL)
 		prev->next = (*del)->next;
-
-
 	/* del->next = NULL; */
 	/* del->prev = NULL; */
 	free(tmp->content);
