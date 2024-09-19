@@ -12,27 +12,27 @@
 
 #include "../minishell.h"
 
-// static bool    check_n_flag(char *input)
-// {
-//     int i;
+static bool    check_n_flag(char *input)
+{
+    int i;
 
-//     i = 0;
-//     if(ft_strncmp(input, "-n", 2) == 0)
-// 	{
-// 		i += 2;
-// 		if (input[i] == 'n')
-// 		{
-// 			while(input[i] == 'n')
-// 				i++;
-// 		}
-// 		if (input[i] == 0)
-// 			return (0);
-// 		else
-// 			return (1);
-// 	}
-// 	else
-// 		return (1);
-// }
+    i = 0;
+    if(ft_strncmp(input, "-n", 2) == 0)
+	{
+		i += 2;
+		if (input[i] == 'n')
+		{
+			while(input[i] == 'n')
+				i++;
+		}
+		if (input[i] == 0)
+			return (0);
+		else
+			return (1);
+	}
+	else
+		return (1);
+}
 
 void ft_echo(char **args)
 {
@@ -45,7 +45,7 @@ void ft_echo(char **args)
         printf("\n");
         return;
     }
-    while (args[i] && strcmp(args[i], "-n") == 0) {
+    while (args[i] && check_n_flag(args[i]) == 0) {
         n_flag = 1;
         i++;
     }
