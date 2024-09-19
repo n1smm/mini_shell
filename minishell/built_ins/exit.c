@@ -63,7 +63,7 @@ int	ft_exit(t_shell *data, char **comm_seq, t_token **tail, t_token **head)
 		// free_garbage_tail(*tail);
 		free_tokens_final(tail, head);
 		free_garbage(&(data->garbage));
-		free(data);
+		// free(data);
 		printf("print after exit: \n");
 		print_list(*tail);
 		/* free(data->garbage); */
