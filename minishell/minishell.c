@@ -22,7 +22,7 @@ void	ft_init_shell(t_shell **data, char **env)
 	(*data)->num_env_var = count_env_vars(env);
 	(*data)->env = safe_malloc(sizeof(char *) * 1024);
 	add_to_garbage(&((*data)->garbage), (*data)->env);
-	/* add_to_garbage(&((*data)->garbage), *data); */
+	add_to_garbage(&((*data)->garbage), *data);
 	i = 0;
 	while (i < (*data)->num_env_var)
 	{
