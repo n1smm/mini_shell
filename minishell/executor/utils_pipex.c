@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/03 14:08:07 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/19 14:30:44 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail)
 		close(data->pipefd[1]);
 		if (safe_dup(data->pipefd[0], STDIN_FILENO, 1) == -1)
 			pid_error("forker;parent dup failed", NULL, 0);
+		close(data->pipefd[0]);
 	}
 }
 
