@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:36:54 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/19 16:49:06 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/20 16:10:20 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,31 @@ static int	check_empty(t_token **tail)
 	return (1);
 }
 
-int	is_duplicate_node(t_token *curr)
+int	duplicate_pipe(t_token *curr)
 {
+	while (curr && curr->typ_token != PIPELINE)
+	{
+		if (curr->typ_token != WHITESPACE && curr->typ_token != PIPELINE)
+			return (0);
+		curr = curr->next;
+	}
+	return (1);
+}
+
+int	is_duplicate_node(t_token *curr, t_type type)
+{
+	if (type == PIPELINE)
+	{
+		if (duplicate_pipe(curr))
+				return (1);
+		return (0);
+	}
 	while (curr && (!is_delimiting_node(curr) || curr->typ_token == WHITESPACE))
 	{
-		if (!is_delimiting_node(curr))
+		if (!is_delimiting_node(curr) && type != PIPELINE)
 			return (0);
+		/* else if (type == PIPELINE && is_delimiting_node(curr) && !is_redirect(curr) && curr->typ_token != WHITESPACE) */
+		/* 	return (0); */
 		curr = curr->next;
 	}
 	return (1);
@@ -118,14 +137,16 @@ int	is_duplicate_node(t_token *curr)
 int	check_doubles(t_token **tail)
 {
 	t_token	*curr;
+	t_type	type;
 
 	curr = (*tail)->next;
 	while(curr)
 	{
 		if (is_delimiting_node(curr) && curr->typ_token != WHITESPACE)
 		{
+			type = curr->typ_token;
 			curr = curr->next;
-			if (is_duplicate_node(curr))
+			if (is_duplicate_node(curr, type))
 			{
 				printf("invalid placement of: %s", curr->prev->content);
 				return (0);

@@ -1,16 +1,17 @@
 *echo -nnnnn 
 env -when more exports in the same line then prints just what was last printed
 ? "ls" - seg fault
-echo $USER -expand checker 142 invalid read - expand_string cheker 171
+* echo $USER -expand checker 142 invalid read - expand_string cheker 171
 ? clear or whatever maybe thing after a log while makes a seg fault
 * signals
-ctrl - d in heredoc - it needs to exit heredoc
+*ctrl - d in heredoc - it needs to exit heredoc
 * pipe al inizio 
-* double pipe
+double pipe - | << is saying its an error
 outfile and infiles need to be executed even if there is no command
-cat << eof is not printing the heredoc
+*cat << eof is not printing the heredoc
 command not found exit code is 0 - when in pipe
 exit with more than one argument seg faults
 cd feflskdjf - no error code
 cd two arguments - no error code
 * export ciao without ciao=ciao would still need to exoprt but without value
+exit codes in fork when invalid command
