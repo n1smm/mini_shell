@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/21 20:31:42 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/22 16:48:24 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static char	*refactor_expanded_string(char *content, t_shell *var, int start, in
 	if (expanded[0] == '?')
 	{
 		result = error_expansions(expanded);
+		free(content);
 		return (result);
 	}
 	result = expander(expanded, var, EXPAND);
@@ -125,8 +126,25 @@ static void	refurbish_node(t_token *curr, char *content, bool free_me)
 	if (path)
 		curr->typ_token = PATH;
 	if (free_me)
-		free(curr->content);
+		printf("free_me used isn refurbish node\n");
+	/* 	free(curr->content); */
 	curr->content = content;
+}
+
+void	check_len(char *content, int *j)
+{
+	int	len;
+
+	len = ft_strlen(content);
+	if (*j > len)
+		*j = len;
+	else if (content[*j] && content[*j] == '$')
+		return ;
+	else
+	{
+		while(content[*j] && content[*j] != '$')
+			(*j)++;
+	}
 }
 
 void	expand_checker(t_token *curr, t_shell *var)
@@ -138,7 +156,7 @@ void	expand_checker(t_token *curr, t_shell *var)
 
 	i = 0;
 	j = 0;
-	free_me = false;
+	free_me = true;
 	content = curr->content;
 	while (content[j])
 	{
@@ -155,8 +173,9 @@ void	expand_checker(t_token *curr, t_shell *var)
 		else if (j == i && content[j] == '?')
 			j++;
 		content = refactor_expanded_string(content, var, i, j - i);
+		check_len(content, &j);
 		refurbish_node(curr, content, free_me);
-		free_me = true;
+		free_me = false;
 	}
 }
 
