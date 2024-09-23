@@ -22,8 +22,10 @@ void	ft_init_shell(t_shell **data, char **env)
 	(*data)->num_env_var = count_env_vars(env); //non serve
 	(*data)->env = safe_malloc(sizeof(char *) * 1024);
 	(*data)->exp = safe_malloc(sizeof(char *) * 1024);
+	(*data)->token = safe_malloc(sizeof(char *));
 	add_to_garbage(&((*data)->garbage), (*data)->env);
 	add_to_garbage(&((*data)->garbage), (*data)->exp);
+	add_to_garbage(&((*data)->garbage), (*data)->token);
 	add_to_garbage(&((*data)->garbage), *data);
 	i = 0;
 	while (i < (*data)->num_env_var)
@@ -140,6 +142,7 @@ int	main(int argc, char **argv, char **env)
 	//init_garbage(&garbage);
 	ft_init_shell(&data, env);
 	ft_init(&tail, &head);
+	data->token = tail;
 	// add_to_garbage(tail, tail);
 	// tail->trash = NULL;
 	// head->trash = NULL;
