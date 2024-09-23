@@ -24,7 +24,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	y = 0;
 	s3 = (char *)malloc(sizeof(char) * (ft_strlen(s1) + j + 1));
 	if (!s3)
+	{
+		free(s3);
 		return (NULL);
+	}
 	while (x < ft_strlen(s1))
 	{
 		s3[y] = s1[y];

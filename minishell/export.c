@@ -70,10 +70,11 @@ void	add_to_env(t_shell *var, char *new_var)
 	index_nv = eq_len(new_var);
 	// flag = 0;
 	tmp = (char **)safe_malloc(sizeof(char *) * 2 + 1);
-	add_to_garbage((t_token *)var, tmp);
+	add_to_garbage(&(var)->garbage, tmp);
 	tmp[0] = ft_substr(new_var, 0, index_nv + 1);
 	if (!tmp)
 		free(tmp);
+	add_to_garbage(&(var)->garbage, tmp[0]);
 	var->num_env_var += 1; //non serve
 	while (var->env[i++])
 	{
@@ -81,23 +82,81 @@ void	add_to_env(t_shell *var, char *new_var)
 		if ((ft_strncmp(var->env[i], new_var, j) == 0) && var->env[i])
 		{
 			tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
+			add_to_garbage(&(var)->garbage, tmp[1]);
 			if (tmp[0] && tmp[1])
-				var->env[i] = join_wrapper(tmp[0], tmp[1], 2);
+			{
+				var->env[i] = join_wrapper(tmp[0], tmp[1], 0);
+				add_to_garbage(&(var)->garbage, var->env[i]);
+			}//ft_strjoin(tmp[0], tmp[1]);//join_wrapper(tmp[0], tmp[1], 2);
 		}
 	}
 	tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
+	add_to_garbage(&(var)->garbage, tmp[1]);
 	i--;
 	if (tmp[0] && tmp[1])
-		new =  join_wrapper(tmp[0], tmp[1], 2);
+	{
+		new =  ft_strjoin(tmp[0], tmp[1]);
+		add_to_garbage(&(var)->garbage, new);
+	} //join_wrapper(tmp[0], tmp[1], 2);
 	var->env[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new) + 1);
-	add_to_garbage((t_token *)var, var->env[i]);
+	add_to_garbage(&(var)->garbage, var->env[i]);
 	var->env[i] = ft_strdup(new);
-	add_to_garbage((t_token *)var, var->env[i]);
+	add_to_garbage(&(var)->garbage, var->env[i]);
 	var->env[i + 1] = NULL;
-	add_to_garbage((t_token *)var, var->env[i + 1]);
+	add_to_garbage(&(var)->garbage, var->env[i + 1]);
 }
 
-static void add_to_export(t_shell *var, char *new_var)
+static void	add_to_export(t_shell *var, char *new_var)
+{
+	int		i;
+	int		j;
+	int		index_nv;
+	char	**tmp;
+	char	*new;
+	// int		flag;
+
+	i = 0;
+	j = 0;
+	index_nv = eq_len(new_var);
+	// flag = 0;
+	tmp = (char **)safe_malloc(sizeof(char *) * 2 + 1);
+	add_to_garbage(&(var)->garbage, tmp);
+	tmp[0] = ft_substr(new_var, 0, index_nv + 1);
+	add_to_garbage(&(var)->garbage, tmp[0]);
+	if (!tmp)
+		free(tmp);
+	var->num_env_var += 1; //non serve
+	while (var->exp[i++])
+	{
+		j = eq_len(var->env[i]);
+		if ((ft_strncmp(var->exp[i], new_var, j) == 0) && var->exp[i])
+		{
+			tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
+			add_to_garbage(&(var)->garbage, tmp[1]);
+			if (tmp[0] && tmp[1])
+			{
+				var->exp[i] = ft_strjoin(tmp[0], tmp[1]);
+				add_to_garbage(&(var)->garbage, var->exp[i]);
+			} //join_wrapper(tmp[0], tmp[1], 2);
+		}
+	}
+	tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
+	add_to_garbage(&(var)->garbage, tmp[1]);
+	i--;
+	if (tmp[0] && tmp[1])
+	{
+		new =  ft_strjoin(tmp[0], tmp[1]);
+		add_to_garbage(&(var)->garbage, new);
+	} //join_wrapper(tmp[0], tmp[1], 2);
+	var->exp[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new) + 1);
+	add_to_garbage(&(var)->garbage, var->exp[i]);
+	var->exp[i] = ft_strdup(new);
+	add_to_garbage(&(var)->garbage, var->exp[i]);
+	var->exp[i + 1] = NULL;
+	add_to_garbage(&(var)->garbage, var->exp[i + 1]);
+}
+
+static void add_to_export2(t_shell *var, char *new_var)
 {
 	int		i;
 	int		j;
@@ -124,7 +183,8 @@ static void add_to_export(t_shell *var, char *new_var)
 		if ((ft_strncmp(var->exp[i], new_var, j) == 1) && var->exp[i])
 		{
 			// tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
-			var->exp[i] = ft_strdup(new_var);//join_wrapper(tmp[0], tmp[1], 3);
+			var->exp[i] = ft_strdup(new_var);
+			add_to_garbage(&(var)->garbage, var->exp[i]);//join_wrapper(tmp[0], tmp[1], 3);
 		}
 		// else if ((ft_strncmp(var->exp[i], new_var, j) == 0) && var->exp[i])
 		// {
@@ -138,7 +198,7 @@ static void add_to_export(t_shell *var, char *new_var)
 	var->exp[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new_var) + 1);
 	add_to_garbage(&(var->garbage), var->exp[i]); //non spostare mai sotto la riga successiva! leakka sennò
 	var->exp[i] = ft_strdup(new_var);
-	// add_to_garbage(&(var->garbage), var->exp[i]);
+	add_to_garbage(&(var->garbage), var->exp[i]);
 	var->exp[i + 1] = NULL;
 	add_to_garbage(&(var->garbage), var->exp[i + 1]);
 }
@@ -202,7 +262,8 @@ void	ft_export(t_shell *var, char **args)
 		{
 			flag = 1;
 			add_to_env(var, args[index_var]);
-			add_to_garbage((t_token *) var, args[index_var]);
+			add_to_export(var, args[index_var]);
+			// add_to_garbage(&(var)->garbage, args[index_var]);
 		}
 		else if (valid_env_var(args[index_var]) == 1)
 		{
@@ -212,7 +273,7 @@ void	ft_export(t_shell *var, char **args)
 		else
 		{
 			flag = 1;
-			add_to_export(var, args[index_var]);
+			add_to_export2(var, args[index_var]);
 		}
 		index_var++;
 	}
