@@ -142,6 +142,7 @@ int	main(int argc, char **argv, char **env)
 	//init_garbage(&garbage);
 	ft_init_shell(&data, env);
 	ft_init(&tail, &head);
+	data->token = tail;
 	// add_to_garbage(tail, tail);
 	// tail->trash = NULL;
 	// head->trash = NULL;
