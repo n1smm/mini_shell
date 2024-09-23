@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/21 20:15:21 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/23 17:39:39 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail)
 	if (pid == 0)
 	{
 		execute_wrapper(comm_seq, data, is_pipe, tail);
-		exit(EXIT_FAILURE);
+		/* free_tokens(tail, NULL); */
+		/* free_garbage(&data->garbage); */
+		exit(g_error_code);
 	}
 	else
 	{

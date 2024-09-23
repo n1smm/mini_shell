@@ -15,3 +15,42 @@ cd feflskdjf - no error code
 cd two arguments - no error code
 * export ciao without ciao=ciao would still need to exoprt but without value
 exit codes in fork when invalid command
+
+export PATH="/home/thiew/mini_shell/minishell"
+	 Invalid read of size 1
+==46630==    at 0x110A48: ft_strlen (ft_strlen.c:21)
+==46630==    by 0x1101D0: ft_strjoin (ft_strjoin.c:25)
+==46630==    by 0x10AB03: join_wrapper (safe_ft.c:33)
+==46630==    by 0x10BE3E: add_to_env (export.c:89)
+==46630==    by 0x10C2BC: ft_export (export.c:202)
+==46630==    by 0x10F274: execute_comm1 (comm_execution.c:59)
+==46630==    by 0x10F2B6: execute_comm (comm_execution.c:69)
+==46630==    by 0x10DCE2: new_executor (main_bonus.c:78)
+==46630==    by 0x109BCB: main (minishell.c:161)
+
+export aa=
+echo $aa
+==47429== Invalid read of size 8
+==47429==    at 0x10AA61: parser (parser.c:175)
+==47429==    by 0x109B8A: main (minishell.c:158)
+==47429==  Address 0x4b6ff90 is 16 bytes inside a block of size 48 free'd
+==47429==    at 0x484988F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==47429==    by 0x10B3D7: delete_node (make_list.c:94)
+==47429==    by 0x10AA47: parser (parser.c:167)
+==47429==    by 0x109B8A: main (minishell.c:158)
+==47429==  Block was alloc'd at
+==47429==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==47429==    by 0x10AAA6: safe_malloc (safe_ft.c:20)
+==47429==    by 0x10B285: double_lstadd_back (make_list.c:62)
+==47429==    by 0x10AD55: ft_add_token (split_input.c:37)
+==47429==    by 0x10B112: split_input (split_input.c:152)
+==47429==    by 0x109B2B: main (minishell.c:155)
+==47429== 
+
+export bb=dfds
+export | bb
+problema parser curr
+
+unset PATH
+ls - seg fault
+exit - invalid free

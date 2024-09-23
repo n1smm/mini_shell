@@ -6,7 +6,7 @@
 /*   By: pgiorgi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 10:13:12 by pgiorgi           #+#    #+#             */
-/*   Updated: 2023/10/20 11:09:57 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/23 17:14:42 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ size_t	count_sub(char const *s, char c)
 
 	i = 0;
 	count = 0;
-	if (s[0] == '\0')
+	if (!s || s[0] == '\0')
 		return (0);
 	while (s[i])
 	{
@@ -57,7 +57,7 @@ char	**strazio(char const *s, char c, char **split, size_t i)
 
 	len = 0;
 	j = 0;
-	while (s[i])
+	while (s && s[i])
 	{
 		if (s[i] != c)
 		{
