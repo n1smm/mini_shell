@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/23 10:34:44 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/23 11:21:51 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include "../minishell.h"
 # include "./gnl_finished/get_next_line.h"
 
- # define CURRENT_COMMAND (curr && curr->typ_token != REDIRECT_IN
- 	&& curr->typ_token != REDIRECT_IN_DOUBLE
-		&& curr->typ_token != REDIRECT_OUT
- 	&& curr->typ_token != REDIRECT_OUT_DOUBLE && curr->typ_token != PIPELINE)
+#define CURRENT_COMMAND (curr && curr->typ_token != REDIRECT_IN && \
+		curr->typ_token != REDIRECT_IN_DOUBLE && \
+		curr->typ_token != REDIRECT_OUT && \
+		curr->typ_token != REDIRECT_OUT_DOUBLE && \
+		curr->typ_token != PIPELINE)
 
 /* main */
 int		executor(t_token **tail, char **envp);
