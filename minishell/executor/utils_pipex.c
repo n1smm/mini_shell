@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/23 18:35:47 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/23 19:30:47 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	free_here(t_shell *data, t_token **tail, char **comm_seq)
 	}
 	if (curr)
 	{
-		free(curr->content);
+		if (curr->content)
+			free(curr->content);
 		free(curr);
 	}
 	free_mtrx(comm_seq);
