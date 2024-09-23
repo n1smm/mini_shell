@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/08/18 15:18:20 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/23 18:16:58 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ void	parser(t_token **tail, t_token **head, t_shell *data)
 		/* 	mod_type = WORD; */
 
 		/* printf("Token type: %s, content: %s  mod_type: %s \n", print_token_typ(curr->typ_token), curr->content, print_token_typ(mod_type)); */
-		curr = curr->next;
+		if (curr)
+			curr = curr->next;
 	}
 }
