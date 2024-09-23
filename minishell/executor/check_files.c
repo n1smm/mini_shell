@@ -6,14 +6,15 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:00:05 by thiew             #+#    #+#             */
-/*   Updated: 2024/08/15 17:37:32 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/23 08:52:18 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "pipex.h"
 
-static void	delete_quotes(t_token **tmp, t_token **tail, t_token ** head, bool *special_boy)
+static void	delete_quotes(t_token **tmp, t_token **tail, t_token **head,
+		bool *special_boy)
 {
 	t_token	*curr;
 
@@ -29,7 +30,6 @@ static void	delete_quotes(t_token **tmp, t_token **tail, t_token ** head, bool *
 		curr = curr->next;
 	}
 	*tmp = (*tmp)->prev;
-
 }
 
 inline static void	place_content(t_token **tmp, char *content)
@@ -37,17 +37,18 @@ inline static void	place_content(t_token **tmp, char *content)
 	free((*tmp)->content);
 	(*tmp)->content = content;
 }
-static void	unite_infile(t_token **tmp, t_token **tail, t_token **head, bool *special_boy)
+
+static void	unite_infile(t_token **tmp, t_token **tail, t_token **head,
+		bool *special_boy)
 {
 	t_token	*curr;
-	char 	*content;
+	char	*content;
 
 	curr = *tmp;
 	content = create_empty_string(1);
 	while (curr && !is_file(curr))
 		curr = curr->next;
 	*tmp = curr;
-	/* if (*special_boy == true) */
 	(*tmp)->special_boy = *special_boy;
 	while (curr && !is_delimiting_node(curr))
 	{
@@ -62,16 +63,15 @@ static void	unite_infile(t_token **tmp, t_token **tail, t_token **head, bool *sp
 		curr = curr->next;
 	}
 }
-	
-void check_files(t_token **tail, t_token **head)
+
+void	check_files(t_token **tail, t_token **head)
 {
 	t_token	*curr;
-	/* t_token	*tmp; */
 	bool	special_boy;
 
 	curr = *tail;
 	special_boy = false;
-	while( curr && curr->typ_token != PIPELINE)
+	while (curr && curr->typ_token != PIPELINE)
 	{
 		if (is_redirect(curr))
 		{

@@ -6,30 +6,31 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 10:52:38 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/21 19:47:02 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/23 10:31:25 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "pipex.h"
 
-void	execute_wrapper(char **comm_seq, t_shell *data, int is_pipe, t_token **tail)
+void	execute_wrapper(char **comm_seq, t_shell *data, int is_pipe,
+		t_token **tail)
 {
-		close(data->pipefd[0]);
-		tail = tail;
-		if (data->file_type[0] != NONPRINTABLE)
-			redirect_infiles(data, data->file, data->file_type, tail);
-		if (is_pipe == 1)
-		{
-			safe_dup(data->pipefd[1], STDOUT_FILENO, 1);
-		}
-		else if (is_pipe == -1)
-			safe_dup(data->pipefd[1], data->pipefd[3], 1);
-		close_doc(data, data->file, data->file_type, 0);
-		if (execute_comm(comm_seq, data, NULL, NULL) == 0)
-			if (execve(path_finder(comm_seq[0], data), comm_seq, data->env) == -1)
-				pid_error("execve failed", NULL, 1);
-		close(data->pipefd[1]);
+	close(data->pipefd[0]);
+	tail = tail;
+	if (data->file_type[0] != NONPRINTABLE)
+		redirect_infiles(data, data->file, data->file_type, tail);
+	if (is_pipe == 1)
+	{
+		safe_dup(data->pipefd[1], STDOUT_FILENO, 1);
+	}
+	else if (is_pipe == -1)
+		safe_dup(data->pipefd[1], data->pipefd[3], 1);
+	close_doc(data, data->file, data->file_type, 0);
+	if (execute_comm(comm_seq, data, NULL, NULL) == 0)
+		if (execve(path_finder(comm_seq[0], data), comm_seq, data->env) == -1)
+			pid_error("execve failed", NULL, 1);
+	close(data->pipefd[1]);
 }
 
 int	execute_comm1(char **input, t_shell *data, t_token **tail, t_token **head)
