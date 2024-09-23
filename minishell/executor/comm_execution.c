@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 10:52:38 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/23 10:31:25 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/23 12:03:26 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	execute_wrapper(char **comm_seq, t_shell *data, int is_pipe,
 	close_doc(data, data->file, data->file_type, 0);
 	if (execute_comm(comm_seq, data, NULL, NULL) == 0)
 		if (execve(path_finder(comm_seq[0], data), comm_seq, data->env) == -1)
-			pid_error("execve failed", NULL, 1);
+			error_handling("command not found", 127);
 	close(data->pipefd[1]);
 }
 
