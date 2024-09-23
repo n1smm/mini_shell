@@ -81,12 +81,14 @@ void	add_to_env(t_shell *var, char *new_var)
 		if ((ft_strncmp(var->env[i], new_var, j) == 0) && var->env[i])
 		{
 			tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
-			var->env[i] = join_wrapper(tmp[0], tmp[1], 3);
+			if (tmp[0] && tmp[1])
+				var->env[i] = join_wrapper(tmp[0], tmp[1], 2);
 		}
 	}
 	tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
 	i--;
-	new =  join_wrapper(tmp[0], tmp[1], 3);
+	if (tmp[0] && tmp[1])
+		new =  join_wrapper(tmp[0], tmp[1], 2);
 	var->env[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new) + 1);
 	add_to_garbage((t_token *)var, var->env[i]);
 	var->env[i] = ft_strdup(new);
