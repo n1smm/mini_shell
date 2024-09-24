@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/23 11:21:51 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/24 14:37:08 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		new_executor(t_token **tail, t_shell *data, t_token **head);
 /* comm_execution */
 int		execute_comm(char **input, t_shell *data, t_token **tail,
 			t_token **head);
+int		execute_comm1(char **input, t_shell *data, t_token **tail, t_token **head);
 void	execute_wrapper(char **comm_seq, t_shell *data, int is_pipe,
 			t_token **tail);
 void	init_fds(t_token **tmp, t_token **tail, t_shell *data);
@@ -65,5 +66,7 @@ int		init_files(t_token **tail, t_token **head, t_shell *data,
 			char ***comm_seq);
 /* utils_rest */
 int		check_pipe(t_token **tail, t_type file_type[]);
+int		execute_single(char **input, t_shell *data, t_token **tail, t_token **head);
+int		is_builtin(char **input);
 
 #endif

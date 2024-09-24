@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/23 18:16:58 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/24 13:01:22 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type 
 void	parser(t_token **tail, t_token **head, t_shell *data)
 {
 	t_token	*curr;
+	t_token	*tmp;
 	t_type	mod_type;
 
 	curr = (*tail)->next;
@@ -163,8 +164,12 @@ void	parser(t_token **tail, t_token **head, t_shell *data)
 		if (curr->typ_token == EXPAND)
 		{
 			expand_checker(curr, data);
-			if (curr->content[0] == 0)
-				delete_node(tail, curr, head);
+			if (curr && curr->content[0] == 0)
+			{
+				tmp = curr->prev;
+				delete_node2(tail, &curr, head);
+				curr = tmp;
+			}
 			else
 				expand_parser(curr, &mod_type);
 		}
