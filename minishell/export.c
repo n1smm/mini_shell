@@ -106,6 +106,40 @@ void	add_to_env(t_shell *var, char *new_var)
 	add_to_garbage(&(var)->garbage, var->env[i + 1]);
 }
 
+char	*ft_strjoin_exp(char const *s1, char const *s2)
+{
+	char	*s3;
+	size_t	j;
+	size_t	x;
+	size_t	y;
+
+	j = ft_strlen(s2);
+	x = 0;
+	y = 0;
+	s3 = (char *)malloc(sizeof(char) * (ft_strlen(s1) + j + 3));
+	if (!s3)
+	{
+		free(s3);
+		return (NULL);
+	}
+	while (x < ft_strlen(s1))
+	{
+		s3[y] = s1[y];
+		y++;
+		x++;
+	}
+	s3[y] = '"';
+	y++;
+	while (y < (ft_strlen(s1) + j))
+	{
+		s3[y] = s2[y - ft_strlen(s1)];
+		y++;
+	}
+	s3[y++] = '"';
+	s3[y++] = '\0';
+	return ((char *)s3);
+}
+
 static void	add_to_export(t_shell *var, char *new_var)
 {
 	int		i;
@@ -135,7 +169,7 @@ static void	add_to_export(t_shell *var, char *new_var)
 			add_to_garbage(&(var)->garbage, tmp[1]);
 			if (tmp[0] && tmp[1])
 			{
-				var->exp[i] = ft_strjoin(tmp[0], tmp[1]);
+				var->exp[i] = ft_strjoin_exp(tmp[0], tmp[1]);
 				add_to_garbage(&(var)->garbage, var->exp[i]);
 			} //join_wrapper(tmp[0], tmp[1], 2);
 		}
@@ -145,7 +179,7 @@ static void	add_to_export(t_shell *var, char *new_var)
 	i--;
 	if (tmp[0] && tmp[1])
 	{
-		new =  ft_strjoin(tmp[0], tmp[1]);
+		new =  ft_strjoin_exp(tmp[0], tmp[1]);
 		add_to_garbage(&(var)->garbage, new);
 	} //join_wrapper(tmp[0], tmp[1], 2);
 	var->exp[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new) + 1);
