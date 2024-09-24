@@ -128,6 +128,7 @@ void    safe_exit(t_token *garbage, int i);
 
 char **seq_extract(t_token **tail);
 
+int	eq_len(char *str);
 
 void ft_ls(void);
 #endif

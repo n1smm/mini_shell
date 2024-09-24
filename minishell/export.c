@@ -44,7 +44,7 @@ static int	check_env_var(char *str, int index)
 	return (0);
 }
 
-static int	eq_len(char *str)
+int	eq_len(char *str)
 {
 	int	i;
 

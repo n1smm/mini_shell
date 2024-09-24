@@ -11,6 +11,45 @@ static size_t	count_env_vars(char **env)
 	return (env_num);
 }
 
+char	*ft_strdup_exp(const char *s)
+{
+	char	*i;
+	size_t	j;
+	size_t	z;
+	size_t	eq;
+	size_t	n;
+
+	if (!s)
+		return (NULL);
+	j = 0;
+	z = 0;
+	n = 0;
+	eq = eq_len((char *)s);
+	while (s[z])
+	{
+		z++;
+	}
+	i = (char *) malloc(sizeof(char) * z + 3);
+	if (!i)
+		return (NULL);
+	while (s[j] && j <= eq)
+	{
+		i[j] = s[j];
+		j++;
+	}
+	i[j++] = '"';
+	n = j - 1;
+	while (s[n])
+	{
+		i[j] = s[n];
+		j++;
+		n++;
+	}
+	i[j++] = '"';
+	i[j++] = '\0';
+	return ((char *)i);
+}
+
 void	ft_init_shell(t_shell **data, char **env)
 {
 	size_t	i;
@@ -44,7 +83,7 @@ void	ft_init_shell(t_shell **data, char **env)
 	i = 0;
 	while (i < (*data)->num_env_var)
 	{
-		(*data)->exp[i] = ft_strdup(env[i]);
+		(*data)->exp[i] = ft_strdup_exp(env[i]);
 		if (!(*data)->exp[i])
 		{
 			free_garbage(&((*data)->garbage));
