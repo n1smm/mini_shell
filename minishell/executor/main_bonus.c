@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/23 12:03:08 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/24 14:48:52 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	new_executor(t_token **tail, t_shell *data, t_token **head)
 			break ;
 		if (check_pipe(tail, data->file_type) == 0)
 		{
-			if (!(correct_path(comm_seq[0], data)))
+			if (is_builtin(comm_seq))
 				redirect_infiles(data, data->file, data->file_type, &tmp2);
 			data->file[1023] = execute_comm(comm_seq, data, &tmp3, head);
 		}

@@ -54,3 +54,33 @@ problema parser curr
 unset PATH
 ls - seg fault
 exit - invalid free
+echo $PATH - invalid read of size 8
+		when unsetting path and then using sth like echo hello | command ; gives a lot of errors
+
+
+unset TERM (or anything else)
+exit
+==12644== Invalid free() / delete / delete[] / realloc()
+==12644==    at 0x484988F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12644==    by 0x10CDD9: free_garbage (garbage.c:39)
+==12644==    by 0x10DF62: ft_exit (exit.c:76)
+==12644==    by 0x10F88D: execute_comm1 (comm_execution.c:50)
+==12644==    by 0x10F93B: execute_comm (comm_execution.c:69)
+==12644==    by 0x10E270: new_executor (main_bonus.c:78)
+==12644==    by 0x109BDA: main (minishell.c:164)
+==12644==  Address 0x4b255f0 is 0 bytes inside a block of size 17 free'd
+==12644==    at 0x484988F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12644==    by 0x10D91A: unset_var_exp (unset.c:34)
+==12644==    by 0x10DD0A: ft_unset (unset.c:120)
+==12644==    by 0x10F981: execute_comm (comm_execution.c:73)
+==12644==    by 0x10E270: new_executor (main_bonus.c:78)
+==12644==    by 0x109BDA: main (minishell.c:164)
+==12644==  Block was alloc'd at
+==12644==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12644==    by 0x111068: ft_strdup (ft_strdup.c:29)
+==12644==    by 0x1097DF: ft_init_shell (minishell.c:47)
+==12644==    by 0x109AC0: main (minishell.c:143)
+==12644==
+
+
+ctr + c in heredoc not functioning correctly
