@@ -112,6 +112,7 @@ char	*ft_strjoin_exp(char const *s1, char const *s2)
 	size_t	j;
 	size_t	x;
 	size_t	y;
+	size_t	n;
 
 	j = ft_strlen(s2);
 	x = 0;
@@ -129,11 +130,13 @@ char	*ft_strjoin_exp(char const *s1, char const *s2)
 		x++;
 	}
 	s3[y] = '"';
+	n = y;
 	y++;
-	while (y < (ft_strlen(s1) + j))
+	while (n < (ft_strlen(s1) + j))
 	{
-		s3[y] = s2[y - ft_strlen(s1)];
+		s3[y] = s2[n - ft_strlen(s1)];
 		y++;
+		n++;
 	}
 	s3[y++] = '"';
 	s3[y++] = '\0';
