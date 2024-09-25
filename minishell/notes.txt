@@ -9,11 +9,11 @@ FIXED * pipe al inizio
 double pipe - | << is saying its an error
 FIXED outfile and infiles need to be executed even if there is no command
 FIXED *cat << eof is not printing the heredoc
-command not found exit code is 0 - when in pipe
-exit with more than one argument seg faults
-cd feflskdjf - no error code
-cd two arguments - no error code
-* export ciao without ciao=ciao would still need to exoprt but without value
+FIXED command not found exit code is 0 - when in pipe
+FIXED exit with more than one argument seg faults
+FIXED cd feflskdjf - no error code
+FIXED cd two arguments - no error code
+FIXED * export ciao without ciao=ciao would still need to exoprt but without value
 exit codes in fork when invalid command
 
 FIXED
@@ -87,3 +87,9 @@ exit
 
 
 ctr + c in heredoc not functioning correctly
+
+export USER esporta user nonostante gia' esista. 
+export USER=  cambia bene la value ma la ripete alla fine
+
+(NON VA FATTO: echo $$ non printa, in bash printa il PID del processo)
+

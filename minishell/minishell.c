@@ -201,9 +201,9 @@ int	main(int argc, char **argv, char **env)
 		free_input_prompt(input, prompt);
 		if (after_parsy(&tail, &head))
 			new_executor(&tail, data, &head);
-		printf("\n	PRINT LIST TOKEN :\n\n");
-		print_list(tail);
-		printf("\n");
+		// printf("\n	PRINT LIST TOKEN :\n\n");
+		// print_list(tail);
+		// printf("\n");
 		//free_garbage(tail);
 		//free_garbage((t_token *) data);
 		//free_garbage(head);
@@ -228,7 +228,7 @@ int	main(int argc, char **argv, char **env)
 	//free(data->var_value);
 	// free(tail->trash);
 	free_tokens_final(&tail, &head);
-	printf("CHECK : %p", tail);
+	// printf("CHECK : %p", tail);
 	tail = NULL;
 	head = NULL;
 	rl_clear_history();
