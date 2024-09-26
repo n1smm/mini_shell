@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:16:53 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/24 14:36:38 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/26 12:44:30 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,8 @@ int	execute_single(char **input, t_shell *data, t_token **tail, t_token **head)
 	}
 	else if ((correct_path(input[0], data)))
 		return (0);
-	else 
+	else
 		return (2);
-	/* else */
-	/* { */
-	/* 	error_handling("command not found", 127); */
-	/* 	return (-1); */
-	/* } */
 }
 
 int	is_builtin(char **input)
@@ -97,4 +92,29 @@ int	is_builtin(char **input)
 		return (1);
 	return (0);
 }
-	
+
+void	free_here(t_shell *data, t_token **tail, char **comm_seq)
+{
+	t_token	*curr;
+	t_token	*tmp;
+
+	curr = *tail;
+	while (curr && curr->next)
+	{
+		tmp = curr->next;
+		free(curr->content);
+		free(curr);
+		curr = tmp;
+	}
+	if (curr)
+	{
+		if (curr->content)
+			free(curr->content);
+		free(curr);
+	}
+	if (comm_seq)
+		free_mtrx(comm_seq);
+	close(data->pipefd[2]);
+	close(data->pipefd[3]);
+	free_garbage(&data->garbage);
+}

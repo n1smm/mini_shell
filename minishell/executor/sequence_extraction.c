@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:56:46 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/23 09:53:40 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/26 12:56:07 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	command_len(t_token **tail)
 
 	i = 0;
 	curr = *tail;
-	while (CURRENT_COMMAND)
+	while (curr && !is_redirect(curr) && curr->typ_token != PIPELINE)
 	{
 		if (curr->typ_token == WHITESPACE || curr->typ_token == PRINTABLE
 			|| curr->typ_token == NONPRINTABLE)
@@ -71,7 +71,7 @@ char	**seq_extract(t_token **tail)
 	curr = *tail;
 	command_seq = comm_seq_init(tail);
 	foo = create_empty_string(1);
-	while (CURRENT_COMMAND)
+	while (curr && !is_redirect(curr) && curr->typ_token != PIPELINE)
 	{
 		if (curr->typ_token != WHITESPACE && curr->typ_token != QUOTE
 			&& curr->typ_token != SINGLE_QUOTE)

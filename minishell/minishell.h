@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/03 13:23:05 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/26 15:48:12 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "libft/libft.h"
 # include "includes/structs.h"
-/* # include "executor/pipex.h" */
 # include "executor/gnl_finished/get_next_line.h"
 # include <limits.h>
 # include <readline/history.h>
@@ -33,7 +32,10 @@
 # include <sys/wait.h>
 # include <dlfcn.h>
 
-//int	exit_code;
+/* utils_main */
+char				*ft_strdup_exp(const char *s);
+void				ft_init_shell(t_shell **data, char **env);
+size_t				count_env_vars(char **env);
 
 /* lexer */
 void				lexer_main(char *input);
