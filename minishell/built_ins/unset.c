@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:07:50 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/09/03 13:22:53 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/26 12:03:36 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void unset_var_exp(const char *unset_var, t_shell *var)
 		if (ft_strncmp(var->exp[i], unset_var, len_value) == 0 \
 			&& unset_var[len_value] == '\0')
 		{
-			free(var->exp[i]);
+			/* free(var->exp[i]); */
 			k = i;
 			while (var->exp[k + 1])
 			{
@@ -73,7 +73,7 @@ void unset_var(const char *unset_var, t_shell *var)
             if (ft_strncmp(var->env[i], unset_var, len_value) == 0 \
 				&& unset_var[len_value] == '\0')
             {
-                free(var->env[i]);
+                /* free(var->env[i]); */
                 k = i;
                 while (var->env[k + 1])
                 {
