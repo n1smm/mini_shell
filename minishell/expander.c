@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/22 16:48:24 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/26 11:49:20 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ static void	refurbish_node(t_token *curr, char *content, bool free_me)
 
 	i = 0;
 	path = false;
+	free_me = free_me;
 	curr->typ_token = WORD;
 	while (content[i])
 	{
@@ -125,9 +126,6 @@ static void	refurbish_node(t_token *curr, char *content, bool free_me)
 	}
 	if (path)
 		curr->typ_token = PATH;
-	if (free_me)
-		printf("free_me used isn refurbish node\n");
-	/* 	free(curr->content); */
 	curr->content = content;
 }
 
