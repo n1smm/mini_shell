@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:58:46 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/26 16:05:17 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/26 17:27:54 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,28 @@ static char	*prompt_check(t_shell *var)
 	return (prompt);
 }
 
+static char	*safe_readline(char *prompt, t_shell *data)
+{
+	char	*input;
+
+	input = readline(prompt);
+	if (input == NULL)
+	{
+		free_here(data, &data->token, NULL);
+		exit(EXIT_FAILURE);
+	}
+	return (input);
+}
+
+static void	pars_exec(t_token **tail, t_token **head, t_shell *data)
+{
+	parser(tail, head, data);
+	if (after_parsy(tail, head))
+		new_executor(tail, data, head);
+	free_tokens(tail, head);
+	data->token = *tail;
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*input;
@@ -71,18 +93,12 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		prompt = prompt_check(data);
-		input = readline(prompt);
-		if (input == NULL)
-			break ;
+		input = safe_readline(prompt, data);
 		add_history(input);
 		split_input(input, &tail, &head);
 		while (valid_env_var(argv[data->i]) == 0 && argv[data->i])
 			data->i = 0;
-		parser(&tail, &head, data);
 		free_input_prompt(input, prompt);
-		if (after_parsy(&tail, &head))
-			new_executor(&tail, data, &head);
-		free_tokens(&tail, &head);
-		data->token = tail;
+		pars_exec(&tail, &head, data);
 	}
 }
