@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/25 16:31:10 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/26 12:58:20 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 
 # include "../minishell.h"
 # include "./gnl_finished/get_next_line.h"
-
-#define CURRENT_COMMAND (curr && curr->typ_token != REDIRECT_IN && \
-		curr->typ_token != REDIRECT_IN_DOUBLE && \
-		curr->typ_token != REDIRECT_OUT && \
-		curr->typ_token != REDIRECT_OUT_DOUBLE && \
-		curr->typ_token != PIPELINE)
 
 /* main */
 int		executor(t_token **tail, char **envp);
@@ -31,12 +25,12 @@ int		new_executor(t_token **tail, t_shell *data, t_token **head);
 /* comm_execution */
 int		execute_comm(char **input, t_shell *data, t_token **tail,
 			t_token **head);
-int		execute_comm1(char **input, t_shell *data, t_token **tail, t_token **head);
+int		execute_comm1(char **input, t_shell *data, t_token **tail,
+			t_token **head);
 void	execute_wrapper(char **comm_seq, t_shell *data, int is_pipe,
 			t_token **tail);
 void	init_fds(t_token **tmp, t_token **tail, t_shell *data);
 int		polish_pipes(t_shell *data, t_token **tail, t_token *tmp);
-void	free_here(t_shell *data, t_token **tail, char **comm_seq);
 /* path_finder */
 char	*read_path(int pipefd[], char **mtrx);
 /* utils */
@@ -67,7 +61,9 @@ int		init_files(t_token **tail, t_token **head, t_shell *data,
 			char ***comm_seq);
 /* utils_rest */
 int		check_pipe(t_token **tail, t_type file_type[]);
-int		execute_single(char **input, t_shell *data, t_token **tail, t_token **head);
+int		execute_single(char **input, t_shell *data, t_token **tail,
+			t_token **head);
 int		is_builtin(char **input);
+void	free_here(t_shell *data, t_token **tail, char **comm_seq);
 
 #endif

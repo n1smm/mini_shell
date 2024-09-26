@@ -165,7 +165,7 @@ static void	add_to_export(t_shell *var, char *new_var)
 	var->num_env_var += 1; //non serve
 	while (var->exp[i++])
 	{
-		j = eq_len(var->env[i]);
+		j = eq_len(var->exp[i]);
 		if ((ft_strncmp(var->exp[i], new_var, j) == 0) && var->exp[i])
 		{
 			tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
@@ -197,45 +197,34 @@ static void add_to_export2(t_shell *var, char *new_var)
 {
 	int		i;
 	int		j;
-	// int		index_nv;
-	// char	**tmp;
-	// char	*new;
-	// int		flag;
+	int		flag;
 
 	i = 0;
 	j = 0;
-	// index_nv = eq_len(new_var);
-	// flag = 0;
-	// tmp = (char **)safe_malloc(sizeof(char *) * 2 + 1);
-	// add_to_garbage((t_token *)var, tmp);
-	// tmp[0] = ft_substr(new_var, 0, index_nv + 1);
-	// if (!tmp)
-	// 	free(tmp);
-	// var->num_env_var += 1; //non serve
 	if (!var || ! new_var)
 		return ;
+	flag = 0;
 	while (var->exp[i])
 	{
-		// j = eq_len(var->env[i]);
-		if ((ft_strncmp(var->exp[i], new_var, j) == 1) && var->exp[i])
+		j = eq_len(var->exp[i]);
+		if ((ft_strncmp(var->exp[i], new_var, j) == 0) && var->exp[i])
 		{
-			// tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
-			var->exp[i] = ft_strdup(new_var);
-			add_to_garbage(&(var)->garbage, var->exp[i]);//join_wrapper(tmp[0], tmp[1], 3);
+			flag = 1;
+			printf("RESUL: %i\n", (ft_strncmp(var->exp[i], new_var, j) ));
+			var->exp[i] = ft_strdup(var->exp[i]);
+			add_to_garbage(&(var)->garbage, var->exp[i]);
 		}
-		// else if ((ft_strncmp(var->exp[i], new_var, j) == 0) && var->exp[i])
-		// {
-		// 	var->exp[i] = ft_strdup(new_var);
-		// }
 		i++;
 	}
-	// tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
-	// i--;
-	// new =  join_wrapper(tmp[0], tmp[1], 3);
-	var->exp[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new_var) + 1);
-	add_to_garbage(&(var->garbage), var->exp[i]); //non spostare mai sotto la riga successiva! leakka sennò
-	var->exp[i] = ft_strdup(new_var);
-	add_to_garbage(&(var->garbage), var->exp[i]);
+	printf("NOT ENTERED\n");
+
+	if (flag == 0)
+	{
+		var->exp[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new_var) + 1);
+		add_to_garbage(&(var->garbage), var->exp[i]); //non spostare mai sotto la riga successiva! leakka sennò
+		var->exp[i] = ft_strdup(new_var);
+		add_to_garbage(&(var->garbage), var->exp[i]);					
+	}
 	var->exp[i + 1] = NULL;
 	add_to_garbage(&(var->garbage), var->exp[i + 1]);
 }

@@ -6,39 +6,12 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 17:02:43 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/25 16:56:33 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/26 12:45:06 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "pipex.h"
-
-void	free_here(t_shell *data, t_token **tail, char **comm_seq)
-{
-	t_token	*curr;
-	t_token	*tmp;
-
-	curr = *tail;
-	while (curr && curr->next)
-	{
-		tmp = curr->next;
-		free(curr->content);
-		free(curr);
-		curr = tmp;
-	}
-	if (curr)
-	{
-		if (curr->content)
-			free(curr->content);
-		free(curr);
-	}
-	if (comm_seq)
-		free_mtrx(comm_seq);
-	close(data->pipefd[2]);
-	close(data->pipefd[3]);
-	free_garbage(&data->garbage);
-	
-}
 
 void	comm_forker(char **comm_seq, t_shell *data, int is_pipe, t_token **tail)
 {
