@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/26 15:48:12 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 15:40:01 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,9 @@ void	add_to_export2_supp(t_shell *var, int *i, const char *new_var);
 // AFTER PARSY UTILS
 int     check_quotes(t_token **tail);
 int     check_eol(t_token **tail);
+
+// UNSET EXP
+void	unset_var_exp(const char *unset_var, t_shell *var);
 
 /* env */
 // t_env_var             *init_env_vars(t_env_var **tail, t_env_var **head);

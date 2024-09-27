@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:07:47 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/07/18 17:39:11 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/09/27 15:05:05 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	size_list(t_env_var *tail)
 {
-	int i;
+	int	i;
 
-	i  = 0;
-	while(tail)
+	i = 0;
+	while (tail)
 	{
 		tail = tail->next;
 		i++;
@@ -25,14 +25,14 @@ int	size_list(t_env_var *tail)
 	return (i);
 }
 
-void ft_env(t_shell *var)
+void	ft_env(t_shell *var)
 {
-	int			i;
+	int	i;
 
 	i = 0;
-    while (var->env[i])
-    {
-        printf("%s\n", var->env[i]);
-        i++;
-    }
+	while (var->env[i])
+	{
+		printf("%s\n", var->env[i]);
+		i++;
+	}
 }

@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   path_finder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 14:29:52 by thiew             #+#    #+#             */
-/*  Updated: 2024/05/19 16:43:26 by thiew            ###   ########.fr       */
+/*   Created: 2024/09/27 14:51:02 by pgiorgi           #+#    #+#             */
+/*   Updated: 2024/09/27 14:51:13 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libft/libft.h"
 #include "minishell.h"
 
 static char	*comm_checker(char *command, char **full_path, bool *success)
