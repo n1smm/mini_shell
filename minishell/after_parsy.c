@@ -45,7 +45,6 @@ static int	check_after_delimiter(t_token *tmp, t_token *curr, bool *valid)
 	return (1);
 }
 
-
 static int	check_eol(t_token **tail)
 {
 	t_token	*curr;
@@ -60,18 +59,7 @@ static int	check_eol(t_token **tail)
 		{
 			tmp = curr;
 			if (!check_after_delimiter(tmp, curr, &valid))
-					return (0);
-			/* while (tmp && !is_delimiting_node(tmp)) */
-			/* { */
-			/* 	if (!is_delimiting_node(tmp)) */
-			/* 		valid = true; */
-			/* 	tmp = tmp->next; */
-			/* } */
-			/* if (!valid) */
-			/* { */
-			/* 	printf("invalid placement of: %s", curr->content); */
-			/* 	return (0); */
-			/* } */
+				return (0);
 		}
 		curr = curr->next;
 		valid = false;
@@ -120,15 +108,13 @@ int	is_duplicate_node(t_token *curr, t_type type)
 	if (type == PIPELINE)
 	{
 		if (duplicate_pipe(curr))
-				return (1);
+			return (1);
 		return (0);
 	}
 	while (curr && (!is_delimiting_node(curr) || curr->typ_token == WHITESPACE))
 	{
 		if (!is_delimiting_node(curr) && type != PIPELINE)
 			return (0);
-		/* else if (type == PIPELINE && is_delimiting_node(curr) && !is_redirect(curr) && curr->typ_token != WHITESPACE) */
-		/* 	return (0); */
 		curr = curr->next;
 	}
 	return (1);
@@ -140,7 +126,7 @@ int	check_doubles(t_token **tail)
 	t_type	type;
 
 	curr = (*tail)->next;
-	while(curr)
+	while (curr)
 	{
 		if (is_delimiting_node(curr) && curr->typ_token != WHITESPACE)
 		{

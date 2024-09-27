@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	catch_signals()
+void	catch_signals(void)
 {
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, &ctrl_slash);
@@ -25,7 +25,6 @@ void	ctrl_c(int sig)
 		printf("\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		// rl_redisplay();
 		rl_cleanup_after_signal();
 		rl_free_line_state();
 	}
@@ -37,6 +36,6 @@ void	ctrl_slash(int sig)
 
 	sig = sig;
 	tcgetattr(STDIN_FILENO, &term);
-	term.c_cc[VQUIT] = _POSIX_VDISABLE;// Disable the quit character
+	term.c_cc[VQUIT] = _POSIX_VDISABLE;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-/* #include "libft/libft.h" */
 #include "minishell.h"
 
 int	is_delimiting_node(t_token *curr)
@@ -31,7 +29,7 @@ int	is_delimiting_node(t_token *curr)
 	if (curr->typ_token == NONPRINTABLE)
 		return (1);
 	else
-		return(0);
+		return (0);
 }
 
 int	is_quote_node(t_token *curr)
@@ -58,23 +56,23 @@ int	is_delimiting_type(t_type type)
 	if (type == REDIRECT_OUT_DOUBLE)
 		return (1);
 	else
-		return(0);
+		return (0);
 }
 
-bool is_redirect(t_token *curr)
+bool	is_redirect(t_token *curr)
 {
-	if (curr->typ_token == REDIRECT_IN)	
+	if (curr->typ_token == REDIRECT_IN)
 		return (true);
-	if (curr->typ_token == REDIRECT_IN_DOUBLE)	
+	if (curr->typ_token == REDIRECT_IN_DOUBLE)
 		return (true);
-	if (curr->typ_token == REDIRECT_OUT)	
+	if (curr->typ_token == REDIRECT_OUT)
 		return (true);
-	if (curr->typ_token == REDIRECT_OUT_DOUBLE)	
+	if (curr->typ_token == REDIRECT_OUT_DOUBLE)
 		return (true);
 	return (false);
 }
 
-bool is_file(t_token *curr)
+bool	is_file(t_token *curr)
 {
 	if (curr->typ_token == INFILE)
 		return (true);

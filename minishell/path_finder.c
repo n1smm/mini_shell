@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+// #include "libft/libft.h"
 #include "minishell.h"
 
 static char	*comm_checker(char *command, char **full_path, bool *success)
@@ -21,8 +21,8 @@ static char	*comm_checker(char *command, char **full_path, bool *success)
 	i = 0;
 	while (full_path[i])
 	{
-		path = ft_strjoin(full_path[i++], command); //free??
-		if ( 0 == access(path, X_OK))
+		path = ft_strjoin(full_path[i++], command);
+		if (0 == access(path, X_OK))
 		{
 			*success = true;
 			break ;
@@ -31,8 +31,7 @@ static char	*comm_checker(char *command, char **full_path, bool *success)
 	}
 	if (*success == false)
 		return (NULL);
-	return(path);
-
+	return (path);
 }
 
 char	*absolute_path(char *command)
@@ -42,16 +41,13 @@ char	*absolute_path(char *command)
 	return (NULL);
 }
 
-/* if path is correct it returns allocated, if not it returns NULL */
-char *path_finder(char *command, t_shell *data)
+char	*path_finder(char *command, t_shell *data)
 {
 	char	*env_path;
 	char	*path;
 	char	**full_path;
 	bool	success;
 
-	// if (!command || command == NULL)
-	// 	return (NULL);
 	env_path = custom_getenv("PATH", data->env);
 	success = false;
 	if (!command)
@@ -68,16 +64,13 @@ char *path_finder(char *command, t_shell *data)
 	return (NULL);
 }
 
-
-bool correct_path(char *command, t_shell *data)
+bool	correct_path(char *command, t_shell *data)
 {
 	char	*env_path;
 	char	*path;
 	char	**full_path;
 	bool	success;
 
-	// if (!command || command == NULL)
-	// 	return (NULL);
 	env_path = custom_getenv("PATH", data->env);
 	success = false;
 	if (!command)
@@ -94,64 +87,3 @@ bool correct_path(char *command, t_shell *data)
 		return (true);
 	return (false);
 }
-
-/* if the type of token is correct it will allocate, otherwise it returns null not allocated */
-/* char	*expander(char *input, t_type typ_token) */
-/* { */
-/* 	char *result; */
-/* 	char *result_path; */
-
-/* 	if (typ_token == COMMAND) */
-/* 	{ */
-/* 		result = path_finder(input); */
-/* 		if (!result) */
-/* 			return (NULL); */
-/* 		return (result); */
-
-
-/* 	} */
-/* 	else if (typ_token == EXPAND) */
-/* 	{ */
-/* 		result = getenv(input); */
-/* 		result_path = ft_strdup(result); */
-/* 		return (result_path); */
-/* 	} */
-/* 	return (NULL); */
-/* } */
-
-/* int	main(int argc, char **argv) */
-/* { */
-/* 	if (argc > 2) */
-/* 		return 0; */
-
-/* 	char *result; */
-
-/* 	result = path_finder(argv[1]); */
-/* 	if (result) */
-/* 	{ */
-/* 		puts(result); */
-/* 		free(result); */
-/* 	} */
-/* 	return 0; */
-/* } */
-
-
-/* int main(int argc, char **argv) */
-/* { */
-/* 	if (argc > 3) */
-/* 		return 0; */
-/* 	char *input; */
-/* 	char *input2; */
-
-/* 	input = expander(argv[1], COMMAND); */
-/* 	input2 = expander(argv[2], EXPAND); */
-/* 	if (!input || !input2) */
-/* 	{ */
-/* 		printf("not a valid input"); */
-/* 		return 1; */
-/* 	} */
-/* 	printf("command is: %s\n", input); */
-/* 	printf("path is: %s\n", input2); */
-/* 	free(input); */
-/* 	free(input2); */
-/* } */

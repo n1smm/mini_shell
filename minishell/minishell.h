@@ -37,9 +37,6 @@ char				*ft_strdup_exp(const char *s);
 void				ft_init_shell(t_shell **data, char **env);
 size_t				count_env_vars(char **env);
 
-/* lexer */
-void				lexer_main(char *input);
-void 				ft_lexer(t_token *token);
 /* safe_functions */
 void				*safe_malloc(size_t size);
 char 				*join_wrapper(const char *s1, const char *s2, int free_which);
@@ -73,8 +70,6 @@ t_token				*delete_node2(t_token **tail, t_token **del, t_token **head);
 void 				delete_node(t_token **tail, t_token *del, t_token **head);
 char 			*use_token(t_token **tail, t_type type);
 int					find_token(t_token *tail, t_type type);
-char 				*print_token_typ(t_type token_type);
-void				print_list(t_token *tail);
 /* path_finder */
 char				*path_finder(char *command, t_shell *data);
 bool 				correct_path(char *command, t_shell *data);

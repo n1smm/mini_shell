@@ -56,54 +56,77 @@ int	eq_len(char *str)
 	return (i);
 }
 
-void	add_to_env(t_shell *var, char *new_var)
+static char	*add_to_env_supp_3(t_shell *var, char *new, char **tmp, int i)
+{
+	new = ft_strjoin(tmp[0], tmp[1]);
+	if (new)
+	{
+		add_to_garbage(&(var)->garbage, new);
+		var->env[i] = ft_strdup(new);
+		add_to_garbage(&(var)->garbage, var->env[i]);
+		var->env[i + 1] = NULL;
+		add_to_garbage(&(var)->garbage, var->env[i + 1]);
+	}
+	return (new);
+}
+
+static char	*add_to_env_supp_2(t_shell *var, char *new, char **tmp, int i)
+{
+	new = join_wrapper(tmp[0], tmp[1], 0);
+	if (new)
+	{
+		add_to_garbage(&(var)->garbage, new);
+		var->env[i] = ft_strdup(new);
+		add_to_garbage(&(var)->garbage, var->env[i]);
+	}
+	return (new);
+}
+
+static void	add_env_supp(t_shell *var, char **tmp, char *new_var, int i_nv)
+{
+	add_to_garbage(&(var)->garbage, tmp);
+	tmp[0] = ft_substr(new_var, 0, i_nv + 1);
+	add_to_garbage(&(var)->garbage, tmp[0]);
+	if (!tmp[0])
+	{
+		free(tmp);
+		return ;
+	}
+	tmp[1] = ft_substr(new_var, i_nv + 1, ft_strlen(new_var));
+	add_to_garbage(&(var)->garbage, tmp[1]);
+	if (!tmp[1])
+	{
+		free(tmp);
+		return ;
+	}
+}
+
+void add_to_env(t_shell *var, char *new_var)
 {
 	int		i;
-	int		j;
 	int		index_nv;
 	char	**tmp;
 	char	*new;
-	// int		flag;
+	int		flag;
 
-	i = 0;
-	j = 0;
+	flag = 0;
+	new = NULL;
 	index_nv = eq_len(new_var);
-	// flag = 0;
 	tmp = (char **)safe_malloc(sizeof(char *) * 2 + 1);
-	add_to_garbage(&(var)->garbage, tmp);
-	tmp[0] = ft_substr(new_var, 0, index_nv + 1);
-	if (!tmp)
-		free(tmp);
-	add_to_garbage(&(var)->garbage, tmp[0]);
-	var->num_env_var += 1; //non serve
-	while (var->env[i++])
+	add_env_supp(var, tmp, new_var, index_nv);
+	i = 0;
+	while (var->env[i])
 	{
-		j = eq_len(var->env[i]);
-		if ((ft_strncmp(var->env[i], new_var, j) == 0) && var->env[i])
+		if (ft_strncmp(var->env[i], new_var, index_nv) == 0)
 		{
-			tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
-			add_to_garbage(&(var)->garbage, tmp[1]);
-			if (tmp[0] && tmp[1])
-			{
-				var->env[i] = join_wrapper(tmp[0], tmp[1], 0);
-				add_to_garbage(&(var)->garbage, var->env[i]);
-			}//ft_strjoin(tmp[0], tmp[1]);//join_wrapper(tmp[0], tmp[1], 2);
+			flag = 1;
+			new = add_to_env_supp_2(var, new, tmp, i);
+			break ;
 		}
+		i++;
 	}
-	tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
-	add_to_garbage(&(var)->garbage, tmp[1]);
-	i--;
-	if (tmp[0] && tmp[1])
-	{
-		new =  ft_strjoin(tmp[0], tmp[1]);
-		add_to_garbage(&(var)->garbage, new);
-	} //join_wrapper(tmp[0], tmp[1], 2);
-	var->env[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new) + 1);
-	add_to_garbage(&(var)->garbage, var->env[i]);
-	var->env[i] = ft_strdup(new);
-	add_to_garbage(&(var)->garbage, var->env[i]);
-	var->env[i + 1] = NULL;
-	add_to_garbage(&(var)->garbage, var->env[i + 1]);
+	if (!flag)
+		add_to_env_supp_3(var, new, tmp, i);
 }
 
 char	*ft_strjoin_exp(char const *s1, char const *s2)
@@ -143,57 +166,63 @@ char	*ft_strjoin_exp(char const *s1, char const *s2)
 	return ((char *)s3);
 }
 
+static void	add_to_export_supp(t_shell *var, char **tmp, char *new, int *i)
+{
+	new = ft_strjoin_exp(tmp[0], tmp[1]);
+	add_to_garbage(&(var)->garbage, new);
+	var->exp[*i] = ft_strdup(new);
+	add_to_garbage(&(var)->garbage, var->exp[*i]);
+	var->exp[*i + 1] = NULL;
+	add_to_garbage(&(var)->garbage, var->exp[*i + 1]);
+}
+
+static void	add_exp_supp_2(t_shell *var, char **tmp, char *new_var, int i_nv)
+{
+	tmp[0] = ft_substr(new_var, 0, i_nv + 1);
+	add_to_garbage(&(var)->garbage, tmp[0]);
+	tmp[1] = ft_substr(new_var, i_nv + 1, ft_strlen(new_var));
+	add_to_garbage(&(var)->garbage, tmp[1]);
+}
+
 static void	add_to_export(t_shell *var, char *new_var)
 {
 	int		i;
-	int		j;
 	int		index_nv;
 	char	**tmp;
 	char	*new;
-	// int		flag;
+	int		flag;
 
+	flag = 0;
 	i = 0;
-	j = 0;
+	new = NULL;
 	index_nv = eq_len(new_var);
-	// flag = 0;
 	tmp = (char **)safe_malloc(sizeof(char *) * 2 + 1);
 	add_to_garbage(&(var)->garbage, tmp);
-	tmp[0] = ft_substr(new_var, 0, index_nv + 1);
-	add_to_garbage(&(var)->garbage, tmp[0]);
-	if (!tmp)
-		free(tmp);
-	var->num_env_var += 1; //non serve
-	while (var->exp[i++])
+	add_exp_supp_2(var, tmp, new_var, index_nv);
+	while (var->exp[i])
 	{
-		j = eq_len(var->exp[i]);
-		if ((ft_strncmp(var->exp[i], new_var, j) == 0) && var->exp[i])
+		if (ft_strncmp(var->exp[i], new_var, index_nv) == 0)
 		{
-			tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
-			add_to_garbage(&(var)->garbage, tmp[1]);
-			if (tmp[0] && tmp[1])
-			{
-				var->exp[i] = ft_strjoin_exp(tmp[0], tmp[1]);
-				add_to_garbage(&(var)->garbage, var->exp[i]);
-			} //join_wrapper(tmp[0], tmp[1], 2);
+			flag = 1;
+			add_to_export_supp(var, tmp, new, &i);
+			break ;
 		}
+		i++;
 	}
-	tmp[1] = ft_substr(new_var, index_nv + 1, ft_strlen(new_var));
-	add_to_garbage(&(var)->garbage, tmp[1]);
-	i--;
-	if (tmp[0] && tmp[1])
-	{
-		new =  ft_strjoin_exp(tmp[0], tmp[1]);
-		add_to_garbage(&(var)->garbage, new);
-	} //join_wrapper(tmp[0], tmp[1], 2);
-	var->exp[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new) + 1);
-	add_to_garbage(&(var)->garbage, var->exp[i]);
-	var->exp[i] = ft_strdup(new);
-	add_to_garbage(&(var)->garbage, var->exp[i]);
-	var->exp[i + 1] = NULL;
-	add_to_garbage(&(var)->garbage, var->exp[i + 1]);
+	if (!flag)
+		add_to_export_supp(var, tmp, new, &i);
 }
 
-static void add_to_export2(t_shell *var, char *new_var)
+static void	add_to_export2_supp(t_shell *var, int *i, const char *new_var)
+{
+	var->exp[*i] = (char *)safe_malloc(sizeof(char) * \
+		ft_strlen(new_var) + 1);
+	add_to_garbage(&(var->garbage), var->exp[*i]);
+	var->exp[*i] = ft_strdup(new_var);
+	add_to_garbage(&(var->garbage), var->exp[*i]);
+}
+
+static void	add_to_export2(t_shell *var, char *new_var)
 {
 	int		i;
 	int		j;
@@ -210,35 +239,22 @@ static void add_to_export2(t_shell *var, char *new_var)
 		if ((ft_strncmp(var->exp[i], new_var, j) == 0) && var->exp[i])
 		{
 			flag = 1;
-			printf("RESUL: %i\n", (ft_strncmp(var->exp[i], new_var, j) ));
 			var->exp[i] = ft_strdup(var->exp[i]);
 			add_to_garbage(&(var)->garbage, var->exp[i]);
 		}
 		i++;
 	}
-	printf("NOT ENTERED\n");
-
 	if (flag == 0)
-	{
-		var->exp[i] = (char *)safe_malloc(sizeof(char) * ft_strlen(new_var) + 1);
-		add_to_garbage(&(var->garbage), var->exp[i]); //non spostare mai sotto la riga successiva! leakka sennò
-		var->exp[i] = ft_strdup(new_var);
-		add_to_garbage(&(var->garbage), var->exp[i]);					
-	}
+		add_to_export2_supp(var, &i, new_var);
 	var->exp[i + 1] = NULL;
 	add_to_garbage(&(var->garbage), var->exp[i + 1]);
 }
 
 int	valid_env_var(char *args)
 {
-	int j;
+	int	j;
 
 	j = 0;
-	// if (!(ft_strchr(args, '=')))
-	// {
-	// 	// add_to_env(var, args);
-	// 	return (0);
-	// }
 	if (args[j] == '\0')
 		return (1);
 	if (args[j])
@@ -258,11 +274,28 @@ int	valid_env_var(char *args)
 		j++;
 	}
 	if (!(ft_strchr(args, '=')))
-	{
-		// add_to_env(var, args);
 		return (2);
-	}
 	return (0);
+}
+
+static void	export_supp(t_shell *var, char *arg, int *flag)
+{
+	if (valid_env_var(arg) == 0)
+	{
+		*flag = 1;
+		add_to_env(var, arg);
+		add_to_export(var, arg);
+	}
+	else if (valid_env_var(arg) == 1)
+	{
+		*flag = 1;
+		printf("export: `%s': not a valid identifier\n", arg);
+	}
+	else
+	{
+		*flag = 1;
+		add_to_export2(var, arg);
+	}
 }
 
 void	ft_export(t_shell *var, char **args)
@@ -284,23 +317,7 @@ void	ft_export(t_shell *var, char **args)
 	}
 	while (args[index_var] && args[index_var][0] != '|')
 	{
-		if (valid_env_var(args[index_var]) == 0)
-		{
-			flag = 1;
-			add_to_env(var, args[index_var]);
-			add_to_export(var, args[index_var]);
-			// add_to_garbage(&(var)->garbage, args[index_var]);
-		}
-		else if (valid_env_var(args[index_var]) == 1)
-		{
-			flag = 1;
-			printf("export: `%s': not a valid identifier\n", args[index_var]);
-		}
-		else
-		{
-			flag = 1;
-			add_to_export2(var, args[index_var]);
-		}
+		export_supp(var, args[index_var], &flag);
 		index_var++;
 	}
 	if (flag == 0)

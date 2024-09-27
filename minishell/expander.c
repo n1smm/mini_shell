@@ -13,32 +13,27 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-char *custom_getenv(char *name, char **env) {
-    if (name == NULL || env == NULL) {
-        return NULL;
-    }
+char	*custom_getenv(char *name, char **env)
+{
+	int		i;
+	size_t	name_len;
 
-    size_t name_len;
-	// char	*res;
-
-	// res = NULL;
+	if (name == NULL || env == NULL)
+		return (NULL);
 	name_len = ft_strlen(name);
-    int i = 0;
-    while (env[i] != NULL) {
-        if (ft_strncmp(env[i], name, name_len) == 0 && env[i][name_len] == '=') {
-            return &env[i][name_len + 1];
-			// res = ft_strdup((const char *) &env[i][name_len + 1]);
-			// printf("dup : %s\n", &env[i][name_len + 1]);
-			// return (res);
-        }
-        i++;
-    }
-    
-    return (NULL);
+	i = 0;
+	while (env[i] != NULL)
+	{
+		if (ft_strncmp(env[i], name, name_len) == 0 && \
+			env[i][name_len] == '=')
+		{
+			return (&env[i][name_len + 1]);
+		}
+		i++;
+	}
+	return (NULL);
 }
 
-/* if the type of token is correct it will allocate, 
-otherwise it returns null not allocated */
 char	*expander(char *input, t_shell *var, t_type typ_token)
 {
 	char	*result;
@@ -77,7 +72,7 @@ static char	*error_expansions(char *expanded)
 	return (result);
 }
 
-static char	*refactor_expanded_string(char *content, t_shell *var, int start, int len)
+static char	*ref_expand_str(char *content, t_shell *var, int start, int len)
 {
 	char	*expanded;
 	char	*result;
@@ -140,7 +135,7 @@ void	check_len(char *content, int *j)
 		return ;
 	else
 	{
-		while(content[*j] && content[*j] != '$')
+		while (content[*j] && content[*j] != '$')
 			(*j)++;
 	}
 }
@@ -170,7 +165,7 @@ void	expand_checker(t_token *curr, t_shell *var)
 			j++;
 		else if (j == i && content[j] == '?')
 			j++;
-		content = refactor_expanded_string(content, var, i, j - i);
+		content = ref_expand_str(content, var, i, j - i);
 		check_len(content, &j);
 		refurbish_node(curr, content, free_me);
 		free_me = false;
@@ -198,7 +193,7 @@ char	*expand_string_checker(char *content, t_shell *var, bool special_boy)
 			j++;
 		if (j == i && content[j] == '$')
 			j++;
-		content = refactor_expanded_string(content, var, i, j - i);
+		content = ref_expand_str(content, var, i, j - i);
 	}
 	return (content);
 }

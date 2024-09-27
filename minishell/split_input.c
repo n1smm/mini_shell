@@ -25,18 +25,17 @@ char	*ft_strdup2(const char *s, size_t end)
 	return ((char *)i);
 }
 
-void ft_add_token(const char *word, size_t end, t_type type, t_token **head)
+void	ft_add_token(const char *word, size_t end, t_type type, t_token **head)
 {
-	if(!word || !head || !*head)
-		return ;
-	char *str;
+	char	*str;
 
+	if (!word || !head || !*head)
+		return ;
 	str = ft_strdup2(word, end);
 	if (!str)
 		return ;
 	double_lstadd_back(str, head);
 	(*head)->typ_token = type;
-	// add_to_garbage(*head, str);
 }
 
 char	*ft_chardup(char character)
@@ -51,27 +50,15 @@ char	*ft_chardup(char character)
 	return ((char *)i);
 }
 
-// void	ft_add_token2(char character)
-// {
-// 	t_token	*new;
-// 	char	*term;
-
-// 	term = ft_chardup(character);
-// 	new = (t_token *)safe_malloc(sizeof(t_token));
-// 	new->content = (char *)safe_malloc(sizeof(char) * 1);
-// 	new->content = ft_strdup(term);
-// 	new->trash = NULL;
-// 	add_to_garbage(new, term);
-// 	free(term);
-// }
-
-bool term_character(char c)
+bool	term_character(char c)
 {
 	if (c == ' ' || c == '\t' || c == '|' || c == '<' \
 		|| c == '>' || c == 0 || c == '\"' || c == '\'')
+	{
 		return (true);
+	}
 	else
-	 	return (false);
+		return (false);
 }
 
 void	ft_check_word(char *input, size_t *i, t_type *type)
@@ -79,9 +66,9 @@ void	ft_check_word(char *input, size_t *i, t_type *type)
 	bool	string;
 
 	string = false;
-	while(input[*i] && !(term_character(input[*i])))
+	while (input[*i] && !(term_character(input[*i])))
 	{
-		if(!(ft_isalpha(input[*i])))
+		if (!(ft_isalpha(input[*i])))
 			string = true;
 		(*i)++;
 	}
@@ -95,26 +82,26 @@ void	ft_check_word(char *input, size_t *i, t_type *type)
 
 bool	ft_redirect_double(char *input, size_t *i)
 {
-	if(input[*i] == input[*i + 1])
+	if (input[*i] == input[*i + 1])
 	{
 		(*i)++;
-		return(true);
+		return (true);
 	}
-	return(false);
+	return (false);
 }
 
 static t_type	return_redirect_type(char *input, size_t *i)
 {
-	if(input[*i] == '<')
+	if (input[*i] == '<')
 	{
-		if(ft_redirect_double(input, &*i))
+		if (ft_redirect_double(input, &*i))
 			return (REDIRECT_IN_DOUBLE);
 		else
 			return (REDIRECT_IN);
 	}
-	else if(input[*i] == '>')
+	else if (input[*i] == '>')
 	{
-		if(ft_redirect_double(input, &*i))
+		if (ft_redirect_double(input, &*i))
 			return (REDIRECT_OUT_DOUBLE);
 		else
 			return (REDIRECT_OUT);
@@ -123,31 +110,39 @@ static t_type	return_redirect_type(char *input, size_t *i)
 		return (WHITESPACE);
 }
 
-void split_input(char *input, t_token **tail, t_token **head)
+static t_type	split_input_supp(char *input, size_t i, t_type type)
 {
-	size_t i;
-	int	j;
+	if (input[i] == ' ')
+		type = WHITESPACE;
+	else if (input[i] == '|')
+		type = PIPELINE;
+	else if (input[i] == '<' || input[i] == '>')
+		type = return_redirect_type(input, &i);
+	else if (input[i] == '\"')
+		type = QUOTE;
+	else if (input[i] == '\'')
+		type = SINGLE_QUOTE;
+	return (type);
+}
+
+void	split_input(char *input, t_token **tail, t_token **head)
+{
+	size_t	i;
+	int		j;
+	t_type	type;
 
 	i = 0;
 	j = 0;
-	t_type  type = WHITESPACE;
+	type = WHITESPACE;
 	if (!input)
 		return ;
 	while (input[i])
 	{
 		j = i;
-		if(term_character(input[i]) == false)
+		if (term_character(input[i]) == false)
 			ft_check_word(input, &i, &type);
-		else if(input[i] == ' ')
-			type = WHITESPACE;
-		else if(input[i] == '|')
-			type = PIPELINE;
-		else if(input[i] == '<' || input[i] == '>')
-			type = return_redirect_type(input, &i);
-		else if(input[i] == '\"')
-			type = QUOTE;
-		else if(input[i] == '\'')
-			type = SINGLE_QUOTE;
+		else
+			type = split_input_supp(input, i, type);
 		i++;
 		ft_add_token(input + j, (i - j), type, head);
 	}
