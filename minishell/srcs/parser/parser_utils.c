@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 18:32:55 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/09/27 18:33:07 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:44:55 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	str_or_word(t_token *curr, t_type *mod_type, int is_quote)
 		curr->typ_token = PRINTABLE;
 }
 
-static t_token	*check_quote(t_token **tail, t_token *tmp,
+t_token	*check_quote(t_token **tail, t_token *tmp,
 		t_shell *data, t_type *mod_type)
 {
 	t_token	*curr;

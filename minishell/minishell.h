@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/27 16:56:22 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:44:34 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,12 @@ void				free_mtx(void **matrix);
 void				free_tokens(t_token **tail, t_token **head);
 void				free_tokens_final(t_token **tail, t_token **head);
 void				error_handling(char *msg, int error_code);
-//void                free_tokens(t_token **head);
-
 /* built-ins */
 bool				ft_cd(const char *path, char **input);
 void				ft_echo(char **args);
 void				ft_env(t_shell *var);
 int					ft_pwd(void);
 int				ft_unset(t_shell *var, char **args);
-// void    			ft_export(t_shell *var, char **args);
 int					ft_exit(t_shell *data, char **comm_seq, t_token **tail, t_token **head);
 
 // EXPAND
@@ -123,14 +120,24 @@ int     check_eol(t_token **tail);
 // UNSET EXP
 void	unset_var_exp(const char *unset_var, t_shell *var);
 
-/* env */
-// t_env_var             *init_env_vars(t_env_var **tail, t_env_var **head);
-// void 				ft_init_env(t_env_var **tail, t_env_var **head, char **env);
-// t_env_var			*env_new_node(t_env_var **tail, t_env_var **head, char **env);
-// char				**env_variables(t_env_var *vars);
+// PARSER_UTILS
+ void	check_string(t_token *curr, t_type *mod_type, int is_quote);
+void	parsing_tokens(t_token *curr, t_type *mod_type);
+ t_token	*check_quote(t_token **tail, t_token *tmp,
+		t_shell *data, t_type *mod_type);
+void	str_or_word(t_token *curr, t_type *mod_type, int is_quote);
+t_token	*return_node(t_token *curr, t_token *tmp);
 
-// void	free_input_prompt(char *input, char *prompt);
-// int	valid_env_var( char *args);
+t_type	quote_init(t_token *tmp, t_token **curr, int *is_quote,
+	t_type *mod_type);
+
+ void	check_word(t_token *curr, t_type *mod_type, int is_quote);
+ void	expand_parser(t_token *curr, t_type *mod_type);
+int	quote_parsing(t_token **curr, t_type *mod_type,
+	t_token **tail, t_shell *data);
+void	expand_parser(t_token *curr, t_type *mod_type);
+
+void	check_word(t_token *curr, t_type *mod_type, int is_quote);
 
 /*signals*/
 void				catch_signals();

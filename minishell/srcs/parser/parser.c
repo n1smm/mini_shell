@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/27 18:34:39 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:44:17 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,8 @@
 
 /* is_quote 0 - not iside quotes, is_quote 
  * 1 inside double quotes, is_quote 2 - inside single */
-static void	check_string(t_token *curr, t_type *mod_type, int is_quote)
-{
-	if (ft_strchr(curr->content, '$') && is_quote != 2)
-		curr->typ_token = EXPAND;
-	else if ((*mod_type == WHITESPACE || *mod_type == PIPELINE
-			|| *mod_type == INFILE || *mod_type == LIMITER
-			|| *mod_type == OUTFILE))
-		curr->typ_token = COMMAND;
-	else if ((*mod_type == COMMAND || *mod_type == OPTION)
-		&& curr->content[0] == '-')
-		curr->typ_token = OPTION;
-	else if (*mod_type == REDIRECT_IN)
-		curr->typ_token = INFILE;
-	else if (*mod_type == REDIRECT_IN_DOUBLE)
-		curr->typ_token = LIMITER;
-	else if (*mod_type == REDIRECT_OUT_DOUBLE || *mod_type == REDIRECT_OUT)
-		curr->typ_token = OUTFILE;
-	else if (ft_strchr(curr->content, '/'))
-		curr->typ_token = PATH;
-	if (curr->typ_token != STRING && curr->typ_token != EXPAND)
-		*mod_type = curr->typ_token;
-}
 
-static void	check_word(t_token *curr, t_type *mod_type, int is_quote)
+void	check_word(t_token *curr, t_type *mod_type, int is_quote)
 {
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
 			|| *mod_type == LIMITER || *mod_type == OUTFILE))
@@ -54,7 +32,7 @@ static void	check_word(t_token *curr, t_type *mod_type, int is_quote)
 		*mod_type = curr->typ_token;
 }
 
-static void	expand_parser(t_token *curr, t_type *mod_type)
+void	expand_parser(t_token *curr, t_type *mod_type)
 {
 	if (curr->typ_token == WORD)
 		check_word(curr, mod_type, 0);

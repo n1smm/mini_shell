@@ -33,6 +33,8 @@ SRC_MAIN = srcs/main/main.c \
 	srcs/main/safe_ft.c
 
 SRC_PARSER = srcs/parser/parser.c \
+	srcs/parser/parser_utils.c \
+	srcs/parser/parser_utils_2.c \
 	srcs/parser/after_parsy.c \
 	srcs/parser/after_parsy_utils.c \
 	srcs/parser/path_finder.c
