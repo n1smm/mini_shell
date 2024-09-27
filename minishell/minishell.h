@@ -92,17 +92,43 @@ void				ft_echo(char **args);
 void				ft_env(t_shell *var);
 int					ft_pwd(void);
 int				ft_unset(t_shell *var, char **args);
-void    			ft_export(t_shell *var, char **args);
+// void    			ft_export(t_shell *var, char **args);
 int					ft_exit(t_shell *data, char **comm_seq, t_token **tail, t_token **head);
 
-/* env */
-t_env_var             *init_env_vars(t_env_var **tail, t_env_var **head);
-void 				ft_init_env(t_env_var **tail, t_env_var **head, char **env);
-t_env_var			*env_new_node(t_env_var **tail, t_env_var **head, char **env);
-char				**env_variables(t_env_var *vars);
+// EXPAND
+void	expand_checker(t_token *curr, t_shell *var);
+// EXPAND UTILS
+char	*ref_expand_str(char *content, t_shell *var, int start, int len);
+void	refurbish_node(t_token *curr, char *content, bool free_me);
 
-void	free_input_prompt(char *input, char *prompt);
-int	valid_env_var( char *args);
+// EXPORT
+void	ft_export(t_shell *var, char **args);
+// EXPORT UTILS
+int     check_env_var(char *str, int index);
+void	printf_export(t_shell *var);
+char	*ft_strjoin_exp(char const *s1, char const *s2);
+// ADD TO ENV
+void	add_to_env(t_shell *var, char *new_var);
+int     valid_env_var(char *args);
+// ADD TO EXPORT
+void	add_to_export(t_shell *var, char *new_var);
+void	add_to_export2(t_shell *var, char *new_var);
+void	add_to_export2_supp(t_shell *var, int *i, const char *new_var);
+
+// AFTER PARSY
+
+// AFTER PARSY UTILS
+int     check_quotes(t_token **tail);
+int     check_eol(t_token **tail);
+
+/* env */
+// t_env_var             *init_env_vars(t_env_var **tail, t_env_var **head);
+// void 				ft_init_env(t_env_var **tail, t_env_var **head, char **env);
+// t_env_var			*env_new_node(t_env_var **tail, t_env_var **head, char **env);
+// char				**env_variables(t_env_var *vars);
+
+// void	free_input_prompt(char *input, char *prompt);
+// int	valid_env_var( char *args);
 
 /*signals*/
 void				catch_signals();

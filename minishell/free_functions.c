@@ -12,16 +12,21 @@
 
 #include "minishell.h"
 
-void	free_mtx(void **matrix)
+static void	free_tokens_supp_2(t_token *new_node)
 {
-	int	i;
+	free(new_node);
+	new_node = NULL;
+}
 
-	i = 0;
-	if (matrix == NULL)
-		return ;
-	while (matrix[i])
-		free(matrix[i++]);
-	free(matrix);
+static void	free_tokens_supp(t_token *new_node, t_token **tail, t_token **head)
+{
+	new_node->content = NULL;
+	new_node->next = NULL;
+	new_node->prev = NULL;
+	new_node->typ_token = NONPRINTABLE;
+	new_node->trash = NULL;
+	*head = new_node;
+	*tail = new_node;
 }
 
 void	free_tokens(t_token **tail, t_token **head)
@@ -47,20 +52,9 @@ void	free_tokens(t_token **tail, t_token **head)
 	}
 	new_node = safe_malloc(sizeof(t_token));
 	if (new_node)
-	{
-		new_node->content = NULL;
-		new_node->next = NULL;
-		new_node->prev = NULL;
-		new_node->typ_token = NONPRINTABLE;
-		new_node->trash = NULL;
-		*head = new_node;
-		*tail = new_node;
-	}
+		free_tokens_supp(new_node, tail, head);
 	else
-	{
-		free(new_node);
-		new_node = NULL;
-	}
+		free_tokens_supp_2(new_node);
 }
 
 void	free_tokens_final(t_token **tail, t_token **head)
@@ -92,10 +86,4 @@ void	free_input_prompt(char *input, char *prompt)
 		free(input);
 	if (prompt)
 		free(prompt);
-}
-
-void	error_handling(char *msg, int error_code)
-{
-	perror(msg);
-	g_error_code = error_code;
 }

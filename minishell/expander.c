@@ -13,6 +13,85 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
+static void	check_len(char *content, int *j)
+{
+	int	len;
+
+	len = ft_strlen(content);
+	if (*j > len)
+		*j = len;
+	else if (content[*j] && content[*j] == '$')
+		return ;
+	else
+	{
+		while (content[*j] && content[*j] != '$')
+			(*j)++;
+	}
+}
+
+static void	expand_iteration(char *content, int *i, int *j)
+{
+	while (content[*i] != '$' && content[*i] != 0)
+		(*i)++;
+	if (content[*i])
+		++(*i);
+	*j = *i;
+	while (content[*j] != 0 && (ft_isalnum(content[*j]) || content[*j] == '_'))
+		(*j)++;
+	if (*j == *i && content[*j] == '$')
+		(*j)++;
+	else if (*j == *i && content[*j] == '?')
+		(*j)++;
+}
+
+void	expand_checker(t_token *curr, t_shell *var)
+{
+	char	*content;
+	bool	free_me;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	free_me = true;
+	content = curr->content;
+	while (content[j])
+	{
+		i = 0;
+		expand_iteration(content, &i, &j);
+		content = ref_expand_str(content, var, i, j - i);
+		check_len(content, &j);
+		refurbish_node(curr, content, free_me);
+		free_me = false;
+	}
+}
+
+char	*expand_string_checker(char *content, t_shell *var, bool special_boy)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (special_boy == true || !content)
+		return (content);
+	while (content[j])
+	{
+		i = 0;
+		while (content[i] != '$' && content[i] != 0)
+			i++;
+		if (content[i])
+			++i;
+		j = i;
+		while (content[j] != 0 && (ft_isalnum(content[j]) || content[j] == '_'))
+			j++;
+		if (j == i && content[j] == '$')
+			j++;
+		content = ref_expand_str(content, var, i, j - i);
+	}
+	return (content);
+}
+
 char	*custom_getenv(char *name, char **env)
 {
 	int		i;
@@ -56,144 +135,4 @@ char	*expander(char *input, t_shell *var, t_type typ_token)
 		return (result_path);
 	}
 	return (NULL);
-}
-
-static char	*error_expansions(char *expanded)
-{
-	char	*result;
-
-	result = ft_itoa(g_error_code);
-	if (!result)
-	{
-		error_handling("expansion of ? failed, exiting program", errno);
-		exit(errno);
-	}
-	free(expanded);
-	return (result);
-}
-
-static char	*ref_expand_str(char *content, t_shell *var, int start, int len)
-{
-	char	*expanded;
-	char	*result;
-	char	*contentcpy;
-
-	if (!len)
-	{
-		result = strdup(content);
-		return (result);
-	}
-	expanded = ft_substr(content, start, len);
-	if (expanded[0] == '?')
-	{
-		result = error_expansions(expanded);
-		free(content);
-		return (result);
-	}
-	result = expander(expanded, var, EXPAND);
-	if (!result)
-		result = create_empty_string(1);
-	free(expanded);
-	expanded = ft_strdup(content + (start + len));
-	contentcpy = ft_substr(content, 0, start - 1);
-	result = join_wrapper(contentcpy, result, 2);
-	result = join_wrapper(result, expanded, 3);
-	free(content);
-	free(contentcpy);
-	return (result);
-}
-
-static void	refurbish_node(t_token *curr, char *content, bool free_me)
-{
-	int		i;
-	bool	path;
-
-	i = 0;
-	path = false;
-	free_me = free_me;
-	curr->typ_token = WORD;
-	while (content[i])
-	{
-		if (!ft_isalpha(content[i]))
-			curr->typ_token = STRING;
-		if (content[i++] == '/')
-			path = true;
-	}
-	if (path)
-		curr->typ_token = PATH;
-	curr->content = content;
-}
-
-void	check_len(char *content, int *j)
-{
-	int	len;
-
-	len = ft_strlen(content);
-	if (*j > len)
-		*j = len;
-	else if (content[*j] && content[*j] == '$')
-		return ;
-	else
-	{
-		while (content[*j] && content[*j] != '$')
-			(*j)++;
-	}
-}
-
-void	expand_checker(t_token *curr, t_shell *var)
-{
-	char	*content;
-	bool	free_me;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	free_me = true;
-	content = curr->content;
-	while (content[j])
-	{
-		i = 0;
-		while (content[i] != '$' && content[i] != 0)
-			i++;
-		if (content[i])
-			++i;
-		j = i;
-		while (content[j] != 0 && (ft_isalnum(content[j]) || content[j] == '_'))
-			j++;
-		if (j == i && content[j] == '$')
-			j++;
-		else if (j == i && content[j] == '?')
-			j++;
-		content = ref_expand_str(content, var, i, j - i);
-		check_len(content, &j);
-		refurbish_node(curr, content, free_me);
-		free_me = false;
-	}
-}
-
-char	*expand_string_checker(char *content, t_shell *var, bool special_boy)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if (special_boy == true || !content)
-		return (content);
-	while (content[j])
-	{
-		i = 0;
-		while (content[i] != '$' && content[i] != 0)
-			i++;
-		if (content[i])
-			++i;
-		j = i;
-		while (content[j] != 0 && (ft_isalnum(content[j]) || content[j] == '_'))
-			j++;
-		if (j == i && content[j] == '$')
-			j++;
-		content = ref_expand_str(content, var, i, j - i);
-	}
-	return (content);
 }

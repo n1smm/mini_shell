@@ -16,9 +16,11 @@ static void	check_string(t_token *curr, t_type *mod_type, int is_quote) // TODO
 {
 	if (ft_strchr(curr->content, '$') && is_quote != 2)
 		curr->typ_token = EXPAND;
-	else if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
-		|| *mod_type == LIMITER || *mod_type == OUTFILE))
+	else if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || \
+		*mod_type == INFILE || *mod_type == LIMITER || *mod_type == OUTFILE))
+	{
 		curr->typ_token = COMMAND;
+	}
 	else if ((*mod_type == COMMAND || *mod_type == OPTION)
 		&& curr->content[0] == '-')
 		curr->typ_token = OPTION;
@@ -36,8 +38,8 @@ static void	check_string(t_token *curr, t_type *mod_type, int is_quote) // TODO
 
 static void	check_word(t_token *curr, t_type *mod_type, int is_quote)
 {
-	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE \
-		|| *mod_type == LIMITER || *mod_type == OUTFILE))
+	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || \
+		*mod_type == INFILE || *mod_type == LIMITER || *mod_type == OUTFILE))
 	{
 		curr->typ_token = COMMAND;
 	}
@@ -61,7 +63,73 @@ static void	expand_parser(t_token *curr, t_type *mod_type)
 		check_string(curr, mod_type, 0);
 }
 
-static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type *mod_type)
+// static void	c_qu_supp_2(t_token *curr, t_type *type, int is_quote, t_shell *data)
+// {
+// 	if (curr->typ_token == WORD)
+// 		check_word(curr, type, is_quote);
+// 	else if (curr->typ_token == STRING)
+// 		check_string(curr, type, is_quote);
+// 	else
+// 		curr->typ_token = PRINTABLE;
+// 	if (curr->typ_token == EXPAND)
+// 	{
+// 		expand_checker(curr, data);
+// 		if (curr->content[0] == 0)
+// 			delete_node(tail, curr, NULL);
+// 		else
+// 			expand_parser(curr, type);
+// 	}
+// }
+
+static t_type	c_qu_supp(t_type *type, int all_quotes_are_equal, t_token *tmp)
+{
+	if (*type != WORD)
+		all_quotes_are_equal = *type;
+	else
+		all_quotes_are_equal = tmp->prev->typ_token;
+	return (all_quotes_are_equal);
+}
+
+static int	c_qu_supp_2(t_token *tmp)
+{
+	int	is_quote;
+
+	is_quote = 0;
+	if (tmp->typ_token == QUOTE)
+		is_quote = 1;
+	else
+		is_quote = 2;
+	return (is_quote);
+}
+
+static void c_qu_supp_3(t_token *curr, t_shell *data, t_token **tail, t_type *type)
+{
+	expand_checker(curr, data);
+	if (curr->content[0] == 0)
+		delete_node(tail, curr, NULL);
+	else
+		expand_parser(curr, type);
+}
+
+static t_token *c_qu_supp_4(t_token *tmp)
+{
+	tmp->typ_token = FALSE_PLACEMENT;
+	return (NULL);
+}
+
+static t_token	*c_qu_supp_5(t_token *tmp, t_token *curr, t_type all_quotes_are_equal, t_type *type)
+{
+	if (tmp->prev && curr->next && is_delimiting_node(tmp->prev) \
+		&& is_delimiting_node(curr->next))
+	{
+		return (curr);
+	}
+	if (all_quotes_are_equal != NONPRINTABLE)
+		*type = all_quotes_are_equal;
+	return (curr);
+}
+
+static t_token	*c_qu(t_token **tail, t_token *tmp, t_shell *data, t_type *type)
 {
 	t_token	*curr;
 	t_type	all_quotes_are_equal;
@@ -69,46 +137,50 @@ static t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data, t_type 
 
 	curr = tmp->next;
 	is_quote = 0;
-	if (*mod_type != WORD)
-		all_quotes_are_equal = *mod_type;
-	else
-		all_quotes_are_equal = tmp->prev->typ_token;
-	if (tmp->typ_token == QUOTE)
-		is_quote = 1;
-	else
-		is_quote = 2;
+	all_quotes_are_equal = WHITESPACE;
+	all_quotes_are_equal = c_qu_supp(type, all_quotes_are_equal, tmp);
+	is_quote = c_qu_supp_2(tmp);
 	while (curr && curr->typ_token != tmp->typ_token)
 	{
 		if (curr->typ_token == WORD)
-			check_word(curr, mod_type, is_quote);
+			check_word(curr, type, is_quote);
 		else if (curr->typ_token == STRING)
-			check_string(curr, mod_type, is_quote);
+			check_string(curr, type, is_quote);
 		else
 			curr->typ_token = PRINTABLE;
 		if (curr->typ_token == EXPAND)
-		{
-			expand_checker(curr, data);
-			if (curr->content[0] == 0)
-				delete_node(tail, curr, NULL);
-			else
-				expand_parser(curr, mod_type);
-		}
+			c_qu_supp_3(curr, data, tail, type);
 		curr = curr->next;
 	}
 	if (!curr)
-	{
-		tmp->typ_token = FALSE_PLACEMENT;
-		return (NULL);
-	}
+		c_qu_supp_4(tmp);
 	*tail = *tail;
-	if (tmp->prev && curr->next && is_delimiting_node(tmp->prev) \
-		&& is_delimiting_node(curr->next))
-	{
-		return (curr);
-	}
-	if (all_quotes_are_equal != NONPRINTABLE)
-		*mod_type = all_quotes_are_equal;
+	curr = c_qu_supp_5(tmp, curr, all_quotes_are_equal, type);
 	return (curr);
+}
+
+// static void	parser_supp_2()
+// {
+	
+// }
+
+static t_type	parser_supp(t_token *curr, t_type mod_type)
+{
+	if (curr->typ_token == PIPELINE)
+		mod_type = PIPELINE;
+	else if (curr->typ_token == REDIRECT_IN)
+		mod_type = REDIRECT_IN;
+	else if (curr->typ_token == REDIRECT_IN_DOUBLE)
+		mod_type = REDIRECT_IN_DOUBLE;
+	else if (curr->typ_token == REDIRECT_OUT)
+		mod_type = REDIRECT_OUT;
+	else if (curr->typ_token == REDIRECT_OUT_DOUBLE)
+		mod_type = REDIRECT_OUT_DOUBLE;
+	else if (curr->typ_token == WORD)
+		check_word(curr, &mod_type, 0);
+	else if (curr->typ_token == STRING)
+		check_string(curr, &mod_type, 0);
+	return (mod_type);
 }
 
 void	parser(t_token **tail, t_token **head, t_shell *data)
@@ -126,24 +198,12 @@ void	parser(t_token **tail, t_token **head, t_shell *data)
 		{
 			if (curr && !is_delimiting_node(curr->prev))
 				mod_type = WORD;
-			curr = check_quote(tail, curr, data, &mod_type);
+			curr = c_qu(tail, curr, data, &mod_type); //DA' SEG FAULT!!
 			if (!curr)
 				break ;
 		}
-		else if (curr->typ_token == PIPELINE)
-			mod_type = PIPELINE;
-		else if (curr->typ_token == REDIRECT_IN)
-			mod_type = REDIRECT_IN;
-		else if (curr->typ_token == REDIRECT_IN_DOUBLE)
-			mod_type = REDIRECT_IN_DOUBLE;
-		else if (curr->typ_token == REDIRECT_OUT)
-			mod_type = REDIRECT_OUT;
-		else if (curr->typ_token == REDIRECT_OUT_DOUBLE)
-			mod_type = REDIRECT_OUT_DOUBLE;
-		else if (curr->typ_token == WORD)
-			check_word(curr, &mod_type, 0);
-		else if (curr->typ_token == STRING)
-			check_string(curr, &mod_type, 0);
+		else if (curr->typ_token != EXPAND)
+			mod_type = parser_supp(curr, mod_type);
 		if (curr->typ_token == EXPAND)
 		{
 			expand_checker(curr, data);
