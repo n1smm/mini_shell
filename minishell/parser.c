@@ -6,7 +6,7 @@
 /*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/27 15:56:24 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 16:04:10 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
 			|| *mod_type == LIMITER || *mod_type == OUTFILE))
 		curr->typ_token = COMMAND;
-	}
 	else if (*mod_type == REDIRECT_IN)
 		curr->typ_token = INFILE;
 	else if (*mod_type == REDIRECT_IN_DOUBLE)
