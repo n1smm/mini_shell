@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:31:56 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/27 16:04:10 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 16:05:45 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	check_string(t_token *curr, t_type *mod_type, int is_quote)
 		*mod_type = curr->typ_token;
 }
 
-static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
+static void	check_word(t_token *curr, t_type *mod_type, int is_quote)
 {
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
 			|| *mod_type == LIMITER || *mod_type == OUTFILE))
@@ -157,8 +157,6 @@ int	quote_parsing(t_token **curr, t_type *mod_type,
 		if ((*curr) && !is_delimiting_node((*curr)->prev))
 			*mod_type = WORD;
 		*curr = check_quote(tail, *curr, data, mod_type);
-		printf("%s", print_token_typ(*mod_type));
-		printf("\n");
 		if (!(*curr))
 			return (0);
 	}
