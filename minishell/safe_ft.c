@@ -13,9 +13,9 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-void *safe_malloc(size_t size)
+void	*safe_malloc(size_t size)
 {
-	void *ptr;
+	void	*ptr;
 
 	ptr = malloc(size);
 	if (!ptr)
@@ -26,12 +26,11 @@ void *safe_malloc(size_t size)
 	return (ptr);
 }
 
-char *join_wrapper(const char *s1, const char *s2, int free_which)
+char	*join_wrapper(const char *s1, const char *s2, int free_which)
 {
 	char	*result;
 
 	result = ft_strjoin(s1, s2);
-
 	if (free_which == 1)
 		free((char *)s1);
 	else if (free_which == 2)
@@ -76,7 +75,5 @@ int	safe_open(char *pathname, int flags, mode_t mode)
 	fd = open(pathname, flags, mode);
 	if (fd == -1)
 		error_handling("problem opening file", errno);
-	return(fd);
+	return (fd);
 }
-
-

@@ -1,41 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   free_functions_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 17:17:57 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/09/25 16:31:12 by pgiorgi          ###   ########.fr       */
+/*   Created: 2024/09/27 14:49:55 by pgiorgi           #+#    #+#             */
+/*   Updated: 2024/09/27 14:49:56 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	catch_signals(void)
+void	free_mtx(void **matrix)
 {
-	signal(SIGINT, &ctrl_c);
-	signal(SIGQUIT, &ctrl_slash);
+	int	i;
+
+	i = 0;
+	if (matrix == NULL)
+		return ;
+	while (matrix[i])
+		free(matrix[i++]);
+	free(matrix);
 }
 
-void	ctrl_c(int sig)
+void	error_handling(char *msg, int error_code)
 {
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_cleanup_after_signal();
-		rl_free_line_state();
-	}
-}
-
-void	ctrl_slash(int sig)
-{
-	struct termios	term;
-
-	sig = sig;
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_cc[VQUIT] = _POSIX_VDISABLE;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	perror(msg);
+	g_error_code = error_code;
 }

@@ -13,136 +13,19 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-char *custom_getenv(char *name, char **env) {
-    if (name == NULL || env == NULL) {
-        return NULL;
-    }
-
-    size_t name_len;
-	// char	*res;
-
-	// res = NULL;
-	name_len = ft_strlen(name);
-    int i = 0;
-    while (env[i] != NULL) {
-        if (ft_strncmp(env[i], name, name_len) == 0 && env[i][name_len] == '=') {
-            return &env[i][name_len + 1];
-			// res = ft_strdup((const char *) &env[i][name_len + 1]);
-			// printf("dup : %s\n", &env[i][name_len + 1]);
-			// return (res);
-        }
-        i++;
-    }
-    
-    return (NULL);
-}
-
-/* if the type of token is correct it will allocate, 
-otherwise it returns null not allocated */
-char	*expander(char *input, t_shell *var, t_type typ_token)
+static void	expand_iteration(char *content, int *i, int *j)
 {
-	char	*result;
-	char	*result_path;
-
-	var = var;
-	if (typ_token == COMMAND)
-	{
-		result = path_finder(input, var);
-		if (!result)
-			return (NULL);
-		return (result);
-	}
-	else if (typ_token == EXPAND)
-	{
-		result = custom_getenv(input, var->env);
-		if (!result)
-			return (NULL);
-		result_path = ft_strdup(result);
-		return (result_path);
-	}
-	return (NULL);
-}
-
-static char	*error_expansions(char *expanded)
-{
-	char	*result;
-
-	result = ft_itoa(g_error_code);
-	if (!result)
-	{
-		error_handling("expansion of ? failed, exiting program", errno);
-		exit(errno);
-	}
-	free(expanded);
-	return (result);
-}
-
-static char	*refactor_expanded_string(char *content, t_shell *var, int start, int len)
-{
-	char	*expanded;
-	char	*result;
-	char	*contentcpy;
-
-	if (!len)
-	{
-		result = strdup(content);
-		return (result);
-	}
-	expanded = ft_substr(content, start, len);
-	if (expanded[0] == '?')
-	{
-		result = error_expansions(expanded);
-		free(content);
-		return (result);
-	}
-	result = expander(expanded, var, EXPAND);
-	if (!result)
-		result = create_empty_string(1);
-	free(expanded);
-	expanded = ft_strdup(content + (start + len));
-	contentcpy = ft_substr(content, 0, start - 1);
-	result = join_wrapper(contentcpy, result, 2);
-	result = join_wrapper(result, expanded, 3);
-	free(content);
-	free(contentcpy);
-	return (result);
-}
-
-static void	refurbish_node(t_token *curr, char *content, bool free_me)
-{
-	int		i;
-	bool	path;
-
-	i = 0;
-	path = false;
-	free_me = free_me;
-	curr->typ_token = WORD;
-	while (content[i])
-	{
-		if (!ft_isalpha(content[i]))
-			curr->typ_token = STRING;
-		if (content[i++] == '/')
-			path = true;
-	}
-	if (path)
-		curr->typ_token = PATH;
-	curr->content = content;
-}
-
-void	check_len(char *content, int *j)
-{
-	int	len;
-
-	len = ft_strlen(content);
-	if (*j > len)
-		*j = len;
-	else if (content[*j] && content[*j] == '$')
-		return ;
-	else
-	{
-		while(content[*j] && content[*j] != '$')
-			(*j)++;
-	}
+	while (content[*i] != '$' && content[*i] != 0)
+		(*i)++;
+	if (content[*i])
+		++(*i);
+	*j = *i;
+	while (content[*j] != 0 && (ft_isalnum(content[*j]) || content[*j] == '_'))
+		(*j)++;
+	if (*j == *i && content[*j] == '$')
+		(*j)++;
+	else if (*j == *i && content[*j] == '?')
+		(*j)++;
 }
 
 void	expand_checker(t_token *curr, t_shell *var)
@@ -159,18 +42,8 @@ void	expand_checker(t_token *curr, t_shell *var)
 	while (content[j])
 	{
 		i = 0;
-		while (content[i] != '$' && content[i] != 0)
-			i++;
-		if (content[i])
-			++i;
-		j = i;
-		while (content[j] != 0 && (ft_isalnum(content[j]) || content[j] == '_'))
-			j++;
-		if (j == i && content[j] == '$')
-			j++;
-		else if (j == i && content[j] == '?')
-			j++;
-		content = refactor_expanded_string(content, var, i, j - i);
+		expand_iteration(content, &i, &j);
+		content = ref_expand_str(content, var, i, j - i);
 		check_len(content, &j);
 		refurbish_node(curr, content, free_me);
 		free_me = false;
@@ -198,7 +71,52 @@ char	*expand_string_checker(char *content, t_shell *var, bool special_boy)
 			j++;
 		if (j == i && content[j] == '$')
 			j++;
-		content = refactor_expanded_string(content, var, i, j - i);
+		content = ref_expand_str(content, var, i, j - i);
 	}
 	return (content);
+}
+
+char	*custom_getenv(char *name, char **env)
+{
+	int		i;
+	size_t	name_len;
+
+	if (name == NULL || env == NULL)
+		return (NULL);
+	name_len = ft_strlen(name);
+	i = 0;
+	while (env[i] != NULL)
+	{
+		if (ft_strncmp(env[i], name, name_len) == 0 && \
+			env[i][name_len] == '=')
+		{
+			return (&env[i][name_len + 1]);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+char	*expander(char *input, t_shell *var, t_type typ_token)
+{
+	char	*result;
+	char	*result_path;
+
+	var = var;
+	if (typ_token == COMMAND)
+	{
+		result = path_finder(input, var);
+		if (!result)
+			return (NULL);
+		return (result);
+	}
+	else if (typ_token == EXPAND)
+	{
+		result = custom_getenv(input, var->env);
+		if (!result)
+			return (NULL);
+		result_path = ft_strdup(result);
+		return (result_path);
+	}
+	return (NULL);
 }

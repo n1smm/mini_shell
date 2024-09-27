@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:07:41 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/09/26 12:34:46 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 14:54:20 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 bool	ft_cd(const char *path, char **input)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(input[i])
+	while (input[i])
 		i++;
 	if (i > 2)
 	{
@@ -34,5 +34,5 @@ bool	ft_cd(const char *path, char **input)
 		error_handling("-bash: cd: %s: No such file or directory", 1);
 		return (true);
 	}
-	return(true);
+	return (true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 22:21:25 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/19 12:50:45 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 15:06:41 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,74 +50,40 @@ void	get_exit_code(char **comm_seq)
 	exit(exit_code);
 }
 
+static int	exit_supp(t_shell *data, t_token **tail, t_token **head, char **c)
+{
+	close(data->pipefd[2]);
+	close(data->pipefd[3]);
+	free_tokens_final(tail, head);
+	free_garbage(&(data->garbage));
+	get_exit_code(c);
+	return (1);
+}
+
 int	ft_exit(t_shell *data, char **comm_seq, t_token **tail, t_token **head)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	*data=*data;
-	head = head;	
+	*data = *data;
+	head = head;
 	write(STDERR_FILENO, "exit", 4);
 	write(STDERR_FILENO, "\n", 1);
 	if (comm_seq)
 	{
-		while(comm_seq[i])
+		while (comm_seq[i])
 			i++;
 		if (i < 3)
 		{
 			if (tail)
-			{
-				/* printf("print before exit: \n"); */
-				/* print_list(*tail); */
-				// free_garbage_tail(*tail);
-				close(data->pipefd[2]);
-				close(data->pipefd[3]);
-				free_tokens_final(tail, head);
-				free_garbage(&(data->garbage));
-				// free(data);
-				printf("print after exit: \n");
-				print_list(*tail);
-				/* free(data->garbage); */
-				get_exit_code(comm_seq);
-				return (1);
-			}
+				return (exit_supp(data, tail, head, comm_seq));
 		}
 		else
 		{
-			write(STDERR_FILENO, "logout\n", 7);
-			write(STDERR_FILENO, "exit: too many arguments", 24);
+			error_handling("logout\nexit: too many arguments", 1);
 			return (1);
 		}
 	}
-	// printf("COMM_SEQ : %s\n", comm_seq[1]);
-	// if (comm_seq)
-	// {
-	// 	if (comm_seq[2])
-	// 	{
-	// 		printf("COMM_SEQ 2 : %s\n", comm_seq[2]);
-	// 		write(STDERR_FILENO, "logout\n", 7);
-	// 		write(STDERR_FILENO, "exit: too many arguments", 24);
-	// 		// return (EXIT_FAILURE);
-	// 	}
-	// }
-	// if (comm_seq[2] != NULL)
-	// {
-	// 	write(STDERR_FILENO, "too many arguments", 18);
-	// 	return (EXIT_FAILURE);
-	// }
-	// if (comm_seq[1] && !comm_seq[2])
-	// {
-	// 	get_exit_code(comm_seq);
-	// 	return (1);
-	// 	// write(STDERR_FILENO, "too many arguments", 18);
-	// 	// return (EXIT_FAILURE);
-	// }
-	// else
-	// {
-	// 	write(STDERR_FILENO, "too many arguments", 18);
-	// 	return (EXIT_FAILURE);
-	// }
-	//free eveerything
 	get_exit_code(comm_seq);
 	return (1);
 }

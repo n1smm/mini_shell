@@ -43,6 +43,7 @@ static void	check_word(t_token *curr, t_type *mod_type, int is_quote) // TODO
 	if ((*mod_type == WHITESPACE || *mod_type == PIPELINE || *mod_type == INFILE
 			|| *mod_type == LIMITER || *mod_type == OUTFILE))
 		curr->typ_token = COMMAND;
+	}
 	else if (*mod_type == REDIRECT_IN)
 		curr->typ_token = INFILE;
 	else if (*mod_type == REDIRECT_IN_DOUBLE)
