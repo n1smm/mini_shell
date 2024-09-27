@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:07:50 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/09/27 16:48:48 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:52:43 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,8 @@ int	ft_unset(t_shell *var, char **args)
 {
 	int		i;
 	int		index_var;
-	char	**tmp;
 
 	i = 0;
-	tmp = NULL;
 	index_var = 0;
 	while (args[i])
 	{

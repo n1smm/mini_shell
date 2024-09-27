@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:49:11 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/27 16:43:05 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:51:25 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ static void	expand_iteration(char *content, int *i, int *j)
 void	expand_checker(t_token *curr, t_shell *var)
 {
 	char	*content;
-	bool	free_me;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	free_me = true;
 	content = curr->content;
 	while (content[j])
 	{
@@ -44,8 +42,7 @@ void	expand_checker(t_token *curr, t_shell *var)
 		expand_iteration(content, &i, &j);
 		content = ref_expand_str(content, var, i, j - i);
 		check_len(content, &j);
-		refurbish_node(curr, content, free_me);
-		free_me = false;
+		refurbish_node(curr, content);
 	}
 }
 

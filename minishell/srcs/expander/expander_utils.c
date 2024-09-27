@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:50:22 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/09/27 16:43:33 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:51:46 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,13 @@ char	*ref_expand_str(char *content, t_shell *var, int start, int len)
 	return (result);
 }
 
-void	refurbish_node(t_token *curr, char *content, bool free_me)
+void	refurbish_node(t_token *curr, char *content)
 {
 	int		i;
 	bool	path;
 
 	i = 0;
 	path = false;
-	free_me = true;
 	curr->typ_token = WORD;
 	while (content[i])
 	{

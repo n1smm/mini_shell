@@ -6,15 +6,14 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 18:32:55 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/09/27 18:44:55 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:48:17 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
 t_type	quote_init(t_token *tmp, t_token **curr, int *is_quote,
-	t_type *mod_type)
+		t_type *mod_type)
 {
 	t_type	all_quotes_are_equal;
 
@@ -54,8 +53,8 @@ void	str_or_word(t_token *curr, t_type *mod_type, int is_quote)
 		curr->typ_token = PRINTABLE;
 }
 
-t_token	*check_quote(t_token **tail, t_token *tmp,
-		t_shell *data, t_type *mod_type)
+t_token	*check_quote(t_token **tail, t_token *tmp, t_shell *data,
+		t_type *mod_type)
 {
 	t_token	*curr;
 	t_type	all_quotes_are_equal;

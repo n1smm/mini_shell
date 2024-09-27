@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/27 17:00:09 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:53:39 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,10 @@ char	**pipe_loop(t_token **tail)
 
 int	new_executor(t_token **tail, t_shell *data, t_token **head)
 {
-	t_token	**tmp;
 	t_token	*tmp2;
 	t_token	*tmp3;
 	char	**comm_seq;
 
-	tmp = tail;
 	tmp3 = *tail;
 	init_fds(data);
 	while (*tail)
