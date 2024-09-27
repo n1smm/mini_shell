@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+void	check_len(char *content, int *j)
+{
+	int	len;
+
+	len = ft_strlen(content);
+	if (*j > len)
+		*j = len;
+	else if (content[*j] && content[*j] == '$')
+		return ;
+	else
+	{
+		while (content[*j] && content[*j] != '$')
+			(*j)++;
+	}
+}
+
 static char	*error_expansions(char *expanded)
 {
 	char	*result;
@@ -14,17 +30,21 @@ static char	*error_expansions(char *expanded)
 	return (result);
 }
 
+char	*ref_expand_str_supp(char *result, char *content)
+{
+	result = strdup(content);
+	return (result);
+}
+
 char	*ref_expand_str(char *content, t_shell *var, int start, int len)
 {
 	char	*expanded;
 	char	*result;
 	char	*contentcpy;
 
+	result = NULL;
 	if (!len)
-	{
-		result = strdup(content);
-		return (result);
-	}
+		return (ref_expand_str_supp(result, content));
 	expanded = ft_substr(content, start, len);
 	if (expanded[0] == '?')
 	{

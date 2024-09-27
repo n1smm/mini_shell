@@ -1,4 +1,15 @@
 #include "minishell.h"
+#include <stdio.h>
+
+static void	strj_exp_iter(size_t *x, const char *s1, size_t *y, char *s3)
+{
+	while (*x < ft_strlen(s1))
+	{
+		s3[*y] = s1[*y];
+		(*y)++;
+		(*x)++;
+	}
+}
 
 char	*ft_strjoin_exp(char const *s1, char const *s2)
 {
@@ -12,12 +23,7 @@ char	*ft_strjoin_exp(char const *s1, char const *s2)
 	x = 0;
 	y = 0;
 	s3 = (char *)safe_malloc(sizeof(char) * (ft_strlen(s1) + j + 3));
-	while (x < ft_strlen(s1))
-	{
-		s3[y] = s1[y];
-		y++;
-		x++;
-	}
+	strj_exp_iter(&x, s1, &y, s3);
 	s3[y] = '"';
 	n = y;
 	y++;
@@ -30,19 +36,6 @@ char	*ft_strjoin_exp(char const *s1, char const *s2)
 	s3[y++] = '"';
 	s3[y++] = '\0';
 	return ((char *)s3);
-}
-
-void	printf_export(t_shell *var)
-{
-	int	i;
-
-	i = 0;
-	while (var->exp[i])
-	{
-		printf("declare -x: %s\n", var->exp[i]);
-		i++;
-	}
-	printf("\n");
 }
 
 int	ft_valid_env_var(char *var)

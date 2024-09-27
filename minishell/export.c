@@ -1,5 +1,17 @@
 #include "minishell.h"
 
+static void	printf_export(t_shell *var)
+{
+	int	i;
+
+	i = 0;
+	while (var->exp[i])
+	{
+		printf("declare -x: %s\n", var->exp[i]);
+		i++;
+	}
+}
+
 static void	exporting(t_shell *var, char *arg, int *flag)
 {
 	if (valid_env_var(arg) == 0)

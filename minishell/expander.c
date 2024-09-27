@@ -13,22 +13,6 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-static void	check_len(char *content, int *j)
-{
-	int	len;
-
-	len = ft_strlen(content);
-	if (*j > len)
-		*j = len;
-	else if (content[*j] && content[*j] == '$')
-		return ;
-	else
-	{
-		while (content[*j] && content[*j] != '$')
-			(*j)++;
-	}
-}
-
 static void	expand_iteration(char *content, int *i, int *j)
 {
 	while (content[*i] != '$' && content[*i] != 0)

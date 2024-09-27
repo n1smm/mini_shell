@@ -100,12 +100,11 @@ void	expand_checker(t_token *curr, t_shell *var);
 // EXPAND UTILS
 char	*ref_expand_str(char *content, t_shell *var, int start, int len);
 void	refurbish_node(t_token *curr, char *content, bool free_me);
-
+void	check_len(char *content, int *j);
 // EXPORT
 void	ft_export(t_shell *var, char **args);
 // EXPORT UTILS
 int     check_env_var(char *str, int index);
-void	printf_export(t_shell *var);
 char	*ft_strjoin_exp(char const *s1, char const *s2);
 // ADD TO ENV
 void	add_to_env(t_shell *var, char *new_var);
