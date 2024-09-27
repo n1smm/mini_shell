@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:19:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/24 14:48:52 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 17:00:09 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	pid_error(char *msg, char **str, int free_me)
 		free(*str);
 }
 
-char	**pipe_loop(t_token **tail, t_shell *data)
+char	**pipe_loop(t_token **tail)
 {
 	char	**command_seq;
 	char	*tmp;
@@ -50,7 +50,6 @@ char	**pipe_loop(t_token **tail, t_shell *data)
 	if (tmp)
 	{
 		free(tmp);
-		data = data;
 	}
 	command_seq = seq_extract(tail);
 	return (command_seq);
@@ -65,7 +64,7 @@ int	new_executor(t_token **tail, t_shell *data, t_token **head)
 
 	tmp = tail;
 	tmp3 = *tail;
-	init_fds(tmp, tail, data);
+	init_fds(data);
 	while (*tail)
 	{
 		tmp2 = *tail;

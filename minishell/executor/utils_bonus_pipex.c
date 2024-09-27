@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus_pipex.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjuvan <tjuvan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:47:41 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/23 10:18:07 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 18:28:55 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ int	create_heredoc(t_shell *data, int j, int create)
 	char	*iteration;
 	char	*pipe;
 
+	fd = 0;
 	pipe = ft_itoa(data->nbr_pipes);
 	iteration = ft_itoa(j);
 	if (j < 10)
 		iteration = join_wrapper("0", iteration, 2);
 	iteration = join_wrapper(pipe, iteration, 3);
 	file_name = join_wrapper(".here_doc", iteration, 2);
-	printf("heredoc filename: %s\n", file_name);
 	if (create)
 		fd = safe_open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (!create)

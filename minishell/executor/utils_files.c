@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:59:41 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/23 09:56:41 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 16:55:27 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	init_files(t_token **tail, t_token **head, t_shell *data, char ***comm_seq)
 	check_files(tail, head);
 	if (!files_open(tail, data))
 		return (0);
-	*comm_seq = pipe_loop(tail, data);
+	*comm_seq = pipe_loop(tail);
 	return (1);
 }
 

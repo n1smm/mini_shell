@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thiew <marvin@42.fr>                       +#+  +:+       +#+         #
+#    By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/03 12:56:21 by thiew             #+#    #+#              #
-#    Updated: 2024/07/09 22:59:47 by thiew            ###   ########.fr        #
+#    Updated: 2024/09/27 18:08:16 by pgiorgi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror 
+CFLAGS = -g -Wall -Wextra -Werror -o0
 NAME = pipex
 BONUS_NAME = pipex_bonus
 # TEST_FILES = ../safe_ft.c ../path_finder.c

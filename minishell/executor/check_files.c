@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:00:05 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/23 08:52:18 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 16:52:47 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,4 @@ void	check_files(t_token **tail, t_token **head)
 		if (curr)
 			curr = curr->next;
 	}
-	special_boy = special_boy;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   comm_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 10:52:38 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/24 14:46:19 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 18:03:34 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	execute_wrapper(char **comm_seq, t_shell *data, int is_pipe,
 		t_token **tail)
 {
 	close(data->pipefd[0]);
-	tail = tail;
 	if (data->file_type[0] != NONPRINTABLE)
 		redirect_infiles(data, data->file, data->file_type, tail);
 	if (is_pipe == 1)
@@ -100,10 +99,8 @@ int	polish_pipes(t_shell *data, t_token **tail, t_token *tmp)
 	return (0);
 }
 
-void	init_fds(t_token **tmp, t_token **tail, t_shell *data)
+void	init_fds(t_shell *data)
 {
-	tmp = tmp;
-	tail = tail;
 	data->pipefd[2] = dup(0);
 	data->pipefd[3] = dup(1);
 	data->file[1023] = 0;

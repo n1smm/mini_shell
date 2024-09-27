@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:58:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/09/26 12:58:20 by thiew            ###   ########.fr       */
+/*   Updated: 2024/09/27 16:56:20 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 /* main */
 int		executor(t_token **tail, char **envp);
-char	**pipe_loop(t_token **tail, t_shell *data);
+char	**pipe_loop(t_token **tail);
 void	pid_error(char *msg, char **str, int free_me);
 void	free_mtrx(char **mtrx);
 int		new_executor(t_token **tail, t_shell *data, t_token **head);
@@ -29,7 +29,7 @@ int		execute_comm1(char **input, t_shell *data, t_token **tail,
 			t_token **head);
 void	execute_wrapper(char **comm_seq, t_shell *data, int is_pipe,
 			t_token **tail);
-void	init_fds(t_token **tmp, t_token **tail, t_shell *data);
+void	init_fds(t_shell *data);
 int		polish_pipes(t_shell *data, t_token **tail, t_token *tmp);
 /* path_finder */
 char	*read_path(int pipefd[], char **mtrx);

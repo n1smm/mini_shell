@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:46:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/09/27 15:40:01 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/09/27 16:56:22 by pgiorgi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int					is_quote_node(t_token *curr);
 bool 				is_redirect(t_token *curr);
 bool 				is_file(t_token *curr);
 /*split_input*/
-void				split_input(char *input, t_token **tail, t_token **head);
+void				split_input(char *input, t_token **head);
 bool				term_character(char c);
 char				*ft_chardup(char character);
 /*parser*/
