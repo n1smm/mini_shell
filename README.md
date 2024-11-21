@@ -5,7 +5,7 @@ It implements redirections and pipes, as well as environment variable expansions
 
 ## functionality 
 
-Prompt display
+`Prompt display
 Command history (up and down arrows)
 System executables available from the environment (ls, cat, grep, etc.)
 Local executables (./minishell)
@@ -29,7 +29,7 @@ User keyboard signals:
 ctrl-c displays a new prompt line.
 ctrl-d exits minishell
 ctrl-\ does nothing
-However, Minishell does not support \, ;, &&, ||, or wildcards.
+However, Minishell does not support \, ;, &&, ||, or wildcards.`
 
 # Usage
-clone the repository and inside the root directory do `make`. Then you can use it like a regualar shell, with limited features. Have fun!
+clone the repository and inside the root directory (minishell dir) do `make`. Then you can use it like a regular shell, with limited features. Have fun!
