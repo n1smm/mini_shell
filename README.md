@@ -5,6 +5,8 @@ It implements redirections and pipes, as well as environment variable expansions
 
 ## functionality 
 
+![minishell](./minishell.jpg)
+
 Prompt display \
 Command history (up and down arrows)\
 System executables available from the environment (ls, cat, grep, etc.)\
