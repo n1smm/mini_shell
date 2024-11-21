@@ -5,7 +5,7 @@ It implements redirections and pipes, as well as environment variable expansions
 
 ## functionality 
 
-![minishell](,/minishell_resized.jpg)
+![minishell](minishell_resized.jpg)
 
 Prompt display \
 Command history (up and down arrows)\
