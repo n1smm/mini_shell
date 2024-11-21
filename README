@@ -1,60 +1,35 @@
-lexer espande le variabili d'ambiente (expander) 
-poi spezza la linea dell'input in base alle pipe
-cosi sapete gia quanti comandi ci sono
-
-garbage collector 
-ogni indirizzo allocato viene aggiunto ad una lista 
-alla fine del programma viene tutto liberato
-(va chiamato sia alla fine di minishell che alla 
-fine dei processi figlio)
-
-singleton
+### MINISHELL
+Minishell is a miniature shell program based on Bash written in C.
+It implements redirections and pipes, as well as environment variable expansions and the cd, echo, env, exit, export, pwd and unset builtin commands.
 
 
-parser
-divide i comandi in -commando -args -input -output
-(tieni conto delle virgolette)
+### functionality
 
-executor
-gli passa i comandi e li esegue
-fai attenzione. se un commando non e' built in va 
-fatto in un altro processo altrimenti si chiude minishell
+Prompt display
+Command history (up and down arrows)
+System executables available from the environment (ls, cat, grep, etc.)
+Local executables (./minishell)
+Builtin commands :
+echo (and option -n)
+cd (with only a relative or absolute path)
+pwd (no options)
+export (no options)
+unset (no options)
+env (no options or arguments)
+exit (with exit number but no other options)
+Pipes | which redirect output from one command to input for the next
+Redirections:
+> redirects output
+>> redirects output in append mode
+< redirects input
+<< DELIMITER displays a new prompt, reads user input until reaching DELIMITER, redirects user input to command input (does not update history)
+Environment variables (i.e. $USER or $VAR) that expand to their values.
+$? expands to the exit status of the most recently executed foreground pipeline.
+User keyboard signals:
+ctrl-c displays a new prompt line.
+ctrl-d exits minishell
+ctrl-\ does nothing
+However, Minishell does not support \, ;, &&, ||, or wildcards.
 
-(es. cd cartella | pwd ...)
-non occorre gestire le parentesi graffe con l'espander
-
-readline
-
-
-Lexical analysis / tokenization: taking the input from the user and processing it char by char into “tokens”.
-
-Syntax analysis / Parsing: scanning the stream of tokens according to a specific grammar and then deciding what to do with them (e.g. generating an AST — Abstract Syntax Tree).
-!!!Abstract Syntax Tree).
-
-
- The Recursive Descent - The Theory of Computation,
-
-  CFG (Context Free Grammar).
-  
-  for parsing we need to do:
-
-1. tokenization (lexical analysis) 
-	here we transform the input line into tokens
-		which means that we split the input by whitespaces : (ls -l /home/user) becomes
-																- ls
-																- l
-																- /home/user
-2. syntax analysis (parsing)
-	-we generate an abstract syntax tree (AST) which means that the program tries to understand what to do with 	tokes
-
-
-
-3. executor
-- needs to handle multiple redirects correctly (also if only redirect is given)
-- command needs to be handled correctly ( so passing what comes from parser and transforming it into a formatted string or something similar
-- if before pipe there is redirect, than the std out needs to be empty.
-
-- need to change a bit the parsing part . for example command can also be after OUT/INFILE or heredoc ...etc. possible other changes aswell
-
-- so we need to know the order of redirections, and where do we pass the command to
-- 
+### Usage
+clone the repository and inside the root directory do `make`. Then you can use it like a regualar shell, with limited features. Have fun!
