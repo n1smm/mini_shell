@@ -1,9 +1,9 @@
-### MINISHELL
+# MINISHELL
 Minishell is a miniature shell program based on Bash written in C.
 It implements redirections and pipes, as well as environment variable expansions and the cd, echo, env, exit, export, pwd and unset builtin commands.
 
 
-### functionality
+## functionality 
 
 Prompt display
 Command history (up and down arrows)
@@ -31,5 +31,5 @@ ctrl-d exits minishell
 ctrl-\ does nothing
 However, Minishell does not support \, ;, &&, ||, or wildcards.
 
-### Usage
+# Usage
 clone the repository and inside the root directory do `make`. Then you can use it like a regualar shell, with limited features. Have fun!
